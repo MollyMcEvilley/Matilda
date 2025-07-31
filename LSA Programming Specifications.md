@@ -463,7 +463,7 @@ The definitions here are intended to serve as a general reference and are not co
 
 ## Changes Effective 11/1/2025
 
-This section is limited to a high-level review of changes. Tracked versions of this document and [more detailed information about each change](https://github.com/orgs/HMIS/projects/4) are available in the [GitHub repository](https://github.com/HMIS/LSASampleCode).
+This section is limited to a high-level review of changes. Tracked versions of this document and [more detailed information about each change](https://github.com/HMIS/LSASampleCode/issues?q=type%3A"LSA%20Update") are available in the [GitHub repository](https://github.com/HMIS/LSASampleCode).
 
 ### Identification of Persons and Households Active-in-Residence During the Report Period
 
