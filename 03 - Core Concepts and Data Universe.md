@@ -7,25 +7,24 @@ includes project descriptor data for OPH projects. It may include
 enrollments with exit dates and projects with operating end dates as far
 back as the <u>LookbackDate</u> (<u>ReportStart</u> – 7 years).
 
-The HMIS data required for the LSA are shown below. The fields relevant
-to the business logic of the report are listed.
+The HMIS data required for the LSA are shown below. 
 
-**hmis_Affiliation**
-
-**hmis_HMISParticipation**
-
-EnrollmentID
-
-InformationDate
-
-DisabilityType
-
-DisabilityResponse
-
-IndefiniteAndImpairs
-
-**hmis_Disabilities**
-
+```mermaid
+erDiagram
+    hmis_Organization ||--|{ hmis_Project : has
+    hmis_Project ||--|{ hmis_ProjectCoC : "operates in"
+    hmis_Project ||--|{ hmis_Funder : has
+    hmis_Project ||--|{ hmis_HMISParticipation : has
+    hmis_Project ||--o{ hmis_Affiliation : "may have"
+    hmis_ProjectCoC ||--|{ hmis_Inventory : has
+    hmis_ProjectCoC ||--o{ hmis_Enrollment : has
+    hmis_Client ||--|{ hmis_Enrollment : has
+    hmis_Enrollment ||--o{ hmis_HealthAndDV : "may have"
+    hmis_Enrollment ||--o{ hmis_Services : "may have"
+    hmis_Enrollment ||--o{ hmis_Disabilities : "may have"
+    hmis_Enrollment ||--o{ hmis_Exit : "may have"
+```
+    
 The business logic in this section defines core concepts: report
 parameters, reporting cohorts, basic criteria for record selection, and
 identification of household types in various contexts.
@@ -1556,3 +1555,4 @@ tlsa_Enrollment with the same **HouseholdID** and:
   \>= **CohortStart**
 
 <!-- -->
+
