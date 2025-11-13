@@ -8,11 +8,6 @@ the HIC. Files are listed below with a brief description and links to
 the sections of this document that define the business logic for the
 file.
 
-A separate data dictionary with a complete list of the columns and
-values associated with each of these files is available in the [LSA tool
-kit](https://www.hudexchange.info/resource/5726/lsa-report-specifications-and-tools/)
-as an Excel workbook.
-
 ## Project.csv
 
 The structure of Project is defined by the HMIS CSV; it contains HMIS
@@ -20,7 +15,7 @@ Data Element *2.02 Project Information* for continuum ES, SH, TH, RRH,
 PSH, and/or OPH projects active since <u>LookbackDate</u>. It is
 referenced as lsa_Project in this document.
 
-See section [4.1Get Project.csv Records /
+See section [4.1 Get Project.csv Records /
 lsa_Project](#get-project.csv-records-lsa_project).
 
 ## Organization.csv
@@ -243,3 +238,4 @@ The **Value** column holds the average or count. Other columns identify
 the report row, household type, population, etc.
 
 See [sections](#_HMIS_Business_Logic:_6) 8-10 for business logic.
+
