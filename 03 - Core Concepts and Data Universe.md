@@ -5,7 +5,7 @@ generate the LSA is broad in scope. It uses systemwide enrollment data
 for HMIS-participating continuum ES, SH, TH, RRH, and PSH projects and
 includes project descriptor data for OPH projects. It may include
 enrollments with exit dates and projects with operating end dates as far
-back as the <u>LookbackDate</u> (<u>ReportStart</u> – 7 years).
+back as the <ins>LookbackDate</ins> (<ins>ReportStart</ins> – 7 years).
 
 The HMIS data required for the LSA are shown below. 
 
@@ -78,7 +78,7 @@ hmis_Client
 User-entered report parameters are included in LSAReport for upload to
 HDX 2.0. When they are applied in subsequent steps, their source is
 represented in graphics using lsa_Report. References to individual
-report parameters are always underlined – e.g., <u>ReportStart</u> – in
+report parameters are always underlined – e.g., <ins>ReportStart</ins> – in
 descriptions of business logic.
 
 ### Relevant Data
@@ -129,16 +129,16 @@ The data type for the column is date; values should be formatted as
 For the annual year-long LSA submitted to HUD, this must be the last day
 (September 30) of the fiscal year for which the LSA is being produced.
 
-For submission as the HIC, this must be the same as <u>ReportStart</u>,
+For submission as the HIC, this must be the same as <ins>ReportStart</ins>,
 i.e. the date of the count.
 
 It must be possible for a user to select any date \>=
-<u>ReportStart</u>. However, since the LSA is resource-intensive, HMIS
+<ins>ReportStart</ins>. However, since the LSA is resource-intensive, HMIS
 vendors may limit the ability of users to specify date ranges beyond one
 year in length.
 
 The phrase “report period,” in the context of this document, refers to
-the period between <u>ReportStart</u> and <u>ReportEnd</u>, inclusive of
+the period between <ins>ReportStart</ins> and <ins>ReportEnd</ins>, inclusive of
 those two dates.
 
 The data type for the column is date; values should be formatted as
@@ -146,7 +146,7 @@ The data type for the column is date; values should be formatted as
 
 #### ReportCoC
 
-**CoC Code** (<u>ReportCoC</u>) – The HUD-assigned code identifying the
+**CoC Code** (<ins>ReportCoC</ins>) – The HUD-assigned code identifying the
 continuum for which the LSA is being produced. Users must be able to
 select one CoC from a drop-down list that includes all *2.03 Continuum
 of Care Codes* for which they are authorized to generate the LSA.
@@ -157,7 +157,7 @@ data.
 
 #### LSAScope
 
-<u>LSAScope</u> is a user-selected report parameter.
+<ins>LSAScope</ins> is a user-selected report parameter.
 
 | LSAScope Values | Category        |
 |-----------------|-----------------|
@@ -170,11 +170,11 @@ relevant to the LSA based on project types and business logic defined by
 this document without requiring the user to select individual projects.
 (**LSAScope** must be 1 for submissions to HUD.)
 
-**Project-Focused** – Users must be able to specify a subset of <u>one
-or more HMIS projects</u> such that clients included in reporting are
+**Project-Focused** – Users must be able to specify a subset of <ins>one
+or more HMIS projects</ins> such that clients included in reporting are
 limited to those served in the selected projects. (Reporting on system
 use and chronic homelessness uses systemwide data regardless of
-<u>LSAScope</u>.) Projects available to select should be limited to:
+<ins>LSAScope</ins>.) Projects available to select should be limited to:
 
 - Continuum projects (*ContinuumProject* = 1)
 
@@ -208,8 +208,8 @@ the following: \< \> \[ \] { }.
 A ‘cohort’ refers to a group of clients and/or households who meet
 specific criteria and were served in a given time frame.
 
-The user-entered LSA report period – <u>ReportStart</u> to
-<u>ReportEnd</u> – defines the **active cohort**, which includes people
+The user-entered LSA report period – <ins>ReportStart</ins> to
+<ins>ReportEnd</ins> – defines the **active cohort**, which includes people
 and households served in continuum ES, SH, TH, RRH, and PSH projects
 during that time frame. Reporting in LSAPerson and LSAHousehold is
 limited to the active cohort.
@@ -233,7 +233,7 @@ report period. Reporting on these cohorts is limited to counts in
 LSACalculated.
 
 This section defines the logic associated with deriving the cohort
-periods based on <u>ReportStart</u> and <u>ReportEnd</u>.
+periods based on <ins>ReportStart</ins> and <ins>ReportEnd</ins>.
 
 ### Relevant Data
 
@@ -258,7 +258,7 @@ intermediate data construct/temporary table called tlsa_CohortDates.
 ### Logic
 
 Point-in-time cohorts are only included if the relevant date falls
-between <u>ReportStart</u> and <u>ReportEnd</u> and **LSAScope** \<\> 3
+between <ins>ReportStart</ins> and <ins>ReportEnd</ins> and **LSAScope** \<\> 3
 (HIC). Exit cohorts are included only if **LSAScope** \<\> 3.
 
 <table style="width:100%;">
@@ -280,51 +280,51 @@ between <u>ReportStart</u> and <u>ReportEnd</u> and **LSAScope** \<\> 3
 <tr>
 <td>-2</td>
 <td>Exit Minus 2</td>
-<td>(<u>ReportStart</u> - 2 years)</td>
-<td>(<u>ReportEnd</u> - 2 years)</td>
+<td>(<ins>ReportStart</ins> - 2 years)</td>
+<td>(<ins>ReportEnd</ins> - 2 years)</td>
 </tr>
 <tr>
 <td>-1</td>
 <td>Exit Minus 1</td>
 <td>(ReportStart - 1 year)</td>
-<td>(<u>ReportEnd</u> – 1 year)</td>
+<td>(<ins>ReportEnd</ins> – 1 year)</td>
 </tr>
 <tr>
 <td>0</td>
 <td>Exit 0</td>
-<td><u>ReportStart</u></td>
-<td><p>If [<u>ReportEnd</u> – 6 months] &lt;= <u>ReportStart</u>, use
-<u>ReportEnd</u></p>
-<p>Otherwise, <u>[ReportEnd</u> – 6 months]</p></td>
+<td><ins>ReportStart</ins></td>
+<td><p>If [<ins>ReportEnd</ins> – 6 months] &lt;= <ins>ReportStart</ins>, use
+<ins>ReportEnd</ins></p>
+<p>Otherwise, <ins>[ReportEnd</ins> – 6 months]</p></td>
 </tr>
 <tr>
 <td>1</td>
 <td>Active</td>
-<td><u>ReportStart</u></td>
-<td><u>ReportEnd</u></td>
+<td><ins>ReportStart</ins></td>
+<td><ins>ReportEnd</ins></td>
 </tr>
 <tr>
 <td>10</td>
 <td>Point in time 10/31</td>
-<td>October 31 of <u>ReportStart</u> year</td>
+<td>October 31 of <ins>ReportStart</ins> year</td>
 <td>= <strong>CohortStart</strong></td>
 </tr>
 <tr>
 <td>11</td>
 <td>Point in time 1/31</td>
-<td>January 31 of <u>ReportEnd</u> year</td>
+<td>January 31 of <ins>ReportEnd</ins> year</td>
 <td>= <strong>CohortStart</strong></td>
 </tr>
 <tr>
 <td>12</td>
 <td>Point in time 4/30</td>
-<td>April 30 of <u>ReportEnd</u> year</td>
+<td>April 30 of <ins>ReportEnd</ins> year</td>
 <td>= <strong>CohortStart</strong></td>
 </tr>
 <tr>
 <td>13</td>
 <td>Point in time 7/31</td>
-<td>July 31 of <u>ReportEnd</u> year</td>
+<td>July 31 of <ins>ReportEnd</ins> year</td>
 <td>= <strong>CohortStart</strong></td>
 </tr>
 </tbody>
@@ -413,7 +413,7 @@ other columns is described in subsequent steps.
 <tr>
 <td><strong>HouseholdID</strong></td>
 <td>Distinct <em>HouseholdIDs</em> served in continuum ES/SH/TH/RRH/PSH
-projects between <u>LookbackDate</u> and <u>ReportEnd</u></td>
+projects between <ins>LookbackDate</ins> and <ins>ReportEnd</ins></td>
 </tr>
 <tr>
 <td><strong>HoHID</strong></td>
@@ -461,7 +461,7 @@ from the <em>ExitDate</em> recorded in hmis_Exit. (See logic section for
 <tr>
 <td><strong>LastBedNight</strong></td>
 <td>If <em>ProjectType</em> = 1, the latest <em>BedNightDate</em> for
-the HoH on or before <u>ReportEnd</u></td>
+the HoH on or before <ins>ReportEnd</ins></td>
 </tr>
 <tr>
 <td>EntryHHType</td>
@@ -473,7 +473,7 @@ member ages as of their <strong>EntryDate</strong></td>
 <td>For all household enrollments, household type as the enrollment
 might be relevant to reporting on the active cohort. For those active in
 the report period, this is based on household member ages as of the
-later of <strong>EntryDate</strong> and <u>ReportStart.</u> For inactive
+later of <strong>EntryDate</strong> and <ins>ReportStart.</ins> For inactive
 enrollments, which may be relevant to reporting on system use or
 homelessness prior to the report period, this is always the
 <strong>EntryHHType</strong>.</td>
@@ -715,7 +715,7 @@ record of a bed night for the preceding date:
 **Night-by-night ES clients are to be auto-exited after an extended
 period without a bed night.** For any night-by-night ES enrollment where
 there is no record of an exit and there is no record of a bed night in
-the 90 days ending on <u>ReportEnd</u>:
+the 90 days ending on <ins>ReportEnd</ins>:
 
 - LSA reporting procedures will use an effective exit date of \[last bed
   night + 1 day\].
@@ -728,15 +728,15 @@ the 90 days ending on <u>ReportEnd</u>:
 HMISParticipation.*HMISParticipationStatusStartDate* for the
 enrollment’s *ProjectID* where *HMISParticipationType* = 1 and:
 
-- *HMISParticipationStatusStartDate* \<= <u>ReportEnd; and</u>
+- *HMISParticipationStatusStartDate* \<= <ins>ReportEnd; and</ins>
 
 - *ExitDate* is null or \> *HMISParticipationStatusStartDate*; and
 
 - *HMISParticipationStatusEndDate* is null or (\> *EntryDate* AND \>
-  <u>LookbackDate</u>).
+  <ins>LookbackDate</ins>).
 
 **HMISEnd** refers to the *HMISParticipationStatusEndDate* associated
-with **HMISStart;** dates after <u>ReportEnd</u> should be evaluated as
+with **HMISStart;** dates after <ins>ReportEnd</ins> should be evaluated as
 NULL**.**
 
 #### BedNightDates, FirstBedNight and LastBedNight
@@ -753,7 +753,7 @@ record where *RecordType* = 200 is counted as a *BedNightDate* if
 
 - \>=*EntryDate*; and
 
-- \<= <u>ReportEnd</u>; and
+- \<= <ins>ReportEnd</ins>; and
 
 - \<*ExitDate* (if not null); and
 
@@ -784,20 +784,20 @@ more project enrollments that meet the following criteria.
 
 - The project was operating during the relevant period:
 
-  - *OperatingStartDate* \<= <u>ReportEnd</u>
+  - *OperatingStartDate* \<= <ins>ReportEnd</ins>
 
   - *OperatingEndDate* is NULL; or
 
-  - *OperatingEndDate* \> <u>LookbackDate</u> and \>*OperatingStartDate*
+  - *OperatingEndDate* \> <ins>LookbackDate</ins> and \>*OperatingStartDate*
 
 - *RelationshipToHoH* = 1
 
-- *EnrollmentCoC* = <u>ReportCoC</u>
+- *EnrollmentCoC* = <ins>ReportCoC</ins>
 
 - There is no other enrollment record for the *HouseholdID* where
   *RelationshipToHoH* = 1
 
-- *EntryDate* \<= <u>ReportEnd</u>
+- *EntryDate* \<= <ins>ReportEnd</ins>
 
 - EntryDate \< *OperatingEndDate* or *OperatingEndDate* is NULL
 
@@ -805,7 +805,7 @@ more project enrollments that meet the following criteria.
 
 - *ExitDate* is NULL or:
 
-  - *ExitDate* \> <u>LookbackDate;</u> and
+  - *ExitDate* \> <ins>LookbackDate;</ins> and
 
   - *ExitDate* \> *EntryDate*; and
 
@@ -909,7 +909,7 @@ adjusted **MoveInDate**:
 </tr>
 <tr>
 <td>1</td>
-<td><em>MoveInDate</em> &gt; <u>ReportEnd</u></td>
+<td><em>MoveInDate</em> &gt; <ins>ReportEnd</ins></td>
 <td>NULL</td>
 </tr>
 <tr>
@@ -942,11 +942,11 @@ an adjusted **ExitDate** consistent with the logic below. If applicable,
 *Destination* for these enrollments is reported as ‘Data missing or
 invalid’ (99).
 
-- An *ExitDate* \> <u>ReportEnd</u> should be evaluated as NULL prior to
+- An *ExitDate* \> <ins>ReportEnd</ins> should be evaluated as NULL prior to
   making any adjustments.
 
 - Any adjustment that results in an effective **ExitDate** \>
-  <u>ReportEnd</u> should be evaluated as NULL.
+  <ins>ReportEnd</ins> should be evaluated as NULL.
 
 <table style="width:99%;">
 <colgroup>
@@ -962,7 +962,7 @@ invalid’ (99).
 </tr>
 <tr>
 <th>1</th>
-<th>LastBedNight = <u>ReportEnd</u></th>
+<th>LastBedNight = <ins>ReportEnd</ins></th>
 <th>NULL</th>
 </tr>
 </thead>
@@ -970,31 +970,31 @@ invalid’ (99).
 <tr>
 <td>2</td>
 <td>[<strong>LastBedNight</strong> + 90 days] &lt;=
-<u>ReportEnd</u></td>
+<ins>ReportEnd</ins></td>
 <td>[<strong>LastBedNight</strong> + 1 day]</td>
 </tr>
 <tr>
 <td>2</td>
 <td><strong>LSAProjectType</strong> = 1 and <em>ExitDate</em> &lt;
-<u>ReportEnd</u></td>
+<ins>ReportEnd</ins></td>
 <td>[<strong>LastBedNight</strong> + 1 day]</td>
 </tr>
 <tr>
 <td>3</td>
 <td><strong>ProjectType</strong> = 13 and <em>ExitDate</em> =
-<em>MoveInDate</em> and <em>ExitDate</em> = <u>ReportEnd</u></td>
+<em>MoveInDate</em> and <em>ExitDate</em> = <ins>ReportEnd</ins></td>
 <td>NULL</td>
 </tr>
 <tr>
 <td>4</td>
 <td><strong>ProjectType</strong> = 13 and <em>ExitDate</em> =
 <em>MoveInDate</em></td>
-<td>[<em><u>MoveInDate</u></em> + 1 day]</td>
+<td>[<em><ins>MoveInDate</ins></em> + 1 day]</td>
 </tr>
 <tr>
 <td>5</td>
 <td><p><em>OperatingEndDate</em> and/or <strong>HMISEnd</strong>
-<em>&lt;=</em> <u>ReportEnd</u>; and</p>
+<em>&lt;=</em> <ins>ReportEnd</ins>; and</p>
 <p><em>ExitDate</em> is null or <em>ExitDate &gt;</em> (the earlier of
 <strong>HMISEnd</strong>/<em>OperatingEndDate</em>)</p></td>
 <td>The earlier of
@@ -1131,7 +1131,7 @@ other columns is described in subsequent steps.
 
 | **tlsa_Enrollment** | **Column Description** |
 |----|----|
-| **EnrollmentID** | Distinct *EnrollmentIDs* in continuum ES/SH/TH/RRH/PSH projects between <u>LookbackDate</u> and <u>ReportEnd</u> |
+| **EnrollmentID** | Distinct *EnrollmentIDs* in continuum ES/SH/TH/RRH/PSH projects between <ins>LookbackDate</ins> and <ins>ReportEnd</ins> |
 | **PersonalID** | From hmis_Enrollment |
 | **HouseholdID** | From hmis_Enrollment, limited to *HouseholdID*s in tlsa_HHID |
 | **RelationshipToHoH** | From hmis_Enrollment |
@@ -1140,9 +1140,9 @@ other columns is described in subsequent steps.
 | **EntryDate** | From hmis_Enrollment |
 | **MoveInDate** | Based on tlsa_HHID – the move-in date for RRH/PSH enrollments, which may differ from the recorded *MoveInDate* in HMIS or for the HoH. (See below.) |
 | **ExitDate** | Based on hmis_Exit, the effective exit date for the enrollment, which may differ from the *ExitDate* recorded in hmis_Exit. (See below.) |
-| **LastBedNight** | If **LSAProjectType** = 1, the latest *BedNightDate* for the enrollment on or before <u>ReportEnd</u> |
+| **LastBedNight** | If **LSAProjectType** = 1, the latest *BedNightDate* for the enrollment on or before <ins>ReportEnd</ins> |
 | EntryAge | The client’s age as of **EntryDate** |
-| ActiveAge | For enrollments active in the report period, the client’s age as of the later of **EntryDate** and <u>ReportStart.</u> For all other enrollments, this will be the same as **EntryAge** |
+| ActiveAge | For enrollments active in the report period, the client’s age as of the later of **EntryDate** and <ins>ReportStart.</ins> For all other enrollments, this will be the same as **EntryAge** |
 | Exit1Age | For enrollments with an exit date between **CohortStart** and **CohortEnd** for exit cohort -1, client age as of the later of **EntryDate** and **CohortStart** for the relevant cohort period. For all other enrollments, this will be the same as **EntryAge** |
 | Exit2Age | For enrollments with an exit date between **CohortStart** and **CohortEnd** for exit cohort -2, client age as of the later of **EntryDate** and **CohortStart** for the relevant cohort period. For all other enrollments, this will be the same as **EntryAge** |
 | **DisabilityStatus** | From hmis_Enrollment; used repeatedly in subsequent steps for demographic reporting and to identify households and people included in various populations of interest |
@@ -1166,11 +1166,11 @@ An enrollment should be included in tlsa_Enrollment if:
 
 - Enrollment.*RelationshipToHoH* in (1,2,3,4,5)
 
-- Enrollment.*EntryDate* \<= <u>ReportEnd</u>
+- Enrollment.*EntryDate* \<= <ins>ReportEnd</ins>
 
 - Exit.*ExitDate* is NULL or
 
-  - Exit*.ExitDate* \> <u>LookbackDate</u>; and
+  - Exit*.ExitDate* \> <ins>LookbackDate</ins>; and
 
   - Exit*.ExitDate* \> Enrollment.*EntryDate*; and
 
@@ -1180,8 +1180,8 @@ An enrollment should be included in tlsa_Enrollment if:
   *BedNightDate* Services.*RecordType* = 200) record for the enrollment
   where *DateProvided* is:
 
-  - Between <u>LookbackDate</u> and the earlier of Enrollment.*ExitDate*
-    or <u>ReportEnd</u>; and
+  - Between <ins>LookbackDate</ins> and the earlier of Enrollment.*ExitDate*
+    or <ins>ReportEnd</ins>; and
 
   - On or after Enrollment.*EntryDate*; and
 
@@ -1252,7 +1252,7 @@ same as the household’s exit date.
 |----|----|
 | *ExitDate* \> tlsa_HHID.**ExitDate** | tlsa_HHID.**ExitDate** |
 | *ExitDate* is NULL and tlsa_HHID.**ExitDate** is not NULL | tlsa_HHID.**ExitDate** |
-| *ExitDate* \> <u>ReportEnd</u> | NULL |
+| *ExitDate* \> <ins>ReportEnd</ins> | NULL |
 | (any other) | *ExitDate* |
 
 For night by night ES enrollments (tlsa_HHID.**LSAProjectType** = 1),
@@ -1262,7 +1262,7 @@ For night by night ES enrollments (tlsa_HHID.**LSAProjectType** = 1),
 
 - tlsa_HHID.**ExitDate** is NULL; and
 
-- **\[LastBedNight** + 90 days\] \> <u>ReportEnd</u>.
+- **\[LastBedNight** + 90 days\] \> <ins>ReportEnd</ins>.
 
 Otherwise, **ExitDate** = \[**LastBedNight** + 1 day\].
 
@@ -1292,7 +1292,7 @@ It is the minimum DVStatus value in the table below based on
 *DomesticViolenceSurvivor* and *CurrentlyFleeing* values for any record
 associated with the enrollment and dated:
 
-- On or before <u>ReportEnd</u>; and
+- On or before <ins>ReportEnd</ins>; and
 
 - On or after tlsa_Enrollment.**EntryDate***;* and
 
@@ -1397,26 +1397,26 @@ for *DOB,* *DOBDataQuality,* and **EntryDate** determines the
 
 **ActiveAge** is calculated for all enrollments. For enrollments active
 in the report period, it will only differ from **EntryAge** if the
-**EntryDate** \< <u>ReportStart</u> (and may not differ then).
+**EntryDate** \< <ins>ReportStart</ins> (and may not differ then).
 
 For inactive enrollments, it is equal to **EntryAge.** (Age for inactive
 enrollments may be needed to report on active client/household history.)
 
 | Priority | Condition                                       | AgeGroup     |
 |----------|-------------------------------------------------|--------------|
-| 1        | **ExitDate** \< <u>ReportStart</u>              | **EntryAge** |
-| 2        | **EntryDate** *\>=* <u>ReportStart</u>          | **EntryAge** |
+| 1        | **ExitDate** \< <ins>ReportStart</ins>              | **EntryAge** |
+| 2        | **EntryDate** *\>=* <ins>ReportStart</ins>          | **EntryAge** |
 | 3        | **EntryAge** in (98,99)                         | **EntryAge** |
-| 4        | \[*DOB* *+* 65 years\] *\<=* <u>ReportStart</u> | 65           |
-| 5        | \[*DOB* *+* 55 years\] *\<=* <u>ReportStart</u> | 64           |
-| 6        | \[*DOB* *+* 45 years\] *\<=* <u>ReportStart</u> | 54           |
-| 7        | \[*DOB* *+* 35 years\] *\<=* <u>ReportStart</u> | 44           |
-| 8        | \[*DOB* *+* 25 years\] *\<=* <u>ReportStart</u> | 34           |
-| 9        | \[*DOB* *+* 22 years\] *\<=* <u>ReportStart</u> | 24           |
-| 10       | \[*DOB* *+* 18 years\] *\<=* <u>ReportStart</u> | 21           |
-| 11       | \[*DOB* + 6 years\] *\<=* <u>ReportStart</u>    | 17           |
-| 12       | \[*DOB* + 3 years\] *\<=* <u>ReportStart</u>    | 5            |
-| 13       | \[*DOB* + 1 years\] *\<=* <u>ReportStart</u>    | 2            |
+| 4        | \[*DOB* *+* 65 years\] *\<=* <ins>ReportStart</ins> | 65           |
+| 5        | \[*DOB* *+* 55 years\] *\<=* <ins>ReportStart</ins> | 64           |
+| 6        | \[*DOB* *+* 45 years\] *\<=* <ins>ReportStart</ins> | 54           |
+| 7        | \[*DOB* *+* 35 years\] *\<=* <ins>ReportStart</ins> | 44           |
+| 8        | \[*DOB* *+* 25 years\] *\<=* <ins>ReportStart</ins> | 34           |
+| 9        | \[*DOB* *+* 22 years\] *\<=* <ins>ReportStart</ins> | 24           |
+| 10       | \[*DOB* *+* 18 years\] *\<=* <ins>ReportStart</ins> | 21           |
+| 11       | \[*DOB* + 6 years\] *\<=* <ins>ReportStart</ins>    | 17           |
+| 12       | \[*DOB* + 3 years\] *\<=* <ins>ReportStart</ins>    | 5            |
+| 13       | \[*DOB* + 1 years\] *\<=* <ins>ReportStart</ins>    | 2            |
 | 14       | (other)                                         | 0            |
 
 #### Exit1Age/Exit2Age
@@ -1522,13 +1522,13 @@ members’ entry dates.
 
 #### ActiveHHType
 
-If tlsa_HHID.**EntryDate** is \>= <u>ReportStart</u> or
-tlsa_HHID.**ExitDate** \< <u>ReportStart</u>, **ActiveHHType** =
+If tlsa_HHID.**EntryDate** is \>= <ins>ReportStart</ins> or
+tlsa_HHID.**ExitDate** \< <ins>ReportStart</ins>, **ActiveHHType** =
 **EntryHHType**.
 
 For all other households, **ActiveHHType** is based on **ActiveAge**
 values for records in tlsa_Enrollment with the same **HouseholdID**
-where **ExitDate** is NULL or **ExitDate** \>= <u>ReportStart</u>. In
+where **ExitDate** is NULL or **ExitDate** \>= <ins>ReportStart</ins>. In
 other words, if the household is active in the report period, household
 type is based only on the ages of household members who were also active
 in the report period.
@@ -1555,4 +1555,5 @@ tlsa_Enrollment with the same **HouseholdID** and:
   \>= **CohortStart**
 
 <!-- -->
+
 
