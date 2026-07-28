@@ -19,70 +19,52 @@ The structure of Project is defined by the HMIS CSV; it contains HMIS Data Eleme
 
 See section [4.1 Get Project.csv Records / lsa\_Project](04 - Project Descriptor Data#41-get-projectcsv-records--lsa_project).
 
-| ColumnNumber | Column Name | DataType | List | Nullable | Description | Max Length |
-| --- | --- | --- | --- | --- | --- | --- |
-
 # 2.2 Organization.csv
 
 The structure of Organization is defined by the HMIS CSV; it contains HMIS data element *2.01 Organization Information* for each project included in Project.csv. It is referenced as lsa\_Organization in this document.
 
-See section 4.2 Get Organization.csv Records / lsa\_Organization.
-
-| ColumnNumber | Column Name | DataType | List | Nullable | Description | Max Length |
-| --- | --- | --- | --- | --- | --- | --- |
+See section [4.2 Get Organization.csv Records / lsa\_Organization](04 - Project Descriptor Data#42-get-organizationcsv-records--lsa_organization).
 
 # 2.3 Funder.csv
 
 The structure of Funder is defined by the HMIS CSV; it contains HMIS data element *2.06 Funding Sources* records active during the report period for each project included in Project.csv.
 
-See section 4.3 Get Funder.csv Records / lsa\_Funder.
-
-| ColumnNumber | Column Name | DataType | List | Nullable | Description | Max Length |
-| --- | --- | --- | --- | --- | --- | --- |
+See section [4.3 Get Funder.csv Records / lsa\_Funder](04 - Project Descriptor Data#43-get-fundercsv-records--lsa_funder).
 
 # 2.4 ProjectCoC.csv
 
 The structure of ProjectCoC is defined by the HMIS CSV; it contains HMIS data element *2.03 Continuum of Care Code* records associated with <u>ReportCoC</u> for each project included in Project.csv.
 
-See section 4.4 Get ProjectCoC.csv Records / lsa\_ProjectCoC.
-
-| ColumnNumber | Column Name | DataType | List | Nullable | Description | Max Length |
-| --- | --- | --- | --- | --- | --- | --- |
+See section [4.4 Get ProjectCoC.csv Records / lsa\_ProjectCoC](04 - Project Descriptor Data#44-get-projectcoccsv-records--lsa_projectcoc).
 
 # 2.5 Inventory.csv
 
 The structure of Inventory is defined by the HMIS CSV; it contains HMIS data element *2.07 Bed and Unit Inventory Information* records active during the report period for each project included in Project.csv, except for RRH: Services Only projects.
 
-See section 4.5 Get Inventory.csv Records / lsa\_Inventory.
+See section [4.5 Get Inventory.csv Records / lsa\_Inventory](04 - Project Descriptor Data#45-get-inventorycsv-records--lsa_inventory).
 
 # 2.6 HMISParticipation.csv
 
-| ColumnNumber | Column Name | DataType | List | Nullable | Description | Max Length |
-| --- | --- | --- | --- | --- | --- | --- |
-
 The structure of HMISParticipation is defined by the HMIS CSV; it contains affiliation records from HMIS data element *2.08 HMIS Participation* records active during the report period for each project included in Project.csv.
 
-See section 4.6 Get HMISParticipation.csv Records / lsa\_HMISParticipation.
+See section [4.6 Get HMISParticipation.csv Records / lsa\_HMISParticipation](04 - Project Descriptor Data#46-get-hmisparticipationcsv-records--lsa_hmisparticipation).
 
 # 2.7 Affiliation.csv
 
-| ColumnNumber | Column Name | DataType | List | Nullable | Description | Max Length |
-| --- | --- | --- | --- | --- | --- | --- |
-
 The structure of Affiliation is defined by the HMIS CSV; it contains HMIS data element *2.02 Project Information* (field 2.02B) records for each RRH project in Project.csv with a subtype of RRH-SSO active during the report period and identified as having a residential affiliation.
 
-See section 4.7 Get Affiliation.csv Records / lsa\_Affiliation.
+See section [4.7 Get Affiliation.csv Records / lsa\_Affiliation](04 - Project Descriptor Data#47-get-affiliationcsv-records--lsa_affiliation).
 
 # 2.8 LSAReport.csv
 
 LSAReport contains 67 columns, including report metadata, report parameters, and HMIS data quality reporting. The HDX 2.0 uses these data to process the upload file and to assess the reliability of the data.
 
-See:
+For business logic, see:
 
--   Section 3.1 Report Parameters and Metadata
--   Section 9 HMIS Business Logic: LSAReport Data Quality and ReportDate
- 
-| ColumnNumber | Column Name | DataType | List | Nullable | Description | Max Length |
+-   Section [3.1 Report Parameters and Metadata](03 - Core Concepts and Data Universe#31-report-parameters-and-metadata-lsa_report)
+-   Section [11 HMIS Business Logic: LSAReport Data Quality and ReportDate](11 - LSA Report)
+
+| # | Column Name | DataType | List | Nullable | Description | Max Length |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | ReportID | int |  | 0 | Unique identifier | 10 |
 | 2 | ReportDate | datetime |  | 0 | The date and time that reporting procedures completed the process of generating the LSA. | 19 |
@@ -104,26 +86,17 @@ See:
 | 18 | ClientEntry | int |  | 0 | A count of distinct HMIS EnrollmentIDs for the active cohort with enrollment dates that fall within the report period. | 10 |
 | 19 | AdultHoHEntry | int |  | 0 | A count of distinct HMIS EnrollmentIDs for adults and heads of household in the active cohort with enrollment dates that fall within the report period. | 10 |
 | 20 | ClientExit | int |  | 0 | A count of distinct HMIS EnrollmentIDs for the active cohort with an exit date within the report period. | 10 |
-| 21 | SSNNotProvided | int |  | 0 | The total number of PersonalIDs reported in LSAPerson where: 
-• The client was active in ReportCoC during the report period; and 
-• The value for SSNDataQuality is Client doesn’t know (8) or Client refused (9). | 10 |
-| 22 | SSNMissingOrInvalid | int |  | 0 | The total number of PersonalIDs reported in LSAPerson where: 
-• The client was active in ReportCoC during the report period; and 
-• The value for SSNDataQuality is NOT Client doesn’t know (8) or Client refused (9); and
-• The value for SSN is the system default value (if any) for missing SSN, or the value is not valid per SSA guidelines. | 10 |
-| 23 | ClientSSNNotUnique | int |  | 0 | The total number of PersonalIDs reported in LSAPerson where: 
-• The client was active in ReportCoC during the report period; and
-• There is at least one record for a different PersonalID with the same value for SSN, excluding the system default value (if any) for missing SSN. | 10 |
-| 24 | DistinctSSNValueNotUnique | int |  | 0 | The total number of distinct SSN values, excluding the system default value (if any) for missing SSN, that are associated with PersonalIDs reported in LSAPerson; and
-• The distinct SSN value is shared by one or more PersonalIDs. | 10 |
-| 25 | DisablingCond | int |  | 0 | A count of distinct HMIS EnrollmentIDs with missing or invalid values for DisablingCondition | 10 |
-| 26 | LivingSituation | int |  | 0 | A count of distinct HMIS EnrollmentIDs with missing or invalid values for LivingSituation | 10 |
-| 27 | LengthOfStay | int |  | 0 | A count of distinct HMIS EnrollmentIDs with missing or invalid values for LengthOfStay | 10 |
-| 28 | HomelessDate | int |  | 0 | A count of distinct HMIS EnrollmentIDs with missing or invalid values for DateToStreetESSH | 10 |
-| 29 | TimesHomeless | int |  | 0 | A count of distinct HMIS EnrollmentIDs with missing or invalid values for TimesHomelessPastThreeYears | 10 |
-| 30 | MonthsHomeless | int |  | 0 | A count of distinct HMIS EnrollmentIDs with missing or invalid values for MonthsHomelessPastThreeYears | 10 |
-| 31 | Destination | int |  | 0 | A count of distinct HMIS EnrollmentIDs with exits in the report period with missing or invalid values for Destination | 10 |
-
+| 21 | SSNNotProvided | int |  | 0 | The total number of PersonalIDs reported in LSAPerson where the value for SSNDataQuality is Client doesn’t know (8) or Client refused (9). |10|
+| 22 | SSNMissingOrInvalid | int | | 0 | The total number of PersonalIDs reported in LSAPerson where the value for SSNDataQuality is NOT Client doesn’t know (8) or Client refused (9), and the value for SSN is either the system default or the value is not valid per SSA guidelines. |10|
+| 23 | ClientSSNNotUnique | int | | 0 | The total number of PersonalIDs reported in LSAPerson where there is at least one record in HMIS for a different PersonalID with the same value for SSN, excluding the system default value (if any) for missing SSN. |10|
+| 24 | DistinctSSNValueNotUnique | int | | 0 | The total number of distinct SSN values ( excluding the system default, if any) that are associated with PersonalIDs reported in LSAPerson and the distinct SSN value is shared by one or more PersonalIDs. |10|
+| 25 | DisablingCond | int | | 0 | A count of distinct HMIS EnrollmentIDs active in the report period with missing or invalid values for DisablingCondition |10|
+| 26 | LivingSituation | int | | 0 | A count of distinct HMIS EnrollmentIDs for HoH/adults active in the report period with missing or invalid values for LivingSituation |10|
+| 27 | LengthOfStay | int | | 0 | A count of distinct HMIS EnrollmentIDs for HoH/adults active in the report period with missing or invalid values for LengthOfStay |10|
+| 28 | HomelessDate | int | | 0 | A count of distinct HMIS EnrollmentIDs for HoH/adults active in the report period with missing or invalid values for DateToStreetESSH |10|
+| 29 | TimesHomeless             | int          |      | 0        | A count of distinct HMIS EnrollmentIDs for HoH/adults active in the report period with missing or invalid values for *TimesHomelessPastThreeYears* |10|
+| 30 | MonthsHomeless | int | | 0 | A count of distinct HMIS EnrollmentIDs active in the report period with missing or invalid values for *MonthsHomelessPastThreeYears* |10|
+| 31 | Destination | int | | 0 | A count of distinct HMIS *EnrollmentID*s with exits in the report period with missing or invalid values for Destination |10|
 # 2.9 LSAPerson.csv
 
 LSAPerson contains 66 columns and includes reporting on people active during the report period. Columns include the following types of data:
@@ -135,7 +108,7 @@ Rows represent specific combinations of these data points. Each active client is
 
 It is critical that all values in this column are integers > 0. The largest possible number of rows – when each row includes a count of one or more people represented by the distinct combination of column values – is limited to the number of active clients. However, there are billions of possible combinations of column values, and including rows that that do not represent any clients would result in files of unmanageable size.
 
-See Section 5 HMIS Business Logic: LSAPerson.
+See [Section 5 HMIS Business Logic: LSAPerson](05 - LSAPerson).
 
 | ColumnNumber | Column Name | DataType | List | Nullable | Description | Max Length |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -143,12 +116,7 @@ See Section 5 HMIS Business Logic: LSAPerson.
 | 2 | RaceEthnicity | int | 6 | 0 | Race and Ethnicity for all persons | 7 |
 | 3 | VetStatus | int | 20 | 0 | Veteran Status for adults; not applicable (value = -1) for children | 2 |
 | 4 | DisabilityStatus | int | 20 | 0 | Disability Status  for adults and heads of household based on records of 3.08 Disabling Condition for all active enrollments; not applicable (value = -1) for non-HoH children. | 2 |
-| 5 | CHTime | int | 21 | 0 | For adults and heads of household, the total number of days in ES/SH or on the street in the three years prior to the client's last active date in the report period.  Based on data from active and inactive enrollments, the count of days excludes any time enrolled in continuum TH projects or housed in RRH/PSH, but otherwise includes:
-- Dates between entry and exit in continuum entry-exit ES and SH projects; and
-- Bed-night dates in night-by-night shelters; and
-- Dates between 3.917 DateToStreetESSH and EntryDate for ES/SH/TH/RRH/PSH projects; and 
-- Dates between any RRH/PSH EntryDate and the earlier of MoveInDate or ExitDate when LivingSituation is ES/SH/Street; or 
--May be set based on 3.917 number of months and number of times homeless in the past three years from ES/SH/TH/RRH/PSH enrollments with entry dates in the year ending on the client's last active date. | 3 |
+| 5 | CHTime | int | 21 | 0 | For adults and heads of household, the total number of days in ES/SH or on the street in the three years prior to the client's last active date in the report period. |3|
 | 6 | CHTimeStatus | int | 22 | 0 | For clients with 365+ days of ES/SH/Street time in the three years prior to their last active date (CHTime), specifies whether the dates are grouped so that the client meets the time criteria for chronic homelessness. Otherwise not applicable. | 2 |
 | 7 | DVStatus | int | 23 | 0 | DV Status for adults and heads of household based on records of 4.11 Domestic Violence for all active enrollments; not applicable (value = -1) for non-HoH children | 2 |
 | 8 | ESTAgeMin | int | 18 | 0 | The minimum age at the later of ReportStart and EntryDate for any ES/SH/TH enrollment. | 2 |
@@ -224,9 +192,9 @@ This file may empty (other than headers) for the HIC.
 
 It is critical that all values in the **RowTotal** column are integers > 0. When each row includes a count of one or more households represented by the distinct combination of column values, the total number of rows– is limited to the number of active households. However, the number of possible distinct combinations of column values is massive and including rows that do not represent any households could result in unmanageable file sizes.
 
-See Section 6: HMIS Business Logic: LSAHousehold.
+For business logic, see [Section 6 - LSAHousehold](06 - LSAHousehold).
 
-| ColumnNumber | Column Name | DataType | List | Nullable | Description | Max Length |
+| # | Column Name | DataType | List | Nullable | Description | Max Length |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | RowTotal | int |  | 0 | The total number of households served in continuum ES, SH, TH, RRH, and/or PSH projects during the report period with the characteristics represented by the values in each column of the row. All values must be integers > 0. | 10 |
 | 2 | Stat | int | 2 | 0 | The household status related to continuum engagement on the first day of the earliest enrollment active during the report period. | 1 |
@@ -312,16 +280,16 @@ Rows represent specific combinations of these data points. Unlike LSAHousehold, 
 
 This file may be empty (other than headers) for the HIC.
 
-See Section 7. HMIS Business Logic: LSAExit.
+For business logic, see [Section 7 - LSAExit](08 - LSAExit).
 
-| ColumnNumber | Column Name | DataType | List | Nullable | Description | Max Length |
+| # | Column Name | DataType | List | Nullable | Description | Max Length |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | RowTotal | int |  | 0 | The total number of households served in the continuum with the characteristics represented by the values in each column of the row. All values must be integers >0. | 10 |
 | 2 | Cohort | int | 27 | 0 | Identifies which return cohort the household is in. These categories are not mutually exclusive. | 2 |
 | 3 | Stat | int | 2 | 0 | Identifies the status of households at the start of the cohort period. | 1 |
 | 4 | ExitFrom | int | 28 | 0 | Identifies the project type from which household exited. | 1 |
 | 5 | ExitTo | int | 15 | 0 | Identifies the exit destination. | 3 |
-| 6 | ReturnTime | int | 3 | 0 | The number of days between exiting to the destination identified in ExitTo and an EntryDate for any continuum ES, SH, TH, RRH, or PSH project. | 3 |
+| 6 | ReturnTime | int | 3 | 0 | The number of days between exiting to the destination identified in **ExitTo** and an *EntryDate* for any continuum ES, SH, TH, RRH, or PSH project. | 3 |
 | 7 | HHType | int | 4 | 0 | The household type. | 2 |
 | 8 | HHVet | int | 5 | 0 | Identifies whether or not the household includes a veteran. | 1 |
 | 9 | HHChronic | int | 43 | 0 | Identifies household status related to long-term/chronic homelessness | 1 |
@@ -329,8 +297,8 @@ See Section 7. HMIS Business Logic: LSAExit.
 | 11 | HHFleeingDV | int | 48 | 0 | Identifies households fleeing domestic violence | 1 |
 | 12 | HoHRaceEthnicity | int | 6 | 0 | Identifies race and ethnicity for head of household. | 7 |
 | 13 | HHAdultAge | int | 9 | 0 | The age groups of adult household members. The categories are mutually exclusive (a household can only fall into one group) and inclusive (every household with adults will fall into one group). | 2 |
-| 14 | HHParent | int | 5 | 0 | Identifies whether or not any household member has RelationshiptoHoH = 2 (child of the HoH) on any active enrollment in the cohort period. | 1 |
-| 15 | AC3Plus | int | 5 | 0 | Identifies AC households that include 3 or more children on any active enrollment in the cohort period. | 1 |
+| 14 | HHParent | int | 5 | 0 | Identifies whether or not any household member has *RelationshiptoHoH* = 2 (child of the HoH) on any active enrollment in the cohort period. | 1 |
+| 15 | AC3Plus | int | 5 | 0 | Identifies AC (adult-child) households that include 3 or more children on any active enrollment in the cohort period. | 1 |
 | 16 | SystemPath | int | 17 | 0 | The combinations of system use during the cohort period and in the continuous periods of service prior to the cohort period – i.e., the ‘path’ through the system. It is not dependent on the sequence of service. Categories are mutually exclusive. | 2 |
 | 17 | ReportID | int |  | 0 | Must match LSAReport.ReportID | 10 |
 
@@ -357,7 +325,11 @@ It is also used for counts of persons, households, and bed nights grouped by pro
 
 The **Value** column holds the average or count. Other columns identify the report row, household type, population, etc.
 
-See Sections 8-10 for business logic.
+For business logic, see:
+
+- Section 8 - [LSACalculated Averages](08 - LSACalculated Averages)
+- Section 9 - [LSACalculated Counts](09 - LSACalculated Counts)
+- Section 10 - [LSACalculated Data Quality Counts](10 - LSACalculated Data Quality Counts)
 
 | ColumnNumber | Column Name | DataType | List | Nullable | Description | Max Length |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -367,15 +339,6 @@ See Sections 8-10 for business logic.
 | 4 | HHType | int | 31 | 0 |  | 2 |
 | 5 | Population | int | 32 | 0 |  | 4 |
 | 6 | SystemPath | int | 17 | 0 |  | 2 |
-| 7 | ProjectID | nvarchar(32) |  | 1 | If ReportRow between 53 and 57 and Universe = 10, must match Project.csv.ProjectID; otherwise, must be NULL. | 32 |
+| 7 | ProjectID | nvarchar(32) |  | 1 | If **ReportRow** between 53 and 57 and **Universe** = 10, must match Project.csv.ProjectID; otherwise, must be NULL. | 32 |
 | 8 | ReportRow | int | 33 | 0 |  | 3 |
-| 9 | ReportID | int |  | 0 | Must match LSAReport.ReportID | 10 |
-| 1 | OrganizationID | nvarchar(32) |  | 0 |  | 32 |
-| 2 | OrganizationName | nvarchar(200) |  | 0 |  | 200 |
-| 3 | VictimServiceProvider | int | 5 | 0 | There must be a valid (0 or 1) response in this column.  Neither NULL nor 99 are acceptable. | 2 |
-| 4 | OrganizationCommonName | nvarchar(200) |  | 1 | n/a - will not be imported | 200 |
-| 5 | DateCreated | datetime |  | 0 |  | 19 |
-| 6 | DateUpdated | datetime |  | 0 |  | 19 |
-| 7 | UserID | nvarchar(32) |  | 1 | n/a - will not be imported | 32 |
-| 8 | DateDeleted | datetime |  | 1 | Must be NULL | 19 |
-| 9 | ExportID | nvarchar(32) |  | 0 | Must match LSAReport.ReportID | 32 |
+| 9 | ReportID | int |  | 0 | Must match LSAReport.**ReportID** | 10 |

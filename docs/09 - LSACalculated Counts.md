@@ -13,16 +13,16 @@ has_toc: true
 
 | Row | Reporting Category                                      | Section     |
 |----:|---------------------------------------------------------|-------------|
-|  53 | Project-level – People by household characteristics     | [Section 9.3](./09%20-%20LSACalculated%20Counts.html#93-counts-of-people-and-households-by-project-and-household-characteristics) |
-|  53 | Project type – People by household characteristics      | [Section 9.3](./09%20-%20LSACalculated%20Counts.html#93-counts-of-people-and-households-by-project-and-household-characteristics) |
-|  54 | Project-level – Households by household characteristics | [Section 9.3](./09%20-%20LSACalculated%20Counts.html#93-counts-of-people-and-households-by-project-and-household-characteristics) |
-|  54 | Project-type – Households by household characteristics  | [Section 9.3](./09%20-%20LSACalculated%20Counts.html#93-counts-of-people-and-households-by-project-and-household-characteristics) |
-|  55 | Project level – People by personal characteristic       | [Section 9.4](./09%20-%20LSACalculated%20Counts.html#94-get-counts-of-people-by-project-and-personal-characteristics) |
-|  55 | Project-type – People by personal characteristic        | [Section 9.4](./09%20-%20LSACalculated%20Counts.html#94-get-counts-of-people-by-project-and-personal-characteristics) |
-|  56 | Project-level – Bed nights by household characteristics | [Section 9.4](./09%20-%20LSACalculated%20Counts.html#94-get-counts-of-people-by-project-and-personal-characteristics) |
-|  56 | Project-type – Bed nights by household characteristics  | [Section 9.5](./09%20-%20LSACalculated%20Counts.html#95-get-counts-of-bednights) |
-|  57 | Project-level – Bed nights by personal characteristics  | [Section 9.5](./09%20-%20LSACalculated%20Counts.html#95-get-counts-of-bednights) |
-|  57 | Project-type – Bed nights by personal characteristics   | [Section 9.5](./09%20-%20LSACalculated%20Counts.html#95-get-counts-of-bednights) |
+|  53 | Project-level – People by household characteristics     | [Section 9.3](#93-counts-of-people-and-households-by-project-and-household-characteristics) |
+|  53 | Project type – People by household characteristics      | [Section 9.3](#93-counts-of-people-and-households-by-project-and-household-characteristics) |
+|  54 | Project-level – Households by household characteristics | [Section 9.3](#93-counts-of-people-and-households-by-project-and-household-characteristics) |
+|  54 | Project-type – Households by household characteristics  | [Section 9.3](#93-counts-of-people-and-households-by-project-and-household-characteristics) |
+|  55 | Project level – People by personal characteristic       | [Section 9.4](#94-get-counts-of-people-by-project-and-personal-characteristics) |
+|  55 | Project-type – People by personal characteristic        | [Section 9.4](#94-get-counts-of-people-by-project-and-personal-characteristics) |
+|  56 | Project-level – Bed nights by household characteristics | [Section 9.4](#94-get-counts-of-people-by-project-and-personal-characteristics) |
+|  56 | Project-type – Bed nights by household characteristics  | [Section 9.5](#95-get-counts-of-bednights) |
+|  57 | Project-level – Bed nights by personal characteristics  | [Section 9.5](#95-get-counts-of-bednights) |
+|  57 | Project-type – Bed nights by personal characteristics   | [Section 9.5](#95-get-counts-of-bednights) |
 
 # 9.2 Identify Active and Point in Time Cohorts for LSACalculated Counts
 
@@ -37,13 +37,17 @@ This step identifies records in tlsa_Enrollment in point-in-time cohorts (10-13)
 | Cohort                                                 |
 | CohortStart                                            |
 | CohortEnd                                              |
+
 | **tlsa_Enrollment**                                    |
+|--------------------------------------------------------|
 | AIR                                                    |
 | EntryDate                                              |
 | MoveInDate                                             |
 | ExitDate                                               |
 | LSAProjectType                                         |
+
 | **hmis_Services**                                      |
+|--------------------------------------------------------|
 | EnrollmentID                                           |
 | BedNightDate (*DateProvided* where *RecordType* = 200) |
 
@@ -83,7 +87,9 @@ where **AIR** = 1 and:
 | PITJanuary          |
 | PITApril            |
 | PITJuly             |
+
 | **tlsa_HHID**       |
+|---------------------|
 | ActiveHHType        |
 | ProjectID           |
 | LSAProjectType      |
@@ -98,14 +104,14 @@ where **AIR** = 1 and:
 
 | lsa_Calculated Column | Requirements                        |
 | --------------------- | ----------------------------------- |
-| **Value**             | See below                           |
-| **Cohort**            | 1, 10, 11, 12, 13 (see section 9.2) |
-| **Universe**          | See below                           |
-| **HHType**            | See below                           |
-| **Population**        | See below                           |
-| **SystemPath**        | -1                                  |
-| **ProjectID**         | See below                           |
-| **ReportRow**         | See below                           |
+| Value             | See below                           |
+| Cohort            | 1, 10, 11, 12, 13 (see section 9.2) |
+| Universe         | See below                           |
+| HHType            | See below                           |
+| Population        | See below                           |
+| SystemPath       | -1                                  |
+| ProjectID         | See below                           |
+| ReportRow       | See below                           |
 | ReportID              | Must match LSAReport.**ReportID**   |
 
 ## Logic
@@ -174,7 +180,9 @@ household type and population:
 | PITJanuary          |
 | PITApril            |
 | PITJuly             |
+
 | **tlsa_HHID**       |
+|---------------------|
 | ActiveHHType        |
 | ProjectID           |
 | LSAProjectType      |
@@ -336,12 +344,16 @@ subpopulation. For example, the subpopulation of Veterans Fleeing Domestic Viole
 | AIR                 |
 | MoveInDate          |
 | ExitDate            |
+
 | **tlsa_HHID**       |
+|---------------------|
 | ActiveHHType        |
 | ProjectID           |
 | LSAProjectType      |
 | HHAdultAge          |
+
 | **tlsa_Person**     |
+|---------------------|
 | VetStatus           |
 | DisabilityStatus    |
 | CHTime              |
@@ -415,20 +427,28 @@ The only difference in logic between rows 56 and 57 are the populations. Both co
 |----------------------------------|
 | LSAScope                         |
 | ReportStart                      |
+
 | **lsa_Project**                  |
+|----------------------------------|
 | ProjectID                        |
 | ProjectType                      |
+
 | **lsa_HMISParticipation**        |
+|----------------------------------|
 | HMISParticipationType            |
 | HMISParticipationStatusStartDate |
 | HMISParticipationStatusEndDate   |
+
 | **hmis_Enrollment**              |
+|----------------------------------|
 | HouseholdID                      |
 | PersonalID                       |
 | EntryDate                        |
 | RelationshipToHoH                |
 | MoveInDate                       |
+
 | **hmis_Exit**                    |
+|----------------------------------|
 | ExitDate                         |
 
 ## Target
