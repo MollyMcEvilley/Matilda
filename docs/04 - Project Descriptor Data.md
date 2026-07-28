@@ -1,18 +1,18 @@
 ---
 layout: default
-title: 4 - Project Descriptor Data for Export
+title: 4 - HMIS Business Logic: Project Descriptor Data for Export
 nav_order: 5
 parent: LSA Repository
+has_toc: true
 ---
-# 4 HMIS Business Logic - Project Descriptor Data for Export
 
-## 4.1 Get Project.csv Records / lsa_Project
+# 4.1 Get Project.csv Records / lsa_Project
 
 Records exported to Project.csv are included in the LSA output and uploaded to HDX 2.0.
 
 LSA business logic in subsequent steps is dependent on the identification of projects that meet the criteria for inclusion. References to lsa_Project.**ProjectID** are to these projects; references to hmis_Project records are to all projects in HMIS.
 
-### Source
+## Source
 
 | **lsa_Report**            |
 |---------------------------|
@@ -24,7 +24,7 @@ LSA business logic in subsequent steps is dependent on the identification of pro
 | **hmis_ProjectCoC**       |
 | CoCCode                   |
 
-### Target
+## Target
 
 HDX 2.0 validation of Project.csv is generally consistent with the HMIS CSV specifications; differences are noted in the column descriptions below.
 
@@ -50,9 +50,9 @@ HDX 2.0 validation of Project.csv is generally consistent with the HMIS CSV spec
 | DateDeleted | NULL |
 | ExportID | Must match **ReportID** in LSAReport.csv |
 
-### Logic
+## Logic
 
-#### Record Selection: Systemwide LSA
+### Record Selection: Systemwide LSA
 
 When the **LSAScope** is Systemwide (1) or HIC (3), export records for projects where:
 - *ContinuumProject* = Yes (1); and
@@ -64,7 +64,8 @@ When the **LSAScope** is Systemwide (1) or HIC (3), export records for projects 
 All project records that meet the criteria above should be included.
 
 The export of PDDE data includes records for permanent housing project types ‘PH – Housing Only’ (9) and ‘PH – Housing with Services (no disability required for entry)’ (10). With the exception of counts of active clients in Section 9.6 when **LSAScope** = 3 (HIC), this is the only context in which data associated with project types 9 and 10 are relevant to the LSA.
-#### Record Selection: Project-Focused LSA
+
+### Record Selection: Project-Focused LSA
 
 If the LSA is being generated for a subset of projects, export records for projects where:
 
@@ -74,19 +75,20 @@ If the LSA is being generated for a subset of projects, export records for proje
 	- *OperatingEndDate* \> <u>LookbackDate</u> and \> *OperatingStartDate*
 
 Section 3.1 requires that the projects available to a user for selection when entering report parameters must be limited to  *ProjectType*s ES (0 or 1), SH (8), TH (2), RRH (13), and PSH (3), so records for other project types are never included when  **LSAScope** = 2.
-#### PITCount
+
+### PITCount
 
 There is no requirement for an HMIS to collect point-in-time counts for non-participating projects, nor is there an HMIS data element defined for this purpose. As such, users generally enter these counts directly into the HDX for the HIC and, as noted above, the value of this column may always be NULL.
 
 However, in systems that do allow manual entry of point-in-time counts, if the **PITCount** column includes a value, the HDX will incorporate it into the HIC if **HMISParticipationType** \<\> 1 on the date of the HIC.
 
-## 4.2 Get Organization.csv Records / lsa_Organization
+# 4.2 Get Organization.csv Records / lsa_Organization
 
 Records exported to Organization.csv are included in the LSA output and uploaded to HDX 2.0.
 
 LSA business logic does not utilize Organization data beyond the export of records.
 
-### Source
+## Source
 
 | **lsa_Project**           |
 |---------------------------|
@@ -94,7 +96,7 @@ LSA business logic does not utilize Organization data beyond the export of recor
 | **hmis_Organization**     |
 | (all columns – see below) |
 
-### Target
+## Target
 
 HDX 2.0 validation of Organization.csv is generally consistent with the HMIS CSV specifications; differences are noted in the column descriptions below.
 
@@ -109,7 +111,8 @@ HDX 2.0 validation of Organization.csv is generally consistent with the HMIS CSV
 | UserID | n/a - will not be imported |
 | DateDeleted | NULL |
 | ExportID | Must match LSAReport.**ReportID** |
-### Logic
+
+## Logic
 
 Export all Organization records where:
 
@@ -120,12 +123,14 @@ Validation for Organization.csv will require exactly one record for every **Orga
 Populate **ExportID** with LSAReport.**ReportID***;* the data type for **ExportID** is a string, so **ReportID** must be converted appropriately.
 
 **OrganizationCommonName** and **UserID** may be exported as NULL; regardless of their values, they will not be imported into the HDX 2.0.
-## 4.3 Get Funder.csv Records / lsa_Funder
+
+# 4.3 Get Funder.csv Records / lsa_Funder
 
 Records exported to Funder.csv are included in the LSA output and uploaded to HDX 2.0.
 
 LSA business logic does not utilize Funder data beyond the export of records.
-### Source
+
+## Source
 
 | **lsa_Project**           |
 |---------------------------|
@@ -135,7 +140,7 @@ LSA business logic does not utilize Funder data beyond the export of records.
 | **hmis_Funder**           |
 | (all columns – see below) |
 
-### Target
+## Target
 
 HDX 2.0 validation of Funder.csv is generally consistent with the HMIS
 CSV specifications; differences are noted in the column descriptions
@@ -155,7 +160,8 @@ below.
 | UserID      | n/a - will not be imported        |
 | DateDeleted | NULL                              |
 | ExportID    | Must match LSAReport.**ReportID** |
-### Logic
+
+## Logic
 
 Export all Funder records where:
 
@@ -173,18 +179,13 @@ Populate **ExportID** with LSAReport.**ReportID***;* the data type for **ExportI
 **GrantID** and **UserID** may be exported as NULL; regardless of their values, they will not be imported into the HDX 2.0.
 ## 4.4 Get ProjectCoC.csv Records / lsa_ProjectCoC
 
-``` mermaid
-```
-
-
-
 Records exported to ProjectCoC.csv are included in the LSA output and uploaded to HDX 2.0.
 
 LSA business logic uses ProjectCoC data to:
 - Select project records for export to Project.csv; and 
 - Report on geography type for active households in LSAHousehold.
 
-### Source
+## Source
 
 | **lsa_Project**           |
 |---------------------------|
@@ -194,7 +195,7 @@ LSA business logic uses ProjectCoC data to:
 | **hmis_ProjectCoC**       |
 | (all columns – see below) |
 
-### Target
+## Target
 
 HDX 2.0 validation of ProjectCoC.csv is generally consistent with the HMIS CSV specifications; differences are noted in the column descriptions below.
 
@@ -215,7 +216,8 @@ HDX 2.0 validation of ProjectCoC.csv is generally consistent with the HMIS CSV s
 | UserID | n/a - will not be imported |
 | DateDeleted | NULL |
 | ExportID | Must match LSAReport.**ReportID** |
-### Logic
+
+## Logic
 
 There must be exactly one ProjectCoC record for every *ProjectID* included in Project.csv. Export only records where *CoCCode* = <u>ReportCoC</u>.
 
@@ -224,12 +226,14 @@ The HMIS CSV allows NULL values for *Geocode*, *ZIP* and *GeographyType.* Howeve
 Populate **ExportID** with LSAReport.**ReportID***;* the data type for **ExportID** is a string, so **ReportID** must be converted appropriately.
 
 **UserID** may be exported as NULL; regardless of value, it will not be imported into the HDX 2.0.
-## 4.5 Get Inventory.csv Records / lsa_Inventory
+
+# 4.5 Get Inventory.csv Records / lsa_Inventory
 
 Records exported to Inventory.csv are included in the LSA output and uploaded to HDX 2.0.
 
 LSA business logic does not utilize Inventory data beyond the export of records.
-### Source
+
+## Source
 
 | **lsa_Report**            |
 |---------------------------|
@@ -242,7 +246,7 @@ LSA business logic does not utilize Inventory data beyond the export of records.
 | **hmis_Inventory**        |
 | (all columns – see below) |
 
-### Target
+## Target
 
 HDX 2.0 validation of Inventory.csv is generally consistent with the HMIS CSV specifications; differences are noted in the column descriptions below.
 
@@ -271,7 +275,7 @@ HDX 2.0 validation of Inventory.csv is generally consistent with the HMIS CSV sp
 | DateDeleted          | NULL                                                                                                                                |
 | ExportID             | Must match LSAReport.**ReportID**                                                                                                   |
 
-### Logic
+## Logic
 
 The HMIS CSV allows NULL values for *CHVetBedInventory*, *YouthVetBedInventory*, *VetBedInventory*, *CHYouthBedInventory*, *YouthBedInventory*, *CHBedInventory*, and *OtherBedInventory*. They are
 mandatory for the LSA and upload validation will fail if those columns do not have valid non-NULL values. If the project does not have beds in a given category, the value should be 0.
@@ -295,10 +299,11 @@ Populate *ExportID* with LSAReport.**ReportID***;* the data type for *ExportID* 
 
 *UserID* may be exported as NULL; regardless of its value, it will not be imported into the HDX 2.0.
 
-## 4.6 Get HMISParticipation.csv Records / lsa_HMISParticipation
+# 4.6 Get HMISParticipation.csv Records / lsa_HMISParticipation
 
 Records exported to HMISParticipation.csv are included in the LSA output and uploaded to HDX 2.0.
-### Source
+
+## Source
 
 | **lsa_Report**             |
 | -------------------------- |
@@ -311,7 +316,7 @@ Records exported to HMISParticipation.csv are included in the LSA output and upl
 | **hmis_HMISParticipation** |
 | (all columns – see below)  |
 
-### Target
+## Target
 
 HDX 2.0 validation of HMISParticipation.csv is generally consistent with the HMIS CSV specifications; differences are noted in the column descriptions below.
 
@@ -328,7 +333,7 @@ HDX 2.0 validation of HMISParticipation.csv is generally consistent with the HMI
 | DateDeleted                      | NULL                              |
 | ExportID                         | Must match LSAReport.**ReportID** |
 
-### Logic
+## Logic
 
 Export all HMISParticipation records where:
 - *ProjectID* = lsa_Project.**ProjectID**;
@@ -340,12 +345,12 @@ Populate **ExportID** with LSAReport.**ReportID***;* the data type for **ExportI
 
 **UserID** may be NULL; regardless of its value, it will not be imported into the HDX 2.0.
 
-## 4.7 Get Affiliation.csv Records / lsa_Affiliation
+# 4.7 Get Affiliation.csv Records / lsa_Affiliation
 
 Records exported to Inventory.csv are included in the LSA output and uploaded to HDX 2.0.
 
 LSA business logic does not utilize Affiliation data beyond the export of records.
-### Source
+## Source
 
 | **lsa_Report**            |
 |---------------------------|
@@ -361,7 +366,7 @@ LSA business logic does not utilize Affiliation data beyond the export of record
 | **hmis_Affiliation**      |
 | (all columns – see below) |
 
-### Target
+## Target
 
 HDX 2.0 validation of Affiliation.csv is generally consistent with the HMIS CSV specifications; differences are noted in the column descriptions below.
 
@@ -375,7 +380,8 @@ HDX 2.0 validation of Affiliation.csv is generally consistent with the HMIS CSV 
 | UserID | n/a - will not be imported |
 | DateDeleted | NULL |
 | ExportID | Must match LSAReport.**ReportID** |
-### Logic
+
+## Logic
 
 Export all Affiliation records where:
 - *ProjectID* = lsa_Project.**ProjectID**;
@@ -388,7 +394,4 @@ Validation for Affiliation.csv requires at least one record for every RRH-SO pro
 Populate **ExportID** with LSAReport.**ReportID***;* the data type for **ExportID** is a string, so values must be padded with quotes.
 
 **UserID** may be exported as NULL; regardless of its value, it will not be imported into the HDX 2.0.
-
-<span class="mark">  
-</span>
 
