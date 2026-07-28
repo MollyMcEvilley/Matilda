@@ -13,17 +13,17 @@ The Longitudinal System Analysis (LSA) is:
 This repository includes current and previous versions of the LSA programming specifications along with sample HMIS data, sample code, and sample output.
 
 ## Current Working Version of Programming Specifications
-- [Section 1: LSA Introduction / Overview](root/01%20Introduction.md)
-- Section 2: HDX Upload Summary 
-- Section 3: Core Concepts and Data Universe
-- Section 4: Project Descriptor Data
-- Section 5: LSAPerson
-- Section 6: LSAHousehold
-- Section 7: LSAExit
-- Section 8: LSACalculated Averages
-- Section 9: LSACalculated Counts
-- Section 10: LSACalculated Project Level Data Quality Counts
-- Section 11: LSAReport
+- [Section 1: LSA Introduction / Overview](root/01%20-%20Introduction.md)
+- [Section 2: HDX Upload Summary](root/02-HDXUpload.md)
+- [Section 3: Core Concepts and Data Universe](root/03-CoreConceptsandDataUniverse.md)
+- [Section 4: Project Descriptor Data](root/04-ProjectDescriptorData.md)
+- [Section 5: LSAPerson](root/05-LSAPerson.md)
+- [Section 6: LSAHousehold](root/06%20-%20LSAHousehold.md)
+- [Section 7: LSAExit](root/07-LSAExit.md)
+- [Section 8: LSACalculated Averages](root/08-LSACalculatedAverages.md)
+- [Section 9: LSACalculated Counts](root/09-LSACalculatedCounts.md)
+- [Section 10: LSACalculated Project Level Data Quality Counts](root/10-LSACalculatedDataQualityCounts.md)
+- [Section 11: LSAReport](root/.md)
 
 ## Code
 
