@@ -78,6 +78,7 @@ User-entered parameters and hard-coded data provided by the vendor.
 | SoftwareName   |
 | VendorContact  |
 | VendorEmail    |
+
 ### Logic
 
 #### ReportID
@@ -175,6 +176,7 @@ This section defines the logic associated with deriving the cohort periods based
 | ------------------ |
 | <u>ReportStart</u> |
 | <u>ReportEnd</u>   |
+
 ### Target Columns
 
 Cohorts and cohort periods are referenced in subsequent steps using an intermediate data construct/temporary table called tlsa\_CohortDates.
@@ -198,6 +200,7 @@ Point-in-time cohorts are only included if the relevant date falls between <u>Re
 | 11     | Point in time 1/31  | January 31 of <u>ReportEnd</u> year   | \= **CohortStart**                                                                                                               |
 | 12     | Point in time 4/30  | April 30 of <u>ReportEnd</u> year     | \= **CohortStart**                                                                                                               |
 | 13     | Point in time 7/31  | July 31 of <u>ReportEnd</u> year      | \= **CohortStart**                                                                                                               |
+
 ## 3.3 HMIS Household Enrollments (tlsa\_HHID)
 
 ``` mermaid
@@ -288,6 +291,7 @@ The logic associated with values for columns with names in **bold** below is des
 | HHAdultAge         | Identifies age-related populations (e.g., Senior 55+, Parenting Youth 18-24, Non-Veteran 25+) See section 5.12 Set Population Identifiers for Active HMIS Households                                                                                                                                                                                                                                                                |
 | HHParent           | Identifies households where at least one household member has a _RelationshipToHoH_ of ‘Child’ (2) See section 5.12 Set Population Identifiers for Active HMIS Households                                                                                                                                                                                                                                                           |
 | AC3Plus            | Identifies AC households with 3 or more household members under 18 See section 5.12 Set Population Identifiers for Active HMIS Households                                                                                                                                                                                                                                                                                           |
+
 ### Logic
 
 #### HMIS Data Requirements and Assumptions
@@ -398,6 +402,7 @@ Under some circumstances, the LSA will use an adjusted **EntryDate**:
 | 1        | _ProjectType_ = 1                                                     | **FirstBedNight**                               |
 | 2        | _EntryDate_ >= **HMISStart**; and _EntryDate_ >= _OperatingStartDate_ | _EntryDate_                                     |
 | 3        | (any other)                                                           | The later of _OperatingStartDate/_**HMISStart** |
+
 #### MoveInDate
 
 The *MoveInDate* is set for the head of household from the HMIS enrollment record only if it occurs on or before the end of the report period and is logically consistent with the project type, the head of household’s entry/exit dates, and the project’s operating/HMIS participation dates. Under some circumstances, the LSA will use an adjusted **MoveInDate**:
@@ -412,6 +417,7 @@ The *MoveInDate* is set for the head of household from the HMIS enrollment recor
 | 1        | _MoveInDate_ >= _OperatingEndDate_ or **HMISEnd**                                                  | NULL                                            |
 | 2        | _MoveInDate_ is NULL or _(MoveInDate_ \>= **HMISStart** _and MoveInDate_ \>= _OperatingStartDate)_ | _MoveInDate_                                    |
 | 3        | (any other)                                                                                        | The later of _OperatingStartDate_/**HMISStart** |
+
 #### ExitDate
 
 If the recorded *ExitDate* (or lack thereof) associated with an enrollment is inconsistent with other data, reporting must be based on an adjusted **ExitDate** consistent with the logic below. If applicable, *Destination* for these enrollments is reported as ‘Data missing or invalid’ (99).
@@ -428,6 +434,7 @@ If the recorded *ExitDate* (or lack thereof) associated with an enrollment is in
 | 4        | **ProjectType** = 13 and _ExitDate_ = _MoveInDate_                                                                                           | \[_MoveInDate_ + 1 day\]                      |
 | 5        | _OperatingEndDate_ and/or **HMISEnd** _<=_ ReportEnd; and _ExitDate_ is null or _ExitDate >_ (the earlier of **HMISEnd**/_OperatingEndDate_) | The earlier of _OperatingEndDate_/**HMISEnd** |
 | 6        | (other)                                                                                                                                      | _ExitDate_                                    |
+
 #### ExitDest
 
 The LSA includes reporting on exit destinations for the active and exit cohorts. Destination for inactive enrollments may also be relevant to system engagement status for the active and exit cohorts. If the recorded *ExitDate* (or lack thereof) associated with an enrollment is inconsistent with other data, (see **ExitDate** above), destination is always reported as unknown where relevant. The only exception to this is for RRH exits when the recorded exit date is the same as the **MoveInDate** – the recorded destination is valid under those circumstances.
@@ -482,6 +489,7 @@ The LSA includes reporting on exit destinations for the active and exit cohorts.
 | 438   | Rental by client - Foster Youth to Independence Initiative (FYI)                                                              |
 | 439   | Rental by client - Permanent Supportive Housing                                                                               |
 | 440   | Rental by client - Other permanent housing dedicated for formerly homeless persons                                            |
+
 ## 3.4 HMIS Client Enrollments (tlsa\_Enrollment)
 
 
@@ -561,6 +569,7 @@ The logic associated with values for columns with names in **bold** below is des
 | PITApril              | Identifies the subset of AIR enrollments with a bed night on July 31 (if within the report period)                                                                                                                                                               |
 | PITJuly               | Identifies the subset of AIR enrollments with a bed night on October 31 (if within the report period)                                                                                                                                                            |
 | CH                    | Identifies enrollment relevant to reporting on chronic homelessness                                                                                                                                                                                              |
+
 ### Logic
 #### Record Selection
 
@@ -657,6 +666,7 @@ It is the minimum DVStatus value in the table below based on *DomesticViolenceSu
 | 0                        | (n/a)            | 10       |
 | In (8,9)                 | (n/a)            | 98       |
 | (any other)              | (n/a)            | NULL     |
+
 ## 3.5 Enrollment Ages (tlsa\_Enrollment)
 
 lsa\_Report
@@ -688,6 +698,7 @@ It uses data in tlsa\_CohortDates and hmis\_Client to set age group values for t
 | **hmis\_Client**      |
 | DOB                   |
 | DOBDataQuality        |
+
 ### Target Columns
 
 | **tlsa\_Enrollment** |
@@ -808,6 +819,7 @@ It uses the tlsa\_Enrollment **EntryAge**, **ActiveAge**, **Exit1Age**, and **Ex
 | Cohort                |
 | CohortStart           |
 | CohortEnd             |
+
 ### Target Columns
 
 | **tlsa\_HHID**   |
@@ -838,6 +850,7 @@ The criteria below are mutually exclusive; it is not necessary to apply them in 
 | 0         | \>= 1       | 0              | CO (Child-only)  | 3         |
 | (any)     | 0           | \>= 1          | UN (Unknown)     | 99        |
 | 0         | (any)       | \>= 1          | UN (Unknown)     | 99        |
+
 #### EntryHHType
 
 Calculate for tlsa\_HHID based on **EntryAge** for all records in tlsa\_Enrollment with the same **HouseholdID**.

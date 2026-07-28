@@ -1,3 +1,9 @@
+---
+layout: default
+title: LSA Calculated Counts
+nav_order: 10
+parent: LSA Repository
+---
 # 9 - HMIS Business Logic - LSACalculated Counts
 
 ## 9.1 Report Rows for LSACalculated Counts

@@ -1,3 +1,9 @@
+---
+layout: default
+title: LSAReport Data Quality and ReportDate
+nav_order: 12
+parent: LSA Repository
+---
 # 11 - HMIS Business Logic - LSAReport Data Quality and ReportDate
 
 ## 11.1 Data Quality: HMIS Household Enrollments Not Associated with a CoC 

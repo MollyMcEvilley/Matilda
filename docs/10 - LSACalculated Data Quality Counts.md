@@ -1,3 +1,9 @@
+---
+layout: default
+title: LSA Calculated Project Level Data Quality Counts
+nav_order: 11
+parent: LSA Repository
+---
 # 10 - HMIS Business Logic - LSACalculated Project-Level Data Quality Counts
 
 Report Rows 901-920 are project-level counts of data quality issues; this is to provide information to CoCs and the AHAR analysis team about specific sources of data quality issues.
