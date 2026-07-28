@@ -1,6 +1,6 @@
 ---
 layout: default
-title: LSAReport Data Quality and ReportDate
+title: 11 - LSAReport Data Quality and ReportDate
 nav_order: 12
 parent: LSA Repository
 ---
@@ -20,11 +20,13 @@ parent: LSA Repository
 | RelationshipToHoH   |
 | EntryDate           |
 | EnrollmentCoC       |
+
 ### Target
 
 | lsa_Report |
 | ---------- |
 | NoCoC      |
+
 ### Logic
 
 #### NoCoC
@@ -52,9 +54,7 @@ A count of distinct *HouseholdIDs* in hmis_Enrollment where:
 
 ## 11.2 Data Quality: Households Excluded from the LSA Due to HoH Errors
 
-### Relevant Data
-
-#### Source
+### Source
 
 | **lsa_Organization**     |
 |--------------------------|
@@ -71,11 +71,12 @@ A count of distinct *HouseholdIDs* in hmis_Enrollment where:
 | EntryDate                |
 | EnrollmentCoC            |
 
-#### Target
+### Target
 
 | lsa_Report |
 | ---------- |
 | NotOneHoH  |
+
 ### Logic
 
 #### NotOneHoH
@@ -114,11 +115,13 @@ AND:
 | HouseholdID         |
 | RelationshipToHoH   |
 | EntryDate           |
+
 #### Target
 
 | lsa_Report        |
 | ----------------- |
 | RelationshipToHoH |
+
 ### Logic
 
 #### RelationshipToHoH
@@ -159,6 +162,7 @@ A count of distinct *EnrollmentID*s in hmis_Enrollment where:
 | lsa_Report |
 | ---------- |
 | MoveInDate |
+
 ### Logic
 
 #### MoveInDate
@@ -187,6 +191,7 @@ A count of tlsa_HHID.**EnrollmentID**s where
 | ActiveAge           |
 | RelationshipToHoH   |
 | ExitDate            |
+
 ### Target
 
 | lsa_Report         |
@@ -196,6 +201,7 @@ A count of tlsa_HHID.**EnrollmentID**s where
 | ClientEntry        |
 | AdultHoHEntry      |
 | ClientExit         |
+
 ### Logic
 
 #### UnduplicatedClient
@@ -228,6 +234,7 @@ A count of distinct **PersonalID**s in tlsa_Enrollment where **AIR** = 1 or (**A
 | PersonalID      |
 | SSN             |
 | SSNDataQuality  |
+
 ### Target
 
 | tlsa_Person               |
@@ -238,6 +245,7 @@ A count of distinct **PersonalID**s in tlsa_Enrollment where **AIR** = 1 or (**A
 | SSNMissingOrInvalid       |
 | ClientSSNNotUnique        |
 | DistinctSSNValueNotUnique |
+
 ### Logic
 
 #### SSNValid
@@ -250,6 +258,7 @@ table below where the criteria are consistent with client records:
 | 1        | 9     | hmis\_Client**.**_SSNDataQuality_ in (8,9)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | 2        | 0     | hmis\_Client.*SSNDataQuality* NOT in (8,9); and<br>-   Length(hmis\_Client.*SSN*) <> 9; or<br>-   *SSN* is NULL or set to system default; or<br>-   *SSN* begins with ‘000’, ‘666’, or ‘9’; or<br>-   *SSN* middle 2 digits are ‘00’ (e.g. 999-00-9999); or<br>-   *SSN* last 4 digits are ‘0000’; or<br>-   *SSN* contains any character other than 0-9; or<br>-   *SSN* in ('111111111', '222222222', '333333333', '444444444', '555555555', '777777777', '888888888', ‘123456789’, ‘234567890’, ‘345678901’, ‘456789012’, ‘567890123’, ‘678901234’, ‘789012345’, ‘890123456’, ‘901234567’) |
 | 3        | 1     | (All others)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+
 These checks will not catch all invalid SSNs, but others will be assumed valid.
 #### SSNNotProvided
 
@@ -301,6 +310,7 @@ A count of distinct hmis_Client.*SSN* values for people with:
 | MonthsHomelessPastThreeYears |
 | **hmis_Exit**                |
 | Destination                  |
+
 ### Target
 
 | lsa_Report      |
@@ -312,6 +322,7 @@ A count of distinct hmis_Client.*SSN* values for people with:
 | TimesHomeless   |
 | MonthsHomeless  |
 | Destination     |
+
 ### Logic
 
 #### DisablingCond
@@ -386,7 +397,7 @@ A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** = 1 or (*
 
 ## 11.8 Set LSAReport ReportDate
 
-#### Target
+### Target
 
 | lsa_Report |
 | ---------- |

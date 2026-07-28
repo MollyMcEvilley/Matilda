@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Core Concepts and Data Universe
+title: 3 - Core Concepts and Data Universe
 nav_order: 4
 parent: LSA Repository
 ---
@@ -62,10 +62,10 @@ flowchart LR
 
 User-entered report parameters and hard-coded vendor data are included in LSAReport for upload to HDX 2.0. When they are applied in subsequent steps, their source is represented in graphics using lsa\_Report. References to individual report parameters are always underlined – e.g., <u>ReportStart</u> – in descriptions of business logic.
 
-### Source Data
+### Source
 
 User-entered parameters and hard-coded data provided by the vendor.
-### Target Columns
+### Source
 
 | lsa_Report     |
 | -------------- |
@@ -170,14 +170,14 @@ Finally, there are four **point-in-time cohorts**, which include people and hous
 
 This section defines the logic associated with deriving the cohort periods based on <u>ReportStart</u> and <u>ReportEnd</u>.
 
-### Source Data
+### Source
 
 | lsa\_Report        |
 | ------------------ |
 | <u>ReportStart</u> |
 | <u>ReportEnd</u>   |
 
-### Target Columns
+### Source
 
 Cohorts and cohort periods are referenced in subsequent steps using an intermediate data construct/temporary table called tlsa\_CohortDates.
 
@@ -222,7 +222,8 @@ Not all the *HouseholdID*s identified in this step will ultimately be used by LS
 2.  Any reference to **EntryDate**, **MoveInDate** or **ExitDate** (in bold) as a property of tlsa\_HHID or tlsa\_Enrollment is a reference to the effective/adjusted entry, exit and move-in dates consistent with the logic in this step.
 3.  References to *EntryDate*, *MoveInDate* and *ExitDate* (italicized) are to raw HMIS data as entered.
 
-### Source Data
+### Source
+
 | **lsa\_Report**                                        |
 | ------------------------------------------------------ |
 | ReportCoC                                              |
@@ -257,7 +258,7 @@ Not all the *HouseholdID*s identified in this step will ultimately be used by LS
 | EnrollmentID                                           |
 | ExitDate                                               |
 
-### Target Columns
+### Target
 
 The logic associated with values for columns with names in **bold** below is described in this step. The business logic associated with other columns is described in subsequent steps.
 
@@ -506,7 +507,8 @@ flowchart LR
 	
 	A & B --> C & D & E & F --> G
 ```
-### Source Data
+### Source
+
 | **lsa\_Report**                                          |
 | -------------------------------------------------------- |
 | ReportStart                                              |
@@ -541,7 +543,7 @@ flowchart LR
 | EnrollmentID                                             |
 | ExitDate                                                 |
 
-#### Target
+### Target
 
 The logic associated with values for columns with names in **bold** below is described in this step. The business logic associated with other columns is described in subsequent steps.
 
@@ -682,7 +684,7 @@ Age is used to determine household type, for demographic reporting, and to ident
 
 It uses data in tlsa\_CohortDates and hmis\_Client to set age group values for tlsa\_Enrollment.
 
-### Source Data
+### Source
 
 | **lsa\_Report**       |
 | --------------------- |
@@ -700,7 +702,7 @@ It uses data in tlsa\_CohortDates and hmis\_Client to set age group values for t
 | DOB                   |
 | DOBDataQuality        |
 
-### Target Columns
+### Target
 
 | **tlsa\_Enrollment** |
 | -------------------- |
@@ -805,7 +807,7 @@ This section defines the logic associated with determining household type for ea
 
 It uses the tlsa\_Enrollment **EntryAge**, **ActiveAge**, **Exit1Age**, and **Exit2Age** values set in the previous step to set tlsa\_HHID **EntryHHType, ActiveHHType, Exit1HHType** and **Exit2HHType**.
 
-### Source Data
+### Source
 
 | **tlsa\_Enrollment**  |
 | --------------------- |
@@ -821,7 +823,7 @@ It uses the tlsa\_Enrollment **EntryAge**, **ActiveAge**, **Exit1Age**, and **Ex
 | CohortStart           |
 | CohortEnd             |
 
-### Target Columns
+### Target
 
 | **tlsa\_HHID**   |
 | ---------------- |

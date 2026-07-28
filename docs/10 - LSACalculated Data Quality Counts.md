@@ -1,6 +1,6 @@
 ---
 layout: default
-title: LSA Calculated Project Level Data Quality Counts
+title: 10 - LSA Calculated Project Level Data Quality Counts
 nav_order: 11
 parent: LSA Repository
 ---
@@ -102,7 +102,7 @@ In this context, **LastBedNight** is the most recent bed night for the enrollmen
 -   *ExitDate* is null or *ExitDate* \> *EntryDate*; and
 -   The count of *PersonalID*s in hmis\_Enrollment with the same *HouseholdID* and a *RelationshipToHoH* \= 1 <> 1
 
-## DQ – Enrollments Active in LSA Projects without a Valid Relationship to HoH
+## 10.7 DQ – Enrollments Active in LSA Projects without a Valid Relationship to HoH
 
 **ReportRow** 908 counts enrollments that are active in a continuum ES/SH/TH/RRH/PSH/RRHSO project during the report period and do not have a valid *RelationshipToHoH.*.
 
@@ -114,26 +114,26 @@ In this context, **LastBedNight** is the most recent bed night for the enrollmen
 -   *ExitDate* is null or *ExitDate* \> *EntryDate*; and
 -   *RelationshipToHoH* is NULL or not in (1,2,3,4,5)
 
-## DQ – Household Entry
+## 10.8 DQ – Household Entry
 
 The **Value** for **ReportRow** 909 is a count of distinct **HouseholdID**s in tlsa\_HHID where **AIR** \= 1 or (**<u>LSAScope</u>** <> 3 and **Active** \= 1).
 
-## DQ – Client Entry
+## 10.9 DQ – Client Entry
 
 The **Value** for **ReportRow** 910 is a count of distinct **EnrollmentID**s in tlsa\_Enrollment where **AIR** \= 1 or (**<u>LSAScope</u>** <> 3 and **Active** \= 1).
 
-## DQ – Adult/HoH Entry
+## 10.10 DQ – Adult/HoH Entry
 
 The **Value** for **ReportRow** 911 is a count of distinct **EnrollmentID**s in tlsa\_Enrollment where **AIR** \= 1 or (**<u>LSAScope</u>** <> 3 and **Active** \= 1) and:
 
 -   **ActiveAge** between 18 and 65; or
 -   **RelationshipToHoH** = 1.
 
-## DQ – Client Exit
+## 10.11 DQ – Client Exit
 
 The **Value** for **ReportRow** 912 is a count of distinct **PersonalID**s in tlsa\_Enrollment where **AIR** \= 1 or (**<u>LSAScope</u>** <> 3 and **Active** \= 1) and **ExitDate** is not NULL.
 
-## DQ – Disabling Condition
+## 10.12 DQ – Disabling Condition
 
 This is a subset of **ClientEntry** (the **Value** for **ReportRow** 910).
 
@@ -141,7 +141,7 @@ The **Value** for **ReportRow** 913 is a count of distinct **EnrollmentIDs** in 
 
 -   DisabilityStatus = 99.
 
-## DQ – Living Situation
+## 10.13 DQ – Living Situation
 
 This is a subset of **AdultHoHEntry**(the **Value** for **ReportRow** 911).
 
@@ -150,7 +150,7 @@ The **Value** for **ReportRow** 914 is a count of distinct **EnrollmentIDs** in 
 -   **LivingSituation** in (8,9,99) or is NULL; and
 -   **ActiveAge** between 18 and 65 or **RelationshipToHoH** = 1
 
-## DQ – Length of Stay
+## 10.14 DQ – Length of Stay
 
 This is a subset of **AdultHoHEntry** (the **Value** for **ReportRow** 911).
 
@@ -159,7 +159,7 @@ The **Value** for **ReportRow** 915 is a count of distinct **EnrollmentIDs** in 
 -   *LengthOfStay* in (8,9,99) or is NULL; and
 -   **ActiveAge** between 18 and 65 or **RelationshipToHoH** = 1
 
-## DQ – Date ES/SH/Street Homelessness Started
+## 10.15 DQ – Date ES/SH/Street Homelessness Started
 
 This is a subset of **AdultHoHEntry**(the **Value** for **ReportRow** 911).
 
@@ -172,7 +172,7 @@ The **Value** for **ReportRow** 916 is a count of distinct **EnrollmentIDs** in 
     -   *LivingSituation* in (101,116,118); or
     -   *PreviousStreetESSH* = 1.
 
-## DQ – Times ES/SH/Street Homeless Last 3 Years
+## 10.16 DQ – Times ES/SH/Street Homeless Last 3 Years
 
 This is a subset of **AdultHoHEntry** (the **Value** for **ReportRow** 911).
 
@@ -184,7 +184,7 @@ The **Value** for **ReportRow** 917 is a count of distinct **EnrollmentIDs** in 
     -   *LivingSituation* in (101,116,118); or
     -   *PreviousStreetESSH* = 1.
 
-## DQ – Months ES/SH/Street Homeless Last 3 Years
+## 10.17 DQ – Months ES/SH/Street Homeless Last 3 Years
 
 This is a subset of **AdultHoHEntry**(the **Value** for **ReportRow** 911).
 
@@ -196,7 +196,7 @@ The **Value** for **ReportRow** 918 is a count of distinct **EnrollmentIDs** in 
     -   *LivingSituation* in (101,116,118); or
     -   *PreviousStreetESSH* = 1.
 
-## DQ – Destination
+## 10.18 DQ – Destination
 
 This is a subset of **ClientExit** (the **Value** for **ReportRow** 912).
 
@@ -206,11 +206,11 @@ The **Value** for **ReportRow** 919 is a count of distinct **EnrollmentIDs** in 
     -   *Destination* is NULL or in (8,9,17,30,99) or
     -   *Destination* = 435 and hmis\_Exit.*DestinationSubsidyType* is NULL
 
-## DQ – Date of Birth
+## 10.19 DQ – Date of Birth
 
 The **Value** for **ReportRow** 920 is a count of distinct **PersonalIDs** in tlsa\_Enrollment for **ProjectID**s in lsa\_Project where where **AIR** \= 1 or (**<u>LSAScope</u>** <> 3 and **Active** \= 1) and **ActiveAge** in (98,99).
 
-## LSACalculated
+## 10.20 LSACalculated
 
 LSACalculated has nine columns. Except for **ProjectID,** the datatype for all columns is integer and none may be NULL.
 

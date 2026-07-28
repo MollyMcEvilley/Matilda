@@ -1,6 +1,6 @@
 ---
 layout: default
-title: LSAHousehold
+title: 6 - LSAHousehold
 nav_order: 7
 parent: LSA Repository
 ---
@@ -12,7 +12,8 @@ parent: LSA Repository
 This section is required only if **<u>LSAScope</u>** <> 3 (HIC).
 
 The tlsa\_Household data construct holds one record for each distinct combination of **HoHID** and **ActiveHHType** in tlsa\_HHID where **Active** \= 1. It is a household-level version of the aggregate LSAHousehold data and is used to set values for each LSA reporting category for each household. It includes all columns from LSAHousehold.csv other than **RowTotal** and **ReportID**, as well as several columns which are used as a reference to simplify business logic but do not correlate to a column in LSAHousehold.
-### Source Data
+
+### Source
 
 | **lsa_Report** |
 |----------------|
@@ -22,7 +23,8 @@ The tlsa\_Household data construct holds one record for each distinct combinatio
 | HoHID          |
 | ActiveHHType   |
 | Active         |
-### Target Columns
+
+### Target
 
 The logic associated with values for columns with names in **bold** below is described in this step. The business logic associated with other columns is described in subsequent steps.
 
@@ -103,7 +105,7 @@ The logic associated with values for columns with names in **bold** below is des
 ## 6.2 Set Population Identifiers for LSAHousehold
 
 **HHAdult**, **HHChild**, and **HHNoDOB** are used together to report on household composition. The additional household-level population identifiers are used to report on population groups of interest.
-### Source Data
+### Source
 
 | **tlsa_HHID**       |
 |---------------------|
@@ -126,7 +128,8 @@ The logic associated with values for columns with names in **bold** below is des
 | **tlsa_Person**     |
 | PersonalID          |
 | RaceEthnicity       |
-### Target Columns
+
+### Target
 
 See section [6.1 Get Distinct Households for LSAHousehold](#get-distinct-households-for-lsahousehold) for column descriptions.
 
@@ -261,7 +264,7 @@ In general, each distinct combination of **HoHID**/**HHType** is counted in all 
 With a single upload value for **HHAdultAge** in LSAHousehold, it isn’t possible to identify both. Inclusion in youth and senior populations is prioritized over the Non-Veteran Households 25+ population.
 ## 6.3 EST/RRH/PSH/RRHSOStatus – LSAHousehold 
 
-### Source Data 
+### Source 
 
 | **tlsa_HHID**  |
 |----------------|
@@ -272,7 +275,8 @@ With a single upload value for **HHAdultAge** in LSAHousehold, it isn’t possib
 | ExitDate       |
 | Active         |
 | ActiveHHType   |
-### Target Columns
+
+### Target
 
 | **tlsa_Household** |
 |--------------------|
@@ -304,7 +308,7 @@ Note: 2 is also a valid value for **xStatus** but is not assigned until a later 
 
 ## 6.4 RRH/PSH/RRHSOMoveIn – LSAHousehold 
 
-### Source Data 
+### Source 
 
 | **tlsa_HHID**  |
 |----------------|
@@ -314,7 +318,8 @@ Note: 2 is also a valid value for **xStatus** but is not assigned until a later 
 | MoveInDate     |
 | EntryDate      |
 | LSAProjectType |
-### Target Columns
+
+### Target
 
 | **tlsa_Household** |
 |--------------------|
@@ -336,7 +341,7 @@ For all records in tlsa\_Household:
 
 ## 6.5 EST/RRH/PSHGeography – LSAHousehold 
 
-### Source Data
+### Source
 
 | **lsa_ProjectCoC** |
 |--------------------|
@@ -355,7 +360,7 @@ For all records in tlsa\_Household:
 | EntryDate          |
 | ExitDate           |
 
-### Target Columns
+### Target
 
 | **tlsa_Household** |
 |--------------------|
@@ -379,7 +384,7 @@ If a household has more than one project group enrollment on their most recent a
 | 3          | Rural                  | 3         |
 ## 6.6 EST/RRH/PSHLivingSit – LSAHousehold 
 
-### Source Data
+### Source
 
 | **tlsa_Household**  |
 |---------------------|
@@ -401,7 +406,8 @@ If a household has more than one project group enrollment on their most recent a
 | EntryDate           |
 | LivingSituation     |
 | RentalSubsidyType   |
-### Target Columns
+
+### Target
 
 | **tlsa_Household** |
 |--------------------|
@@ -459,7 +465,7 @@ For other households (**xStatus** > 2), **xLivingSit** is based on *LivingSituat
 
 ## 6.7 EST/RRH/PSHDestination – LSAHousehold 
 
-### Source Data
+### Source
 
 | **tlsa_Household** |
 |--------------------|
@@ -473,7 +479,8 @@ For other households (**xStatus** > 2), **xLivingSit** is based on *LivingSituat
 | ExitDate           |
 | ExitDest           |
 | LSAProjectType     |
-### Target Columns
+
+### Target
 
 | **tlsa_Household** |
 |--------------------|
@@ -490,7 +497,7 @@ For households that exited the project group during the report period (**xStatus
 
 ## 6.8 EST/RRH/PSH Population Identifiers 
 
-### Source Data
+### Source
 
 | **tlsa_HHID**  |
 |----------------|
@@ -504,7 +511,8 @@ For households that exited the project group during the report period (**xStatus
 | HHAdultAge     |
 | HHParent       |
 | AC3Plus        |
-### Target Columns
+
+### Target
 
 | **tlsa_Household**        |
 |---------------------------|
@@ -567,7 +575,7 @@ Set **EST/RRH/PSHAdultAge** based on the first of the criteria below met by any 
 | 5        | (any other)         | -1                  |
 ## 6.9 System Engagement Status and Return Time
 
-### Source Data
+### Source
 
 | **tlsa_Household** |
 |--------------------|
@@ -581,7 +589,8 @@ Set **EST/RRH/PSHAdultAge** based on the first of the criteria below met by any 
 | ActiveHHType       |
 | EnrollmentID       |
 | Active             |
-### Target Columns
+
+### Target
 
 | **tlsa_Household**   |
 |----------------------|
@@ -645,7 +654,7 @@ Stat is based on **StatEnrollmentID** (if any) and the associated **ExitDate** a
 
 ## 6.10 RRHPreMoveInDays – LSAHousehold
 
-### Source Data
+### Source
 
 | **tlsa_Household** |
 |--------------------|
@@ -659,7 +668,8 @@ Stat is based on **StatEnrollmentID** (if any) and the associated **ExitDate** a
 | MoveInDate         |
 | ExitDate           |
 | Active             |
-### Target Columns
+
+### Target
 
 | **tlsa\_Household**  | **Column Description**                                                                                                                                                                                                                                                                                                                                              |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -678,7 +688,7 @@ For each active HHID where **HoHID**/**ActiveHHType** = tlsa\_Household. **HoHID
 ## 6.11 Dates Housed in PSH or RRH (sys_Time)
 
 The primary key for sys\_Time is the unique combination of **HoHID**, **HHType**, and **sysDate** – i.e., no date can be counted with more than one status for any given LSA household.
-### Source Data
+### Source
 
 | **tlsa_Household** |
 |--------------------|
@@ -691,7 +701,8 @@ The primary key for sys\_Time is the unique combination of **HoHID**, **HHType**
 | MoveInDate         |
 | ExitDate           |
 | Active             |
-### Target Columns
+
+### Target
 
 | **sys\_Time** | **Column Description**                                                                                                                                                                                                                                                                |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -749,7 +760,7 @@ This step identifies, based on active enrollments and potentially relevant inact
 Specifically, this is the latest date in the most recent period of at least seven nights during which a household was not enrolled in a continuum ES, SH, TH, RRH, or PSH project AND was not housed in RRH or PSH. This is the date after which all system use days are reportable.
 
 RRH-SO enrollments are not relevant to **LastInactive**.
-### Source Data
+### Source
 
 | **tlsa_Household**                                       |
 |----------------------------------------------------------|
@@ -764,7 +775,8 @@ RRH-SO enrollments are not relevant to **LastInactive**.
 | **hmis_Services**                                        |
 | EnrollmentID                                             |
 | *BedNightDate* (*DateProvided* where *RecordType* = 200) |
-### Target Columns
+
+### Target
 
 | **sys\_TimePadded** | **Column Description**                                                                                                                                                                                                                      |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -784,7 +796,7 @@ RRH-SO enrollments are not relevant to **LastInactive**.
 -   \[Date\] is not between a tlsa\_HHID.**EntryDate** and the associated (**ExitDate** + 6 days) for any enrollment – active or inactive -- in tlsa\_HHID where **ActiveHHType** = tlsa\_Household.**HHType**
 ## 6.13 Get Dates of Other System Use (sys_Time)
 
-### Source Data
+### Source
 
 | **tlsa_Household**                                       |
 |----------------------------------------------------------|
@@ -801,7 +813,8 @@ RRH-SO enrollments are not relevant to **LastInactive**.
 | **hmis_Services**                                        |
 | EnrollmentID                                             |
 | *BedNightDate* (*DateProvided* where *RecordType* = 200) |
-### Target Columns
+
+### Target
 
 | **sys_Time**  |
 |---------------|
@@ -844,7 +857,7 @@ to the period of continuous engagement should be counted as Street/ES/SH
 dates for LOTH reporting. Unlike system use, this may include both dates
 prior to **LastInactive** and dates prior to LookbackDate**.**
 
-### Source Data
+### Source
 
 | **tlsa_Household**  |
 |---------------------|
@@ -870,7 +883,7 @@ prior to **LastInactive** and dates prior to LookbackDate**.**
 | PreviousStreetESSH  |
 | DateToStreetESSH    |
 
-### Target Columns
+### Target
 
 | **tlsa_Household** |
 |--------------------|
@@ -902,7 +915,7 @@ The value of **Other3917Days** is equal to the count of all dates:
 Counts of actual days are set in tlsa\_Household; counts of active households are grouped by ranges – e.g., ‘1-7 days’, ‘8-30 days’, etc. – in the corresponding **LSAHousehold** column.
 
 The values in tlsa\_Household are the source for averages in LSACalculated; see section [8.1 Get Average Days for Length of Time Homeless](#_Get_Average_Days_3) through section 8.8.
-### Source Data
+### Source
 
 | **sys_Time** |
 |--------------|
@@ -910,7 +923,8 @@ The values in tlsa\_Household are the source for averages in LSACalculated; see 
 | HHType       |
 | sysDate      |
 | sysStatus    |
-### Target Columns
+
+### Target
 
 | **tlsa_Household**         |
 |----------------------------|
@@ -988,7 +1002,7 @@ Set **Other3917Days** \= the sum of:
 ## 6.16 Update EST/RRH/PSH/RRHSOStatus
 
 For any **HoHID**/**HHType** in tlsa\_Household where **Stat** = 5 (continuous engagement), the household may have system use days from prior to the report period for project types other than those from the report period. This step updates the values for EST/RRH/PSHStatus to reflect that.
-### Source Data
+### Source
 
 | **tlsa_Household** |
 |--------------------|
@@ -1001,7 +1015,8 @@ For any **HoHID**/**HHType** in tlsa\_Household where **Stat** = 5 (continuous e
 | HoHID              |
 | HHType             |
 | sysStatus          |
-### Target Columns
+
+### Target
 
 | **tlsa_Household** |
 |--------------------|
@@ -1027,7 +1042,7 @@ Set **PSHStatus** = 2 (Served in contiguous period prior to report start only) w
 ## 6.17 Set EST/RRH/PSHAIR
 
 The EST/RRH/PSHAIR columns identify households active in residence during the report period. RRH-SO enrollments are not relevant to AIR status.
-### Source Data
+### Source
 
 | **tlsa_Household** |
 |--------------------|
@@ -1038,7 +1053,8 @@ The EST/RRH/PSHAIR columns identify households active in residence during the re
 | ActiveHHType       |
 | AIR                |
 | LSAProjectType     |
-### Target Columns
+
+### Target
 
 | **tlsa_Household** |
 | ------------------ |
@@ -1064,7 +1080,7 @@ For households with no bed nights in the report period in a given project group,
 The **SystemPath** column is technically redundant – it is based entirely on values in other LSAHousehold columns – but having the value in a single column simplifies the processes of populating LSACalculated and, in the HDX 2.0, generating report tables.
 
 RRH-SO enrollments are not relevant to System Path.
-### Source Data
+### Source
 
 | **tlsa_Household** |
 |--------------------|
@@ -1074,7 +1090,8 @@ RRH-SO enrollments are not relevant to System Path.
 | RRHStatus          |
 | PSHStatus          |
 | PSHMoveIn          |
-### Target Columns
+
+### Target
 
 | **tlsa_Household** |
 | ------------------ |

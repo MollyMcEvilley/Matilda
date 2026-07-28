@@ -1,6 +1,6 @@
 ---
 layout: default
-title: HDX 2.0 Upload
+title: 2 - HDX 2.0 Upload
 nav_order: 3
 parent: LSA Repository
 ---

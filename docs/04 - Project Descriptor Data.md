@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Project Descriptor Data for Export
+title: 4 - Project Descriptor Data for Export
 nav_order: 5
 parent: LSA Repository
 ---
@@ -12,7 +12,7 @@ Records exported to Project.csv are included in the LSA output and uploaded to H
 
 LSA business logic in subsequent steps is dependent on the identification of projects that meet the criteria for inclusion. References to lsa_Project.**ProjectID** are to these projects; references to hmis_Project records are to all projects in HMIS.
 
-### Source Data
+### Source
 
 | **lsa_Report**            |
 |---------------------------|
@@ -23,7 +23,8 @@ LSA business logic in subsequent steps is dependent on the identification of pro
 | (all columns – see below) |
 | **hmis_ProjectCoC**       |
 | CoCCode                   |
-### Target Columns
+
+### Target
 
 HDX 2.0 validation of Project.csv is generally consistent with the HMIS CSV specifications; differences are noted in the column descriptions below.
 
@@ -85,14 +86,15 @@ Records exported to Organization.csv are included in the LSA output and uploaded
 
 LSA business logic does not utilize Organization data beyond the export of records.
 
-### Source Data
+### Source
 
 | **lsa_Project**           |
 |---------------------------|
 | OrganizationID            |
 | **hmis_Organization**     |
 | (all columns – see below) |
-### Target Columns
+
+### Target
 
 HDX 2.0 validation of Organization.csv is generally consistent with the HMIS CSV specifications; differences are noted in the column descriptions below.
 
@@ -123,7 +125,7 @@ Populate **ExportID** with LSAReport.**ReportID***;* the data type for **ExportI
 Records exported to Funder.csv are included in the LSA output and uploaded to HDX 2.0.
 
 LSA business logic does not utilize Funder data beyond the export of records.
-### Source Data
+### Source
 
 | **lsa_Project**           |
 |---------------------------|
@@ -132,7 +134,8 @@ LSA business logic does not utilize Funder data beyond the export of records.
 | ReportStart               |
 | **hmis_Funder**           |
 | (all columns – see below) |
-### Target Columns
+
+### Target
 
 HDX 2.0 validation of Funder.csv is generally consistent with the HMIS
 CSV specifications; differences are noted in the column descriptions
@@ -181,7 +184,7 @@ LSA business logic uses ProjectCoC data to:
 - Select project records for export to Project.csv; and 
 - Report on geography type for active households in LSAHousehold.
 
-### Source Data
+### Source
 
 | **lsa_Project**           |
 |---------------------------|
@@ -190,7 +193,8 @@ LSA business logic uses ProjectCoC data to:
 | ReportCoC                 |
 | **hmis_ProjectCoC**       |
 | (all columns – see below) |
-### Target Columns
+
+### Target
 
 HDX 2.0 validation of ProjectCoC.csv is generally consistent with the HMIS CSV specifications; differences are noted in the column descriptions below.
 
@@ -225,7 +229,7 @@ Populate **ExportID** with LSAReport.**ReportID***;* the data type for **ExportI
 Records exported to Inventory.csv are included in the LSA output and uploaded to HDX 2.0.
 
 LSA business logic does not utilize Inventory data beyond the export of records.
-### Source Data
+### Source
 
 | **lsa_Report**            |
 |---------------------------|
@@ -237,7 +241,8 @@ LSA business logic does not utilize Inventory data beyond the export of records.
 | ProjectType               |
 | **hmis_Inventory**        |
 | (all columns – see below) |
-### Target Columns
+
+### Target
 
 HDX 2.0 validation of Inventory.csv is generally consistent with the HMIS CSV specifications; differences are noted in the column descriptions below.
 
@@ -293,7 +298,7 @@ Populate *ExportID* with LSAReport.**ReportID***;* the data type for *ExportID* 
 ## 4.6 Get HMISParticipation.csv Records / lsa_HMISParticipation
 
 Records exported to HMISParticipation.csv are included in the LSA output and uploaded to HDX 2.0.
-### Source Data
+### Source
 
 | **lsa_Report**             |
 | -------------------------- |
@@ -305,7 +310,8 @@ Records exported to HMISParticipation.csv are included in the LSA output and upl
 | OperatingEndDate           |
 | **hmis_HMISParticipation** |
 | (all columns – see below)  |
-### Target Columns
+
+### Target
 
 HDX 2.0 validation of HMISParticipation.csv is generally consistent with the HMIS CSV specifications; differences are noted in the column descriptions below.
 
@@ -339,7 +345,7 @@ Populate **ExportID** with LSAReport.**ReportID***;* the data type for **ExportI
 Records exported to Inventory.csv are included in the LSA output and uploaded to HDX 2.0.
 
 LSA business logic does not utilize Affiliation data beyond the export of records.
-### Source Data
+### Source
 
 | **lsa_Report**            |
 |---------------------------|
@@ -354,7 +360,8 @@ LSA business logic does not utilize Affiliation data beyond the export of record
 | OperatingEndDate          |
 | **hmis_Affiliation**      |
 | (all columns – see below) |
-### Target Columns
+
+### Target
 
 HDX 2.0 validation of Affiliation.csv is generally consistent with the HMIS CSV specifications; differences are noted in the column descriptions below.
 

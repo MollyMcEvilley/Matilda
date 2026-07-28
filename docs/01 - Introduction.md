@@ -1,6 +1,6 @@
 ---
 layout: default
-title: LSA Introduction
+title: 1 - LSA Introduction
 nav_order: 2
 parent: LSA Repository
 ---
