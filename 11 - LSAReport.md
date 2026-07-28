@@ -1,10 +1,8 @@
-# HMIS Business Logic: LSAReport Data Quality and ReportDate
+# 11 - HMIS Business Logic - LSAReport Data Quality and ReportDate
 
-## Data Quality: HMIS Household Enrollments Not Associated with a CoC 
+## 11.1 Data Quality: HMIS Household Enrollments Not Associated with a CoC 
 
-### Relevant Data
-
-#### Source
+### Source
 
 | **lsa_Project**     |
 |---------------------|
@@ -16,15 +14,11 @@
 | RelationshipToHoH   |
 | EntryDate           |
 | EnrollmentCoC       |
-
-#### Target
+### Target
 
 | lsa_Report |
-|------------|
-
-| **NoCoC** |
-|-----------|
-
+| ---------- |
+| NoCoC      |
 ### Logic
 
 #### NoCoC
@@ -42,23 +36,15 @@ purposes. Communities may be required to correct these issues and
 resubmit.**
 
 A count of distinct *HouseholdIDs* in hmis_Enrollment where:
-
 - *EntryDate* \<= <u>ReportEnd</u>; and
-
-- RelationshipToHoH = 1; and
-
+- *RelationshipToHoH* = 1; and
 - hmis_Exit.*ExitDate* is NULL or *ExitDate* \>= <u>ReportStart</u>; and
-
 - *ProjectID* = lsa_Project.**ProjectID**; and
-
 - lsa_Project.**ProjectType** in (0,1,2,3,8,13); and
-
 - lsa_Organization.**VictimServiceProvider** = 0; and
+- *EnrollmentCoC* is null or *EnrollmentCoC* \<\> any  hmis_ProjectCoC.*CoCCode* for the **ProjectID**
 
-- *EnrollmentCoC* is null or *EnrollmentCoC* \<\> any
-  ProjectCoC.*CoCCode* for the **ProjectID**
-
-## Data Quality: Households Excluded from the LSA Due to HoH Errors
+## 11.2 Data Quality: Households Excluded from the LSA Due to HoH Errors
 
 ### Relevant Data
 
@@ -82,49 +68,30 @@ A count of distinct *HouseholdIDs* in hmis_Enrollment where:
 #### Target
 
 | lsa_Report |
-|------------|
-
-| **NotOneHoH** |
-|---------------|
-
+| ---------- |
+| NotOneHoH  |
 ### Logic
 
 #### NotOneHoH
 
-The LSA disregards enrollment records where there is not exactly one
-head of household.
+The LSA disregards enrollment records where there is not exactly one head of household.
 
-This is a systemwide count of *HouseholdID*s active in continuum
-ES/SH/TH/RRH/PSH projects during the report period but excluded from the
-LSA due to this data error. **Any number higher than zero will have an
-impact on the usability of a CoC’s LSA data for AHAR and/or HIC
-purposes. Communities may be required to correct these issues and
-resubmit.**
+This is a systemwide count of *HouseholdID*s active in continuum ES/SH/TH/RRH/PSH projects during the report period but excluded from the LSA due to this data error. **Any number higher than zero will have an impact on the usability of a CoC’s LSA data for AHAR and/or HIC purposes. Communities may be required to correct these issues and resubmit.****
 
 A count of distinct *HouseholdID*s in hmis_Enrollment where:
-
-- There are no EnrollmentIDs for the HouseholdID where RelationshipToHoH
-  = 1; or
-
-- There is more than one *EnrollmentID* for the *HouseholdID* where
-  *RelationshipToHoH* = 1.
+- There are no *EnrollmentID*s for the *HouseholdID* where *RelationshipToHoH* = 1; or
+- There is more than one *EnrollmentID* for the *HouseholdID* where *RelationshipToHoH* = 1.
 
 AND:
 
 - *EntryDate* \<= <u>ReportEnd</u>; and
-
 - hmis_Exit.*ExitDate* is NULL or *ExitDate* \>= <u>ReportStart</u>; and
-
 - *ProjectID* = lsa_Project.**ProjectID**; and
-
 - lsa_Project.**ProjectType** in (0,1,2,3,8,13); and
-
 - lsa_Organization.**VictimServiceProvider** = 0; and
+- Any *EnrollmentCoC* associated with the *HouseholdID* =  <u>ReportCoC.</u>
 
-- Any *EnrollmentCoC* associated with the *HouseholdID* =
-  <u>ReportCoC.</u>
-
-## Data Quality: Enrollments Excluded from the LSA Due to Invalid RelationshipToHoH 
+## 11.3 Data Quality: Enrollments Excluded from the LSA Due to Invalid RelationshipToHoH 
 
 ### Relevant Data
 
@@ -141,15 +108,11 @@ AND:
 | HouseholdID         |
 | RelationshipToHoH   |
 | EntryDate           |
-
 #### Target
 
-| lsa_Report |
-|------------|
-
-| **RelationshipToHoH** |
-|-----------------------|
-
+| lsa_Report        |
+| ----------------- |
+| RelationshipToHoH |
 ### Logic
 
 #### RelationshipToHoH
@@ -166,20 +129,14 @@ communities may be required to correct these issues and resubmit.**
 A count of distinct *EnrollmentID*s in hmis_Enrollment where:
 
 - *RelationshipToHoH* is NULL or not in (1,2,3,4,5); and
-
 - *DateDeleted* is NULL; and
-
 - *EntryDate \<=* <u>ReportEnd;</u> and
-
 - *ExitDate* is NULL or *ExitDate* \>= <u>ReportStart</u>; and
-
 - *HouseholdID* = a **HouseholdID** in tlsa_HHID where **Active** = 1
 
-## Data Quality: Invalid Move-In Dates 
+## 11.4 Data Quality: Invalid Move-In Dates 
 
-### Relevant Data
-
-#### Source
+### Source
 
 | **tlsa_HHID**       |
 |---------------------|
@@ -194,37 +151,23 @@ A count of distinct *EnrollmentID*s in hmis_Enrollment where:
 #### Target
 
 | lsa_Report |
-|------------|
-
-| **MoveInDate** |
-|----------------|
-
+| ---------- |
+| MoveInDate |
 ### Logic
 
 #### MoveInDate
 
-This is a count of RRH/PSH enrollments for heads of household with
-move-in dates recorded in HMIS that fall either prior to project entry
-or after project exit. These invalid dates are otherwise ignored by the
-LSA; the **MoveInDate** in tlsa_HHID is set to NULL.
+This is a count of RRH/PSH enrollments for heads of household with move-in dates recorded in HMIS that fall either prior to project entry or after project exit. These invalid dates are otherwise ignored by the LSA; the **MoveInDate** in tlsa_HHID is set to NULL.
 
 A count of tlsa_HHID.**EnrollmentID**s where
-
 - **LSAProjectType** in (3,13,15); and
-
 - **Active** = 1, and:
-
-<!-- -->
-
 - tlsa_HHID.**MoveInDate** is NULL; and
-
 - hmis_Enrollment.*MoveInDate* \<= <u>ReportEnd</u>
 
-## Data Quality: Counts of Clients / HouseholdIDs / EnrollmentIDs
+## 11.5 Data Quality: Baseline Counts of Clients / HouseholdIDs / EnrollmentIDs
 
-### Relevant Data
-
-#### Source
+### Source
 
 | **tlsa_Person**     |
 |---------------------|
@@ -238,56 +181,39 @@ A count of tlsa_HHID.**EnrollmentID**s where
 | ActiveAge           |
 | RelationshipToHoH   |
 | ExitDate            |
+### Target
 
-#### Target
-
-| lsa_Report |
-|------------|
-
-| **UnduplicatedClient** |
-|------------------------|
-| **HouseholdEntry**     |
-| **ClientEntry**        |
-| **AdultHoHEntry**      |
-| **ClientExit**         |
-
+| lsa_Report         |
+| ------------------ |
+| UnduplicatedClient |
+| HouseholdEntry     |
+| ClientEntry        |
+| AdultHoHEntry      |
+| ClientExit         |
 ### Logic
 
 #### UnduplicatedClient
 
-A count of distinct **PersonalID**s in tlsa\_ Enrollment where **AIR** =
-1 or (**Active** = 1 and **LSAScope** \<\> 3).
-
+A count of distinct **PersonalID**s in tlsa\_ Enrollment where **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3).
 #### HouseholdEntry
 
-A count of distinct **HouseholdID**s in tlsa_HHID where **AIR** = 1 or
-(**Active** = 1 and **LSAScope** \<\> 3).
-
+A count of distinct **HouseholdID**s in tlsa_HHID where **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3).
 #### ClientEntry
 
-A count of distinct **EnrollmentID**s in tlsa_Enrollment where **AIR** =
-1 or (**Active** = 1 and **LSAScope** \<\> 3).
-
+A count of distinct **EnrollmentID**s in tlsa_Enrollment where **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3).
 #### AdultHoHEntry
 
-A count of distinct **EnrollmentID**s in tlsa_Enrollment where **AIR** =
-1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
-
+A count of distinct **EnrollmentID**s in tlsa_Enrollment where **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
 - **ActiveAge** between 18 and 65; or
-
-- RelationshipToHoH = 1.
+- **RelationshipToHoH** = 1.
 
 #### ClientExit
 
-A count of distinct **PersonalID**s in tlsa_Enrollment where **AIR** = 1
-or (**Active** = 1 and **LSAScope** \<\> 3) and **ExitDate** is not
-NULL.
+A count of distinct **PersonalID**s in tlsa_Enrollment where **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3) and **ExitDate** is not NULL.
 
-## Data Quality: SSN Issues
+## 11.6 Data Quality: SSN Issues
 
-### Relevant Data
-
-#### Source
+### Source
 
 | **tlsa_Person** |
 |-----------------|
@@ -296,24 +222,16 @@ NULL.
 | PersonalID      |
 | SSN             |
 | SSNDataQuality  |
+### Target
 
-#### Target
-
-| tlsa_Person |
-|-------------|
-
-| **SSNValid** |
-|--------------|
-
-| lsa_Report |
-|------------|
-
-| **SSNNotProvided**            |
-|-------------------------------|
-| **SSNMissingOrInvalid**       |
-| **ClientSSNNotUnique**        |
-| **DistinctSSNValueNotUnique** |
-
+| tlsa_Person               |
+| ------------------------- |
+| SSNValid                  |
+| **lsa_Report**            |
+| SSNNotProvided            |
+| SSNMissingOrInvalid       |
+| ClientSSNNotUnique        |
+| DistinctSSNValueNotUnique |
 ### Logic
 
 #### SSNValid
@@ -321,99 +239,41 @@ NULL.
 **SSNValid** in tlsa_Person should be set to the first value in the
 table below where the criteria are consistent with client records:
 
-<table>
-<colgroup>
-<col style="width: 8%" />
-<col style="width: 7%" />
-<col style="width: 83%" />
-</colgroup>
-<thead>
-<tr>
-<th>Priority</th>
-<th>Value</th>
-<th>Criteria</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>9</td>
-<td>hmis_Client<strong>.</strong><em>SSNDataQuality</em> in (8,9)</td>
-</tr>
-<tr>
-<td>2</td>
-<td>0</td>
-<td><p>hmis_Client<strong>.</strong><em>SSNDataQuality</em> NOT in
-(8,9); and</p>
-<ul>
-<li><p>Length(hmis_Client.<em>SSN</em>) &lt;&gt; 9; or</p></li>
-<li><p><em>SSN</em> is NULL or set to system default; or</p></li>
-<li><p><em>SSN</em> begins with ‘000’, ‘666’, or ‘9’; or</p></li>
-<li><p><em>SSN</em> middle 2 digits are ‘00’ (e.g. 999-00-9999);
-or</p></li>
-<li><p><em>SSN</em> last 4 digits are ‘0000’; or</p></li>
-<li><p><em>SSN</em> contains any character other than 0-9; or</p></li>
-<li><p><em>SSN</em> in ('111111111', '222222222', '333333333',
-'444444444', '555555555', '777777777', '888888888', ‘123456789’,
-‘234567890’, ‘345678901’, ‘456789012’, ‘567890123’, ‘678901234’,
-‘789012345’, ‘890123456’, ‘901234567’)</p></li>
-</ul></td>
-</tr>
-<tr>
-<td>3</td>
-<td>1</td>
-<td>(All others)</td>
-</tr>
-</tbody>
-</table>
-
-These checks will not catch all invalid SSNs, but others will be assumed
-valid.
-
+| Priority | Value | Criteria                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| -------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1        | 9     | hmis\_Client**.**_SSNDataQuality_ in (8,9)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| 2        | 0     | hmis\_Client.*SSNDataQuality* NOT in (8,9); and<br>-   Length(hmis\_Client.*SSN*) <> 9; or<br>-   *SSN* is NULL or set to system default; or<br>-   *SSN* begins with ‘000’, ‘666’, or ‘9’; or<br>-   *SSN* middle 2 digits are ‘00’ (e.g. 999-00-9999); or<br>-   *SSN* last 4 digits are ‘0000’; or<br>-   *SSN* contains any character other than 0-9; or<br>-   *SSN* in ('111111111', '222222222', '333333333', '444444444', '555555555', '777777777', '888888888', ‘123456789’, ‘234567890’, ‘345678901’, ‘456789012’, ‘567890123’, ‘678901234’, ‘789012345’, ‘890123456’, ‘901234567’) |
+| 3        | 1     | (All others)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+These checks will not catch all invalid SSNs, but others will be assumed valid.
 #### SSNNotProvided
 
 A count of distinct **PersonalID**s in tlsa_Enrollment where:
-
 - tlsa_Person.**SSNValid** = 9; and
-
 - **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3)
-
 #### SSNMissingOrInvalid
 
 A count of distinct **PersonalID**s in tlsa_Enrollment where:
-
 - tlsa_Person.**SSNValid** = 0; and
-
 - **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3)
 
 #### ClientSSNNotUnique
 
 A count of distinct **PersonalID**s in tlsa_Enrollment where:
-
 - tlsa_Person.**SSNValid** = 1; and
-
 - **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3); and
-
 - hmis_Client.*SSN* = \[the hmis_Client.*SSN* for another **PersonalID**
   in tlsa_Person, regardless of **LSAScope**\]
 
 #### DistinctSSNValueNotUnique
 
 A count of distinct hmis_Client.*SSN* values for people with:
-
 - tlsa_Person.**SSNValid** = 1; and
+- At least one record in tlsa_Enrollment where **AIR** = 1 or  (**Active** = 1 and **LSAScope** \<\> 3); and
+- hmis_Client.*SSN* = \[the hmis_Client.*SSN* for another **PersonalID**  in tlsa_Person, regardless of **LSAScope**\]
 
-- At least one record in tlsa_Enrollment where **AIR** = 1 or
-  (**Active** = 1 and **LSAScope** \<\> 3); and
+## 11.7 Data Quality: Counts of Enrollment Issues
 
-- hmis_Client.*SSN* = \[the hmis_Client.*SSN* for another **PersonalID**
-  in tlsa_Person, regardless of **LSAScope**\]
-
-## Data Quality: Enrollment Data
-
-### Relevant Data
-
-#### Source
+### Source
 
 | **lsa_Project**              |
 |------------------------------|
@@ -435,29 +295,24 @@ A count of distinct hmis_Client.*SSN* values for people with:
 | MonthsHomelessPastThreeYears |
 | **hmis_Exit**                |
 | Destination                  |
+### Target
 
-#### Target
-
-| lsa_Report |
-|------------|
-
-| **DisablingCond**   |
-|---------------------|
-| **LivingSituation** |
-| **LengthOfStay**    |
-| **HomelessDate**    |
-| **TimesHomeless**   |
-| **MonthsHomeless**  |
-| **Destination**     |
-
+| lsa_Report      |
+| --------------- |
+| DisablingCond   |
+| LivingSituation |
+| LengthOfStay    |
+| HomelessDate    |
+| TimesHomeless   |
+| MonthsHomeless  |
+| Destination     |
 ### Logic
 
 #### DisablingCond
 
 This is a subset of **ClientEntry**.
 
-A count of distinct **EnrollmentIDs** in tlsa_Enrollment where where
-**AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
+A count of distinct **EnrollmentIDs** in tlsa_Enrollment where where **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
 
 - **DisabilityStatus** = 99.
 
@@ -465,105 +320,73 @@ A count of distinct **EnrollmentIDs** in tlsa_Enrollment where where
 
 This is a subset of **AdultHoHEntry**.
 
-A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** =
-1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
-
-- hmis_Enrollment**.***LivingSituation* in (8,9,99) or is NULL; and
-
+A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
+- *LivingSituation* in (8,9,99) or is NULL; and
 - **ActiveAge** between 18 and 65 or **RelationshipToHoH** = 1
 
 #### LengthOfStay
 
 This is a subset of **AdultHoHEntry**.
 
-A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** =
-1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
-
-- hmis_Enrollment**.***LengthOfStay* in (8,9,99) or is NULL.
-
+A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
+- *LengthOfStay* in (8,9,99) or is NULL.
 - **ActiveAge** between 18 and 65 or **RelationshipToHoH** = 1
 
 #### HomelessDate
 
 This is a subset of **AdultHoHEntry**.
 
-A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** =
-1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
+A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** =1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
 
 - **ActiveAge** between 18 and 65 or **RelationshipToHoH** = 1; and
-
-  - hmis_Enrollment**.**DateToStreetESSH \> EntryDate; or
-
-  - hmis_Enrollment**.***DateToStreetESSH* is NULL; and
-
-    - tlsa_Enrollment.**LSAProjectType** in (0,1,8); or
-
+  - *DateToStreetESSH* \> EntryDate; or
+  - *DateToStreetESSH* is NULL; and
+    - **LSAProjectType** in (0,1,8); or
     - *LivingSituation* in (101,116,118); or
-
     - PreviousStreetESSH = 1.
 
 #### TimesHomeless
 
 This is a subset of **AdultHoHEntry**.
 
-A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** =
-1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
-
+A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
 - **ActiveAge** between 18 and 65 or **RelationshipToHoH** = 1; and
-
-- hmis_Enrollment**.***TimesHomelessPastThreeYears* is NULL or not in
-  (1,2,3,4); and
-
-  - tlsa_Enrollment. **LSAProjectType** in (0,1,8); or
-
+- *TimesHomelessPastThreeYears* is NULL or not in (1,2,3,4); and
+  - **LSAProjectType** in (0,1,8); or
   - *LivingSituation* in (101,116,118); or
-
-  - PreviousStreetESSH = 1.
+  - *PreviousStreetESSH* = 1.
 
 #### Months Homeless
 
 This is a subset of **AdultHoHEntry**.
 
-A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** =
-1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
-
+A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
 - **ActiveAge** between 18 and 65 or **RelationshipToHoH** = 1; and
-
-- hmis_Enrollment**.***MonthsHomelessPastThreeYears* is NULL or not
-  between 101 and 113; and
-
-  - tlsa_Enrollment.**LSAProjectType** in (0,1,8); or
-
-  - *LivingSituation* in (101,116,118); or
-
-  - PreviousStreetESSH = 1.
+- *MonthsHomelessPastThreeYears* is NULL or not between 101 and 113; and
+- **LSAProjectType** in (0,1,8); or
+- *LivingSituation* in (101,116,118); or
+- *PreviousStreetESSH* = 1.
 
 #### Destination
 
 This is a subset of **ClientExit**.
 
-A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** =
-1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
+A count of distinct **EnrollmentIDs** in tlsa_Enrollment where **AIR** = 1 or (**Active** = 1 and **LSAScope** \<\> 3) and:
 
-- **ExitDate** is not NULL; and
-
+- **ExitDate** is not NULL; and 
   - hmis_Exit.*Destination* is NULL or in (8,9,17,30,99) or
-
   - hmis_Exit.*Destination* = 435 and hmis_Exit.*DestinationSubsidyType*
     is NULL
 
-## Set LSAReport ReportDate
+## 11.8 Set LSAReport ReportDate
 
 #### Target
 
 | lsa_Report |
-|------------|
+| ---------- |
+| ReportDate |
 
-| **ReportDate** |
-|----------------|
-
-Set LSAReport.**ReportDate** = the system date/time when all other data
-required to produce the LSA CSV files has been generated.
+Set LSAReport.**ReportDate** = the system date/time when all other data required to produce the LSA CSV files has been generated.
 
 ## LSAReport
 
