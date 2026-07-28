@@ -142,6 +142,7 @@ When a report row is required in LSACalculated for any given population, values 
 | 15 | Chronically Homeless | 0,1,2,3,99 | **HHChronic** = 1 |
 | 16 | Long-Term Homeless | 0,1,2,3,99 | **HHChronic** in (1,2) |
 | 17 | Annual Inflow Homeless | 0,1,2,3,99 | **HHChronic** in (0,3) |
+
 ## Subpopulations
 
 Reporting by subpopulation is limited to the following LSAExit and LSAHousehold rows:
@@ -188,6 +189,7 @@ When the parent population is ‘All’ (0), the ID listed below is used. In com
 | 47 | Households with 3+ Children (LSAHousehold) | 2 | **HHChild = 3** | 0,13,15 |
 | 47 | Households with 3+ Children (LSAExit) | 2 | **AC3Plus = 1** | 0,13,15 |
 | 48 | Domestic Violence Survivors Not Identified as Currently Fleeing | 0,1,2,3,99 | **HHFleeingDV** = 2 | 0, 10-15 |
+
 # 8.4 Get Average Days for Length of Time Homeless
 
 ## Source
@@ -233,6 +235,7 @@ When the parent population is ‘All’ (0), the ID listed below is used. In com
 See the table above for **Cohort**, **Universe**, **SystemPath**, **ProjectID**, and **ReportID**.
 
 See section 8.3 for required **Population** and **HHType** combinations.
+
 ### ReportRow and Value
 
 For each **ReportRow** listed below, **Value** \= the average of \[Source Column\] from tlsa\_Household where \[Source Column\] > 0, rounded to the nearest whole number, or the result of a built-in AVERAGE or AVG function in a database that returns an integer when the datatype of the parameter is *integer*.
@@ -248,6 +251,7 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | Days homeless total                                                                                          | **TotalHomelessDays**      | 7         |
 | Days housed in RRH                                                                                           | **RRHHousedDays**          | 8         |
 | Days documented homeless or housed in RRH total (excluding self-reported time)                               | **SystemDaysNotPSHHoused** | 9         |
+
 # 8.5 Get Average Days for Length of Time Homeless by System Path
 
 ## Source
@@ -342,6 +346,7 @@ The averages for LSACalculated are grouped by the **SystemPath** values from LSA
 See the table above for **Cohort**, **Universe**, **ProjectID**, **SystemPath**, and **ReportID**.
 
 See section 8.3 for required **Population** and **HHType** combinations.
+
 ### ReportRow and Value
 
 For each **ReportRow** listed below, **Value** \= the average of \[Source Column\] from tlsa\_Household where \[Source Column\] > 0, rounded to the nearest whole number, or the result of a built-in AVERAGE or AVG function in a database that returns an integer when the datatype of the parameter is *integer*.
