@@ -13,7 +13,7 @@ The Longitudinal System Analysis (LSA) is:
 This repository includes current and previous versions of the LSA programming specifications along with sample HMIS data, sample code, and sample output.
 
 ## Current Working Version of Programming Specifications
-- [Section 1: LSA Introduction / Overview](./01 Introduction.md)
+- [Section 1: LSA Introduction / Overview](./01%20Introduction.md)
 - Section 2: HDX Upload Summary 
 - Section 3: Core Concepts and Data Universe
 - Section 4: Project Descriptor Data
