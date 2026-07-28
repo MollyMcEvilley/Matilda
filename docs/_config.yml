@@ -1,5 +1,11 @@
 title: LSA Programming Specifications
 description: "The specs"
-theme: minima
+theme: jekyll-theme-primer
+plugins:
+  - jekyll-relative-links
+  - jekyll-seo-tag
+relative_links:
+  enabled: true
+  collections: true
 author:
   name: Molly McEvilley
