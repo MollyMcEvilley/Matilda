@@ -1,4 +1,11 @@
+---
+layout: default
+title: LSAExit
+nav_order: 8
+parent: LSA Repository
+---
 # 7 - HMIS Business Logic - LSAExit
+
 
 This section is required only if **<u>LSAScope</u>** <> 3 (HIC).
 

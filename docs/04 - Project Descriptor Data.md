@@ -1,3 +1,9 @@
+---
+layout: default
+title: Project Descriptor Data for Export
+nav_order: 5
+parent: LSA Repository
+---
 # 4 HMIS Business Logic - Project Descriptor Data for Export
 
 ## 4.1 Get Project.csv Records / lsa_Project

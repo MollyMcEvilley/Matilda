@@ -1,3 +1,10 @@
+---
+layout: default
+title: LSAPerson
+nav_order: 6
+parent: LSA Repository
+---
+
 # 5 - HMIS Business Logic - LSAPerson
 
 The data type for every column in LSAPerson is integer; no value may be NULL.

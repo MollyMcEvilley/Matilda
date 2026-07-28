@@ -1,3 +1,9 @@
+---
+layout: default
+title: LSAHousehold
+nav_order: 7
+parent: LSA Repository
+---
 # 6 - HMIS Business Logic - LSAHousehold
 
 ## 6.1 Get Distinct Households for LSAHousehold

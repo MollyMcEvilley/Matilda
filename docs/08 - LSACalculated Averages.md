@@ -1,3 +1,9 @@
+---
+layout: default
+title: LSA Calculated Averages
+nav_order: 9
+parent: LSA Repository
+---
 # 8 - HMIS Business Logic - LSACalculated Averages
 
 This section is required only if **<u>LSAScope</u>** <> 3 (HIC).
