@@ -676,14 +676,6 @@ It is the minimum DVStatus value in the table below based on *DomesticViolenceSu
 
 # 3.5 Enrollment Ages (tlsa\_Enrollment)
 
-lsa\_Report
-
-tlsa\_CohortDates
-
-hmis\_Client
-
-tlsa\_Enrollment
-
 Age is used to determine household type, for demographic reporting, and to identify households and people in reporting populations of interest. This section defines the logic associated with determining client age for all enrollments in all contexts that age may be relevant.
 
 It uses data in tlsa\_CohortDates and hmis\_Client to set age group values for tlsa\_Enrollment.
@@ -800,12 +792,6 @@ Like **ActiveAge**, they will differ from **EntryAge** only when the enrollment 
 | 14       | (other)                                                                                       | 0            |
 
 # 3.6 Household Types (tlsa\_HHID)
-
-tlsa\_HHID
-
-tlsa\_Enrollment
-
-tlsa\_CohortDates
 
 This section defines the logic associated with determining household type for each active household.
 
