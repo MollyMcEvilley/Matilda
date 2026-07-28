@@ -1,3 +1,10 @@
+---
+layout: default
+title: LSA Repository
+nav_order: 1
+has_children: true
+---
+
 # LSA Sample Code Repository
 
 The Longitudinal System Analysis (LSA) is:

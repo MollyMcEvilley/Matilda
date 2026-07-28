@@ -1,5 +1,11 @@
-# LSA Programming Specifications v8
-7/27/2026
+---
+layout: default
+title: LSA Introduction
+nav_order: 2
+parent: LSA Repository
+---
+
+
 # 1.1 Background 
 
 Every year, the U.S. Department of Housing and Urban Development (HUD) submits an Annual Homeless Assessment Report (AHAR) to the United States Congress. The AHAR is a national-level report that provides information about homeless service providers, people and households experiencing homelessness, and various characteristics of that population. It informs strategic planning for federal, state, and local initiatives designed to prevent and end homelessness.
