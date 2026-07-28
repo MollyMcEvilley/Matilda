@@ -69,7 +69,8 @@ User-entered report parameters and hard-coded vendor data are included in LSARep
 ## Source
 
 User-entered parameters and hard-coded data provided by the vendor.
-## Source
+
+## Target
 
 | lsa_Report     |
 | -------------- |
