@@ -4,6 +4,7 @@ title: "1 - Introduction"
 nav_order: 2
 parent: "LSA Programming Specifications"
 has_toc: true
+toc_levels: 1..1
 ---
 
 1. Contents
