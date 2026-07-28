@@ -6,6 +6,9 @@ parent: "LSA Programming Specifications"
 has_toc: true
 ---
 
+1. Contents
+{:toc}
+
 Report Rows 901-920 are project-level counts of data quality issues; this is to provide information to CoCs and the AHAR analysis team about specific sources of data quality issues.
 # 10.1 Static Column Values
 

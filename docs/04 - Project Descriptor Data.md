@@ -6,6 +6,9 @@ parent: "LSA Programming Specifications"
 has_toc: true
 ---
 
+1. Contents
+{:toc}
+
 # 4.1 Get Project.csv Records / lsa_Project
 
 Records exported to Project.csv are included in the LSA output and uploaded to HDX 2.0.

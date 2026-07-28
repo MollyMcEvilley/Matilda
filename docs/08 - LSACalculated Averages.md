@@ -6,6 +6,9 @@ parent: "LSA Programming Specifications"
 has_toc: true
 ---
 
+1. Contents
+{:toc}
+
 This section is required only if **<u>LSAScope</u>** <> 3 (HIC).
 
 As in LSAHousehold, LSAPerson, and LSAExit, records are only included in LSACalculated if there are records in the raw data that represent the combination of household type, population, cohort, etc.

@@ -6,6 +6,9 @@ parent: "LSA Programming Specifications"
 has_toc: true
 ---
 
+1. Contents
+{:toc}
+
 # 5 - HMIS Business Logic - LSAPerson
 
 The data type for every column in LSAPerson is integer; no value may be NULL.

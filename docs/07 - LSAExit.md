@@ -6,6 +6,9 @@ parent: "LSA Programming Specifications"
 has_toc: true
 ---
 
+1. Contents
+{:toc}
+
 This section is required only if **<u>LSAScope</u>** <> 3 (HIC).
 
 Each distinct combination of **Cohort**, the *PersonalID* for the head of household (**HoHID**), and household type (**HHType**) associated with one or more qualifying exits in the cohort period represents a single household/cohort member for LSAExit.

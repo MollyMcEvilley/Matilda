@@ -6,6 +6,9 @@ parent: "LSA Programming Specifications"
 has_toc: true
 ---
 
+1. Contents
+{:toc}
+
 # 11.1 Data Quality: HMIS Household Enrollments Not Associated with a CoC 
 
 ## Source
