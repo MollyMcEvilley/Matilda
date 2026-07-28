@@ -13,17 +13,17 @@ The Longitudinal System Analysis (LSA) is:
 This repository includes current and previous versions of the LSA programming specifications along with sample HMIS data, sample code, and sample output.
 
 ## Current Working Version of Programming Specifications
-- [Section 1: LSA Introduction / Overview](root/01%20-%20Introduction.md)
-- [Section 2: HDX Upload Summary](root/02%20-%20HDX%20Upload.md)
-- [Section 3: Core Concepts and Data Universe](root/03%20-%20Core%20Concepts%20and%20Data%20Universe.md)
-- [Section 4: Project Descriptor Data](root/04%20-%20ProjectDescriptorData.md)
-- [Section 5: LSAPerson](root/05%20-%20LSAPerson.md)
-- [Section 6: LSAHousehold](root/06%20-%20LSAHousehold.md)
-- [Section 7: LSAExit](root/07%20-%20LSAExit.md)
-- [Section 8: LSACalculated Averages](root/08%20-%20LSACalculatedAverages.md)
-- [Section 9: LSACalculated Counts](root/09%20-%20LSACalculated%20Counts.md)
-- [Section 10: LSACalculated Project Level Data Quality Counts](root/10%20-%20LSACalculatedDataQualityCounts.md)
-- [Section 11: LSAReport](root/.md)
+- [Section 1: LSA Introduction / Overview](./01%20-%20Introduction.md)
+- [Section 2: HDX Upload Summary](./02%20-%20HDX%20Upload.md)
+- [Section 3: Core Concepts and Data Universe](./03%20-%20Core%20Concepts%20and%20Data%20Universe.md)
+- [Section 4: Project Descriptor Data](./04%20-%20ProjectDescriptorData.md)
+- [Section 5: LSAPerson](./05%20-%20LSAPerson.md)
+- [Section 6: LSAHousehold](./06%20-%20LSAHousehold.md)
+- [Section 7: LSAExit](./07%20-%20LSAExit.md)
+- [Section 8: LSACalculated Averages](./08%20-%20LSACalculatedAverages.md)
+- [Section 9: LSACalculated Counts](./09%20-%20LSACalculated%20Counts.md)
+- [Section 10: LSACalculated Project Level Data Quality Counts](./10%20-%20LSACalculatedDataQualityCounts.md)
+- [Section 11: LSAReport](./11%20LSAReport.md)
 
 ## Code
 
