@@ -1,11 +1,23 @@
 title: LSA Programming Specifications
 description: "The specs"
 theme: jekyll-theme-primer
+
+# Enable Just the Docs directly via GitHub Pages remote themes
+remote_theme: just-the-docs/just-the-docs
+
+# Search Configurations
+search_enabled: true
+search_tokenizer_separator: /[\s\-]+/
+
+# Navigation Settings
+nav_sort: page_order
+
 plugins:
   - jekyll-relative-links
-  - jekyll-seo-tag
+
 relative_links:
   enabled: true
   collections: true
 author:
+
   name: Molly McEvilley
