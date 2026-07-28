@@ -4,6 +4,7 @@ title: "3 - Core Concepts and Data Universe"
 nav_order: 4
 parent: "LSA Programming Specifications"
 has_toc: true
+toc_levels: 1..1
 ---
 
 1. Contents
