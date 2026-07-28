@@ -95,8 +95,8 @@ To help clarify, many sections include simple graphics to illustrate the flow of
 | Example         | Description                                                                                                                                                                                                                                                                                                |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <u>ReportCoC<u> | Report parameters are underlined                                                                                                                                                                                                                                                                           |
-| hmis_Project    | HMIS data structures / raw HMIS data are referenced using HMIS CSV file names with an hmis\_ prefix. This assumes the presence/availability of all HMIS data from <u><u>LookbackDate</u></u> to <u><u>ReportEnd</u></u>.                                                                                   |
-| *ProjectID*     | References to HMIS fields / raw HMIS data use HMIS CSV column names and are italicized. *ProjectID* potentially refers to any project record in the HMIS where the operating end date is >= <u><u>LookbackDate</u></u>.                                                                                    |
+| hmis_Project    | HMIS data structures / raw HMIS data are referenced using HMIS CSV file names with an hmis\_ prefix. This assumes the presence/availability of all HMIS data from <u>LookbackDate</u> to <u>ReportEnd</u>.                                                                                   |
+| *ProjectID*     | References to HMIS fields / raw HMIS data use HMIS CSV column names and are italicized. *ProjectID* potentially refers to any project record in the HMIS where the operating end date is >= <u>LookbackDate</u>.                                                                                    |
 | lsa_Project     | The lsa\_ prefix indicates a CSV file included in the LSA upload and that the data therein is the result of a process / business logic defined by this document.                                                                                                                                           |
 | **ProjectID**   | References to variables and/or data created or transformed by the processes described in this document – e.g., columns in LSA CSV files or intermediate data constructs – are in bold. **ProjectID** refers only to project records that meet the criteria for inclusion in the uploaded Project.csv file. |
 # 1.3 Definitions/Acronyms
@@ -109,7 +109,7 @@ The definitions here are intended to serve as a general reference and are not co
 
 **AIR** – When used in column names, ‘AIR’ indicates that a person or household was active in residence/has at least one bed night in the report period.
 
-**Between** – When used to describe business logic, *between* includes the values used in the description. For example, the report start date and the report end date are both “between <u><u>ReportStart</u></u> and <u><u>ReportEnd</u></u>.”
+**Between** – When used to describe business logic, *between* includes the values used in the description. For example, the report start date and the report end date are both “between <u>ReportStart</u> and <u>ReportEnd</u>.”
 
 **CO** – Child-only household; a household in which all household members have valid dates of birth and are age 17 or younger.
 
