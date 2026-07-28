@@ -23,7 +23,7 @@ This repository includes current and previous versions of the LSA programming sp
 - [Section 8: LSACalculated Averages](./08%20-%20LSACalculatedAverages.md)
 - [Section 9: LSACalculated Counts](./09%20-%20LSACalculated%20Counts.md)
 - [Section 10: LSACalculated Project Level Data Quality Counts](./10%20-%20LSACalculatedDataQualityCounts.md)
-- [Section 11: LSAReport](./11%20LSAReport.md)
+- [Section 11: LSAReport](./11%20-%20LSAReport.md)
 
 ## Code
 
