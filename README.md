@@ -10,14 +10,21 @@ The Longitudinal System Analysis (LSA) is:
 * Used to produce HUD's Annual Homelessness Assessment Report (AHAR) to Congress and
 * Provides the data for Stella, HUD's strategy and analysis tool for CoCs, available on HDX 2.0.
 
-This repository is provided as a supplement to the [LSA Report Specifications](https://www.hudexchange.info/resource/5726/lsa-report-specifications-and-tools/) for the benefit of HMIS vendors. Its purpose is to provide a space for reconciling the LSA specifications to the HMIS Data Standards as required to maintain a compliant HMIS product. The LSA Report Specifications remain the central reference for vendors in regards to creating and maintaining LSA reporting.
+This repository includes current and previous versions of the LSA programming specifications along with sample HMIS data, sample code, and sample output.
 
-## Documentation
+## Current Working Version of Programming Specifications
 
-The final versions of these documents are available on the [HUD Exchange](https://www.hudexchange.info/resource/5726/lsa-report-specifications-and-tools/). The documents here are working versions that change more frequently and prior to release on the HUD Exchange.
-
-* LSA Programming Specifications (usually referred to as 'the specs') - a Word document with detailed business logic and step-by-step instructions for producing the LSA based on HMIS data.
-* LSA Data Dictionary - an Excel file that lists file names, columns, and valid values for the 12 CSV files included in an LSA upload.
+[Section 1: LSA Introduction / Overview](/01 Introduction.md)
+Section 2: HDX Upload Summary 
+Section 3: Core Concepts and Data Universe
+Section 4: Project Descriptor Data
+Section 5: LSAPerson
+Section 6: LSAHousehold
+Section 7: LSAExit
+Section 8: LSACalculated Averages
+Section 9: LSACalculated Counts
+Section 10: LSACalculated Project Level Data Quality Counts
+Section 11: LSAReport
 
 ## Code
 
