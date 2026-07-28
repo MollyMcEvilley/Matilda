@@ -413,6 +413,7 @@ If a household has more than one project group enrollment on their most recent a
 | HoHID               |
 | HHType              |
 | EST/RRH/PSHStatus   |
+
 | **tlsa_HHID**       |
 |--------------------|
 | HoHID               |
@@ -420,11 +421,13 @@ If a household has more than one project group enrollment on their most recent a
 | Active              |
 | LSAProjectType      |
 | EntryDate           |
+
 | **tlsa_Enrollment** |
 |--------------------|
 | EnrollmentID        |
 | EntryDate           |
 | **hmis_Enrollment** |
+
 |--------------------|
 | EnrollmentID        |
 | PersonalID          |

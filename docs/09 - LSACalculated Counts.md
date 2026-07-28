@@ -13,16 +13,16 @@ has_toc: true
 
 | Row | Reporting Category                                      | Section     |
 |----:|---------------------------------------------------------|-------------|
-|  53 | Project-level – People by household characteristics     | Section 9.3 |
-|  53 | Project type – People by household characteristics      | Section 9.3 |
-|  54 | Project-level – Households by household characteristics | Section 9.3 |
-|  54 | Project-type – Households by household characteristics  | Section 9.3 |
-|  55 | Project level – People by personal characteristic       | Section 9.4 |
-|  55 | Project-type – People by personal characteristic        | Section 9.4 |
-|  56 | Project-level – Bed nights by household characteristics | Section 9.5 |
-|  56 | Project-type – Bed nights by household characteristics  | Section 9.5 |
-|  57 | Project-level – Bed nights by personal characteristics  | Section 9.5 |
-|  57 | Project-type – Bed nights by personal characteristics   | Section 9.5 |
+|  53 | Project-level – People by household characteristics     | [Section 9.3](./09%20-%20LSACalculated%20Counts.html#93-counts-of-people-and-households-by-project-and-household-characteristics) |
+|  53 | Project type – People by household characteristics      | [Section 9.3](./09%20-%20LSACalculated%20Counts.html#93-counts-of-people-and-households-by-project-and-household-characteristics) |
+|  54 | Project-level – Households by household characteristics | [Section 9.3](./09%20-%20LSACalculated%20Counts.html#93-counts-of-people-and-households-by-project-and-household-characteristics) |
+|  54 | Project-type – Households by household characteristics  | [Section 9.3](./09%20-%20LSACalculated%20Counts.html#93-counts-of-people-and-households-by-project-and-household-characteristics) |
+|  55 | Project level – People by personal characteristic       | [Section 9.4](./09%20-%20LSACalculated%20Counts.html#94-get-counts-of-people-by-project-and-personal-characteristics) |
+|  55 | Project-type – People by personal characteristic        | [Section 9.4](./09%20-%20LSACalculated%20Counts.html#94-get-counts-of-people-by-project-and-personal-characteristics) |
+|  56 | Project-level – Bed nights by household characteristics | [Section 9.4](./09%20-%20LSACalculated%20Counts.html#94-get-counts-of-people-by-project-and-personal-characteristics) |
+|  56 | Project-type – Bed nights by household characteristics  | [Section 9.5](./09%20-%20LSACalculated%20Counts.html#95-get-counts-of-bednights) |
+|  57 | Project-level – Bed nights by personal characteristics  | [Section 9.5](./09%20-%20LSACalculated%20Counts.html#95-get-counts-of-bednights) |
+|  57 | Project-type – Bed nights by personal characteristics   | [Section 9.5](./09%20-%20LSACalculated%20Counts.html#95-get-counts-of-bednights) |
 
 # 9.2 Identify Active and Point in Time Cohorts for LSACalculated Counts
 
