@@ -186,6 +186,7 @@ Cohorts and cohort periods are referenced in subsequent steps using an intermedi
 | Cohort            |
 | CohortStart       |
 | CohortEnd         |
+
 ### Logic
 
 Point-in-time cohorts are only included if the relevant date falls between <u>ReportStart</u> and <u>ReportEnd</u> and **<u>LSAScope</u>** <> 3 (HIC). Exit cohorts are included only if **<u>LSAScope</u>** <> 3.
