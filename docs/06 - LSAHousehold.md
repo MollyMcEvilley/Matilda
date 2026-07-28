@@ -22,7 +22,9 @@ The tlsa\_Household data construct holds one record for each distinct combinatio
 |----------------|
 | ReportStart    |
 | ReportEnd      |
+
 | **tlsa_HHID**  |
+|--------------------|
 | HoHID          |
 | ActiveHHType   |
 | Active         |
@@ -103,11 +105,13 @@ The logic associated with values for columns with names in **bold** below is des
 | ESTAIR                 | Identifies households active in residence for ES/SH/TH in the report period.                                                                                                                                                                                                                                                                                                              |
 | RRHAIR                 | Identifies households active in residence for RRH in the report period.                                                                                                                                                                                                                                                                                                                   |
 | PSHAIR                 | Identifies households active in residence for PSH in the report period.                                                                                                                                                                                                                                                                                                                   |
+
 ## Logic
 
 # 6.2 Set Population Identifiers for LSAHousehold
 
 **HHAdult**, **HHChild**, and **HHNoDOB** are used together to report on household composition. The additional household-level population identifiers are used to report on population groups of interest.
+
 ## Source
 
 | **tlsa_HHID**       |
@@ -123,12 +127,16 @@ The logic associated with values for columns with names in **bold** below is des
 | HHParent            |
 | AC3Plus             |
 | Active              |
+
 | **tlsa_Enrollment** |
+|--------------------|
 | HouseholdID         |
 | PersonalID          |
 | ActiveAge           |
 | Active              |
+
 | **tlsa_Person**     |
+|--------------------|
 | PersonalID          |
 | RaceEthnicity       |
 
@@ -310,6 +318,7 @@ For every record in tlsa\_Household:
 | \< <u>ReportStart</u>  | Between <u>ReportStart</u> and <u>ReportEnd</u>               | 12            |
 | \>= <u>ReportStart</u> | NULL / there is an active enrollment for x with no *ExitDate* | 21            |
 | \>= <u>ReportStart</u> | Between <u>ReportStart</u> and <u>ReportEnd</u>               | 22            |
+
 Note: 2 is also a valid value for **xStatus** but is not assigned until a later step in section [6.16 Update EST/RRH/PSHStatus](#update-estrrhpshrrhsostatus).
 
 # 6.4 RRH/PSH/RRHSOMoveIn – LSAHousehold 
@@ -354,11 +363,15 @@ For all records in tlsa\_Household:
 |--------------------|
 | ProjectID          |
 | GeographyType      |
+
 | **tlsa_Household** |
+|--------------------|
 | HoHID              |
 | HHType             |
 | EST/RRH/PSHStatus  |
+
 | **tlsa_HHID**      |
+|--------------------|
 | HoHID              |
 | ActiveHHType       |
 | Active             |
@@ -401,15 +414,18 @@ If a household has more than one project group enrollment on their most recent a
 | HHType              |
 | EST/RRH/PSHStatus   |
 | **tlsa_HHID**       |
+|--------------------|
 | HoHID               |
 | ActiveHHType        |
 | Active              |
 | LSAProjectType      |
 | EntryDate           |
 | **tlsa_Enrollment** |
+|--------------------|
 | EnrollmentID        |
 | EntryDate           |
 | **hmis_Enrollment** |
+|--------------------|
 | EnrollmentID        |
 | PersonalID          |
 | EntryDate           |
@@ -482,7 +498,9 @@ For other households (**xStatus** > 2), **xLivingSit** is based on *LivingSituat
 | HoHID              |
 | HHType             |
 | EST/RRH/PSHStatus  |
+
 | **tlsa_HHID**      |
+|--------------------|
 | HoHID              |
 | ActiveHHType       |
 | Active             |
@@ -497,6 +515,7 @@ For other households (**xStatus** > 2), **xLivingSit** is based on *LivingSituat
 | ESTDestination |
 | RRHDestination |
 | PSHDestination |
+
 ## Logic
 
 See section [3.3 HMIS Household Enrollments](#_ExitDest) for logic associated with setting destination for individual enrollments.
@@ -585,6 +604,7 @@ Set **EST/RRH/PSHAdultAge** based on the first of the criteria below met by any 
 | 3        | **HHAdultAge** = 55 | 55                  |
 | 4        | **HHAdultAge** = 25 | 25                  |
 | 5        | (any other)         | -1                  |
+
 # 6.9 System Engagement Status and Return Time
 
 ## Source
@@ -593,7 +613,9 @@ Set **EST/RRH/PSHAdultAge** based on the first of the criteria below met by any 
 |--------------------|
 | HoHID              |
 | HHType             |
+
 | **tlsa_HHID**      |
+|--------------------|
 | HoHID              |
 | EntryDate          |
 | ExitDate           |
@@ -676,7 +698,9 @@ Stat is based on **StatEnrollmentID** (if any) and the associated **ExitDate** a
 |--------------------|
 | HoHID              |
 | HHType             |
+
 | **tlsa_HHID**      |
+|--------------------|
 | HoHID              |
 | ActiveHHType       |
 | LSAProjectType     |
@@ -712,7 +736,9 @@ The primary key for sys\_Time is the unique combination of **HoHID**, **HHType**
 |--------------------|
 | HoHID              |
 | HHType             |
+
 | **tlsa_HHID**      |
+|--------------------|
 | HoHID              |
 | ActiveHHType       |
 | LSAProjectType     |
@@ -746,6 +772,7 @@ Similar to the process of counting days for chronic homelessness, a head of hous
 | 5        | Enrolled but not housed in PSH | \>= _EntryDate_ and <= The first non-NULL of (_MoveInDate_ – 1 day_), ExitDate,_ and ReportEnd |
 | 6        | Enrolled but not housed in RRH | \>= _EntryDate_ and <= The first non-NULL of (_MoveInDate_ – 1 day_), ExitDate,_ and ReportEnd |
 | 7        | Street/ES/SH (3.917)           | \>= _DateToStreetESSH_ and < _EntryDate_                                                       |
+
 In the CH process, enrollment dates are relevant regardless of household type or head of household status for the enrollment. However, system use days for a household are only counted for enrollments where the two defining characteristics of a household – **HoHID** and **ActiveHHType** – match tlsa\_Household.
 
 ### Dates Housed in PSH 
@@ -790,12 +817,16 @@ RRH-SO enrollments are not relevant to **LastInactive**.
 | HoHID                                                    |
 | HHType                                                   |
 | FirstEntry                                               |
+
 | **tlsa_HHID**                                            |
+|--------------------|
 | HoHID                                                    |
 | ActiveHHType                                             |
 | EntryDate                                                |
 | ExitDate                                                 |
+
 | **hmis_Services**                                        |
+|--------------------|
 | EnrollmentID                                             |
 | *BedNightDate* (*DateProvided* where *RecordType* = 200) |
 
@@ -809,6 +840,7 @@ RRH-SO enrollments are not relevant to **LastInactive**.
 | EndDate             | -   For tlsa\_HHID **EnrollmentID**s in night-by-night ES, the earlier of \[**StartDate** + 6 days\] or <u>ReportEnd</u><br>-   For all other tlsa\_HHID enrollments, the earlier non-NULL of \[**ExitDate** + 6 days\] or <u>ReportEnd</u> |
 | **tlsa\_Household** |                                                                                                                                                                                                                                             |
 | LastInactive        | See below                                                                                                                                                                                                                                   |
+
 ## Logic
 
 **LastInactive** is the later of \[<u>LookbackDate</u> – 1 day\] and the most recent date where:
@@ -827,14 +859,18 @@ RRH-SO enrollments are not relevant to **LastInactive**.
 | HoHID                                                    |
 | HHType                                                   |
 | LastInactive                                             |
+
 | **tlsa_HHID**                                            |
+|--------------------|
 | HoHID                                                    |
 | ActiveHHType                                             |
 | LSAProjectType                                           |
 | EntryDate                                                |
 | MoveInDate                                               |
 | ExitDate                                                 |
+
 | **hmis_Services**                                        |
+|--------------------|
 | EnrollmentID                                             |
 | *BedNightDate* (*DateProvided* where *RecordType* = 200) |
 
@@ -874,6 +910,7 @@ If a \[Date\] meets the criteria for more than one **sysStatus** based on the li
 | 5     | **LSAProjectType** = 3 and \[Date\] >= **EntryDate** and **MoveInDate** is NULL and \[Date\] <= the first non-NULL of \[**ExitDate** – 1 day\] and ReportEnd  |
 | 6     | **LSAProjectType** = 13 and \[Date\] >= **EntryDate** and \[Date\] < **MoveInDate**                                                                           |
 | 6     | **LSAProjectType** = 13 and \[Date\] >= **EntryDate** and **MoveInDate** is NULL and \[Date\] <= the first non-NULL of \[**ExitDate** – 1 day\] and ReportEnd |
+
 # 6.14 Get Other Dates Homeless from 3.917A/B Living Situation
 
 Dates that are documented as Street/ES/SH dates in *3.917 Living
@@ -889,18 +926,24 @@ prior to **LastInactive** and dates prior to LookbackDate**.**
 | LastInactive        |
 | HoHID               |
 | HHType              |
+
 | **tlsa_HHID**       |
+|--------------------|
 | HoHID               |
 | ActiveHHType        |
 | EnrollmentID        |
 | LSAProjectType      |
 | EntryDate           |
 | ExitDate            |
+
 | **sys_Time**        |
+|--------------------|
 | HoHID               |
 | HHType              |
 | sysDate             |
+
 | **hmis_Enrollment** |
+|--------------------|
 | EnrollmentID        |
 | EntryDate           |
 | LivingSituation     |
@@ -913,6 +956,7 @@ prior to **LastInactive** and dates prior to LookbackDate**.**
 | **tlsa_Household** |
 |--------------------|
 | Other3917Days      |
+
 ## Logic
 
 For any active enrollment or any **EnrollmentID** from tlsa_HHID where **HoHID**/**EntryHHType** = tlsa_Household.**HoHID**/**HHType** and:
@@ -940,6 +984,7 @@ The value of **Other3917Days** is equal to the count of all dates:
 Counts of actual days are set in tlsa\_Household; counts of active households are grouped by ranges – e.g., ‘1-7 days’, ‘8-30 days’, etc. – in the corresponding **LSAHousehold** column.
 
 The values in tlsa\_Household are the source for averages in LSACalculated; see section [8.1 Get Average Days for Length of Time Homeless](#_Get_Average_Days_3) through section 8.8.
+
 ## Source
 
 | **sys_Time** |
@@ -963,6 +1008,7 @@ The values in tlsa\_Household are the source for averages in LSACalculated; see 
 | Other3917Days          |
 | TotalHomelessDays      |
 | PSHHousedDays          |
+
 ## Logic
 
 The values for system use days columns in tlsa\_Household should be set to the actual number of days counted and NOT the associated upload value; the actual number of days are needed to generate averages for LSACalculated.
@@ -1036,7 +1082,9 @@ For any **HoHID**/**HHType** in tlsa\_Household where **Stat** = 5 (continuous e
 | ESTStatus          |
 | RRHStatus          |
 | PSHStatus          |
+
 | **sys_Time**       |
+|--------------------|
 | HoHID              |
 | HHType             |
 | sysStatus          |
@@ -1048,6 +1096,7 @@ For any **HoHID**/**HHType** in tlsa\_Household where **Stat** = 5 (continuous e
 | ESTStatus      |
 | RRHStatus      |
 | PSHStatus      |
+
 ## Logic
 
 Set **ESTStatus** = 2 (Served in contiguous period prior to report start only) where:
@@ -1073,7 +1122,9 @@ The EST/RRH/PSHAIR columns identify households active in residence during the re
 |--------------------|
 | HoHID              |
 | HHType             |
+
 | **tlsa_HHID**      |
+|--------------------|
 | HoHID              |
 | ActiveHHType       |
 | AIR                |
@@ -1086,6 +1137,7 @@ The EST/RRH/PSHAIR columns identify households active in residence during the re
 | ESTAIR             |
 | RRHAIR             |
 | PSHAIR             |
+
 ## Logic
 
 Set **EST/RRH/PSHAIR** = 1 for tlsa\_Household records with one or more records in tlsa\_HHID where:
@@ -1105,6 +1157,7 @@ For households with no bed nights in the report period in a given project group,
 The **SystemPath** column is technically redundant – it is based entirely on values in other LSAHousehold columns – but having the value in a single column simplifies the processes of populating LSACalculated and, in the HDX 2.0, generating report tables.
 
 RRH-SO enrollments are not relevant to System Path.
+
 ## Source
 
 | **tlsa_Household** |
@@ -1121,6 +1174,7 @@ RRH-SO enrollments are not relevant to System Path.
 | **tlsa_Household** |
 | ------------------ |
 | SystemPath         |
+
 ## Logic
 
 As noted previously, heads of household housed in PSH at <u>ReportStart</u> who did not enroll in any other project types during the report period are excluded from all reporting on LOTH and system path, as are those who were only served in RRH-SO. For those households, **SystemPath** is always set to -1. The criteria for all values are listed below.
@@ -1155,6 +1209,7 @@ In tlsa\_Household, the following columns are populated with actual counts of da
 | **THDays**                 | **RRHPSHPreMoveInDays** | **Other3917Days**      |
 | **ESTDays**                | **RRHHousedDays**       | **TotalHomelessDays**  |
 | **SystemDaysNotPSHHoused** |                         |                        |
+
 For export, the actual counts are grouped into categories as shown
 below.
 
@@ -1171,6 +1226,7 @@ below.
 | 730   | 548-730 days             | \[Days\] between 548 and 730  |
 | 1094  | 731-1094 days            | \[Days\] between 731 and 1094 |
 | 1095  | 1095 days+               | \[Days\] \> 1094              |
+
 Actual values in the **PSHHousedDays** column also have to be grouped into upload categories; the groupings differ from those used for the other columns of system use days:
 
 | Value | Time Housed in PSH | Criteria                                |
@@ -1186,4 +1242,5 @@ Actual values in the **PSHHousedDays** column also have to be grouped into uploa
 | 84    | 5-7 years          | **PSHHousedDays** between 1826 and 2555 |
 | 120   | 8-10 years         | **PSHHousedDays** between 2556 and 3650 |
 | 121   | 10+ years          | **PSHHousedDays** \> 3650               |
+
 All of the columns in LSAHousehold are integers; none may be NULL.
