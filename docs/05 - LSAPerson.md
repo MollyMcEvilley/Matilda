@@ -1,8 +1,9 @@
 ---
 layout: default
-title: 5 - LSAPerson
+title: "5 - LSAPerson"
 nav_order: 6
-parent: LSA Repository
+parent: "LSA Programming Specifications"
+has_toc: true
 ---
 
 # 5 - HMIS Business Logic - LSAPerson
@@ -77,7 +78,8 @@ The data type for every column in LSAPerson is integer; no value may be NULL.
 | 64  | **SMI**              | See [5.4 LSAPerson Demographics](#_LSAPerson_Demographics)                                                                      |
 | 65  | **SUD**              | See [5.4 LSAPerson Demographics](#_LSAPerson_Demographics)                                                                      |
 | 66  | **ReportID**         | Must match ReportID in LSAReport; see [4.1 Report Metadata for LSAReport](#_Report_Metadata_for)                                |
-## 5.1 Identify Active and Active in Residence (AIR) HouseholdIDs
+
+# 5.1 Identify Active and Active in Residence (AIR) HouseholdIDs
 
 This section defines the logic associated with identifying enrollments for heads of household that meet the criteria for inclusion in the active cohort.
 
@@ -85,7 +87,7 @@ It uses data in lsa_Report and lsa_Project as parameters applied to tlsa_HHID. A
 
 References to active **HouseholdID**s and/or any of the columns included in tlsa_HHID mean records where **Active** = 1 and the column values as they are set in this and subsequent steps.
 
-### Source
+## Source
 
 | **lsa_Report**  |
 |-----------------|
@@ -101,22 +103,22 @@ References to active **HouseholdID**s and/or any of the columns included in tlsa
 | MoveInDate      |
 | ExitDate        |
 
-### Target
+## Target
 
 | **tlsa_HHID** | **Column Description**                                                                                                                                             |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Active**    | 1 identifies **HouseholdID**s included in the active cohort                                                                                                        |
 | **AIR**       | 1 identifies the subset of **HouseholdID**s in the active cohort where the head of household’s enrollment includes at least one bed night during the report period |
-### Logic
+## Logic
 
-#### Active
+### Active
 
 Set **Active** = 1 for tlsa_HHID.**HouseholdID**s where:
 - There is a record for the **ProjectID** in lsa_Project; and
 - **EntryDate** \<= <u>ReportEnd; and</u>
 - **ExitDate** is NULL or **ExitDate** \>= <u>ReportStart</u>
 
-#### AIR
+### AIR
 
 Set **AIR** = 1 for tlsa_HHID.**HouseholdID**s where:
 - **Active** = 1; and:
@@ -128,7 +130,7 @@ Set **AIR** = 1 for tlsa_HHID.**HouseholdID**s where:
 (Note: RRH-SO projects are considered non-residential and enrollments
 are excluded from consideration.)
 
-## 5.2 Identify Active and Active in Residence (AIR) Enrollments 
+# 5.2 Identify Active and Active in Residence (AIR) Enrollments 
 
 This section defines the logic associated with identifying all active enrollments associated with the active *HouseholdID*s identified in the previous step.
 
@@ -136,7 +138,7 @@ It uses data in lsa_Report and tlsa_HHID as parameters applied to tlsa_Enrollmen
 
 References in subsequent sections to active enrollments and of the columns in tlsa_Enrollment mean the column values as they are set in this and subsequent steps.
 
-### Source
+## Source
 
 | **tlsa_HHID**       |
 |---------------------|
@@ -149,21 +151,21 @@ References in subsequent sections to active enrollments and of the columns in tl
 | MoveInDate          |
 | ExitDate            |
 
-### Target
+## Target
 
 | **tlsa_Enrollment** |
 |---------------------|
 | **Active**          |
 | **AIR**             |
-### Logic
+## Logic
 
-#### Active
+### Active
 
 **Active** = 1 is set to identify the subset of enrollments in tlsa_Enrollment where:
 - The **HouseholdID** matches a **HouseholdID** in tlsa_HHID where  **Active** = 1; and
 - **ExitDate** is NULL or **ExitDate** \>= <u>ReportStart</u>
 
-#### AIR
+### AIR
 
 **AIR** = 1 is set to identify the subset of enrollments in tlsa_Enrollment where:
 
@@ -174,18 +176,18 @@ References in subsequent sections to active enrollments and of the columns in tl
 	- **LSAProjectType** = 1 and **LastBedNight** between <u>ReportStart</u> and <u>ReportEnd</u>; or
 	- **LSAProjectType** in (3,13), **MoveInDate** \<= <u>ReportEnd</u>
 
-## 5.3 Get Active Clients for LSAPerson
+# 5.3 Get Active Clients for LSAPerson
 
 The tlsa\_Person data construct holds one record for each distinct *PersonalID* in tlsa\_Enrollment where **Active** = 1. It is a client-level version of the aggregate LSAPerson data and is used to set values for each LSA reporting category – **RaceEthnicity**, **VetStatus**, etc. – for each client. It includes all columns from LSAPerson.csv other than **RowTotal** and **ReportID**, as well as several columns which are used as a reference to simplify business logic but do not correlate to a column in LSAPerson.
 
-### Source
+## Source
 
 | tlsa_Enrollment |
 |-----------------|
 | PersonalID      |
 | Active          |
 
-### Target 
+## Target 
 
 The logic associated with values for columns with names in **bold** below is described in this step. The business logic associated with other columns is described in subsequent steps.
 
@@ -260,18 +262,18 @@ The logic associated with values for columns with names in **bold** below is des
 | SMI              | Population identifier for adults with Serious Mental Illness and active in residence during the report period                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | SUD              | Population identifier for adults with a substance use disorder and active in residence during the report period                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | SSNValid         | Used for data quality reporting in LSAReport; see [section 11.6](#_Data_Quality_:).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-### Logic
+## Logic
 
 LSAPerson is the source for demographic reporting produced by the HDX 2.0. Every active client is counted in a single row of LSAPerson. Counts in **RowTotal** are grouped by the values in all other columns. The sum of **RowTotal** values is the total number of clients in the active cohort.
 
 In the intermediate client-level tlsa\_Person, each active client is represented by a single row with *PersonalID* as the primary key.
 
-## 5.4 LSAPerson Demographics
+# 5.4 LSAPerson Demographics
 
 This step defines the logic associated with LSA reporting on personal characteristics – broadly referred to as demographics – for each active adult/head of household in tlsa\_Person.
 
 It uses data in lsa\_Report and active tlsa\_Enrollment records as parameters applied to hmis\_Client. These data are used to set LSA reporting category values in tlsa\_Person.
-### Source
+## Source
 
 | **lsa_Report**        |
 |-----------------------|
@@ -300,7 +302,7 @@ It uses data in lsa\_Report and active tlsa\_Enrollment records as parameters ap
 | DisabilityResponse    |
 | IndefiniteAndImpairs  |
 
-### Target
+## Target
 
 See section [5.3 Get Active Clients for LSAPerson](#get-active-clients-for-lsaperson) for column descriptions.
 
@@ -314,9 +316,9 @@ See section [5.3 Get Active Clients for LSAPerson](#get-active-clients-for-lsape
 | HIV              |
 | SMI              |
 | SUD              |
-### Logic
+## Logic
 
-#### HoHAdult
+### HoHAdult
 
 **HoHAdult** is used to indicate whether the client was served as an adult, a head of household, or both adult and HoH. Children and people of unknown age who were not served as heads of household are included in reporting on age and in population counts of people, but are not included in other demographic counts. There is no parallel **HoHAdult** column in the LSAPerson file, but it is useful in identifying which columns/records to update.
 
@@ -326,7 +328,7 @@ See section [5.3 Get Active Clients for LSAPerson](#get-active-clients-for-lsape
 | 1     | Adult            |
 | 2     | HoH              |
 | 3     | Adult and HoH    |
-#### RaceEthnicity
+### RaceEthnicity
 
 -   If *RaceNone* is equal to 8 or 9, regardless of any other data, set **RaceEthnicity** = 98.
 -   If *RaceNone* is equal to 99, regardless of any other data, set **RaceEthnicity** = 99.
@@ -344,7 +346,7 @@ See section [5.3 Get Active Clients for LSAPerson](#get-active-clients-for-lsape
 
 If none of the above apply (i.e., if none of the columns listed are set to 1), set **RaceEthnicity** = 99.
 
-#### VetStatus
+### VetStatus
 
 Assign a value of -1 for all clients under 18 or of unknown age (**HoHAdult** \= in (0,2)).
 
@@ -357,7 +359,7 @@ Crosswalk HMIS *VeteranStatus* values for adults as follows:
 | 8 | Client doesn’t know | 98 | Data not provided by client |
 | 9 | Client prefers not to answer | 98 | Data not provided by client |
 | (any other) | Any other, including NULL | 99 | Data missing or invalid |
-#### HIV
+### HIV
 
 Set **HIV** = -1 for:
 
@@ -372,7 +374,7 @@ For any person with at least one enrollment where tlsa\_Enrollment.**AIR** = 1, 
 
 Set **HIV** = 0 for all other adults.
 
-#### SMI
+### SMI
 
 Set **SMI** = -1 for:
 
@@ -388,7 +390,7 @@ For any person with at least one enrollment where tlsa\_Enrollment.**AIR** = 1, 
 
 Set **SMI** = 0 for all other adults.
 
-#### SUD
+### SUD
 
 Set **SUD** = -1 for:
 
@@ -404,7 +406,7 @@ For any person with at least one enrollment where tlsa\_Enrollment.**AIR** = 1, 
 
 Set **SUD** = 0 for all other adults.
 
-#### DisabilityStatus
+### DisabilityStatus
 
 Assign a value of -1 for all non-heads of household under 18 or of unknown age (**HoHAdult** \= 0).
 
@@ -419,7 +421,7 @@ Assign a value of -1 for all non-heads of household under 18 or of unknown age (
 | 3        | tlsa_Enrollment.**DisabilityStatus** = 0 | 0                            |
 | 4        | (Any other)                              | 99                           |
 
-#### DVStatus
+### DVStatus
 
 Assign a value of -1 for all non-heads of household under 18 or of unknown age (**HoHAdult** \= 0).
 
@@ -434,7 +436,7 @@ Assign a value of -1 for all non-heads of household under 18 or of unknown age (
 | 5 | 98 | 98 | Data not provided |
 | 6 | NULL | 99 | Missing/invalid |
 
-## 5.5 Time Spent in ES/SH or on the Street – LSAPerson
+# 5.5 Time Spent in ES/SH or on the Street – LSAPerson
 
 The definition of *chronically homeless* specifies the total length of time spent either in a place not meant for human habitation, a safe haven, or in an emergency shelter relevant to chronic homelessness in months: “continuously for at least 12 months” or on four or more occasions for a total of “at least 12 months“ within a timeframe of 3 years.
 
@@ -467,7 +469,7 @@ Section 5.8 specifies how to build, for each adult/HoH in tlsa\_Person, a list o
 Section 5.9 describes the business logic associated with identifying ‘occasions’ or an ‘episodes’ – and the length in days for each – given a list of ES/SH/Street dates for a person. As described, this is accomplished by creating records of episodes in ch\_Episode with start and end dates based on ch\_Exclude.
 
 Finally, Section 5.10 describes how to set LSA reporting category values in tlsa\_Person for **CHTime** and **CHTimeStatus** based on a list of episodes with start and end dates (ch\_Episodes) and, for any adult/HoH who does not meet the time-based criteria for chronic homelessness and is missing relevant *3.917 Living Situation* data, update the initial values to reflect missing data.
-### Source
+## Source
 
 | **lsa_Report**      |
 |---------------------|
@@ -480,13 +482,13 @@ Finally, Section 5.10 describes how to set LSA reporting category values in tlsa
 | **tlsa_Person**     |
 | HoHAdult            |
 
-### Target 
+## Target 
 
 | **tlsa_Person** |
 |-----------------|
 | **CHStart**     |
 | **LastActive**  |
-### Logic
+## Logic
 
 The three-year timeframe for each head of household/adult – the CH date range – is identified in tlsa\_Person with dates in the **CHStart** and **LastActive** columns.
 
@@ -498,9 +500,9 @@ The last active date for any given enrollment is:
 **LastActive** for each record in tlsa\_Person where **HoHAdult** > 0 is the latest active date based on all enrollments.
 
 **CHStart** is (**LastActive** – 3 years) + 1 day.
-## 5.6 Enrollments Relevant to Counting ES/SH/Street Dates
+# 5.6 Enrollments Relevant to Counting ES/SH/Street Dates
 
-### Source
+## Source
 
 | **lsa_Report**      |
 |---------------------|
@@ -514,12 +516,12 @@ The last active date for any given enrollment is:
 | **tlsa_Enrollment** |
 | EntryDate           |
 | ExitDate            |
-### Target Column
+## Target Column
 
 | **tlsa_Enrollment** |
 |---------------------|
 | **CH**              |
-### Logic
+## Logic
 
 Enrollments relevant to determining whether or not a person meets the time criteria for chronic homelessness include active and inactive enrollments from tlsa\_Enrollment where:
 
@@ -529,9 +531,9 @@ Enrollments relevant to determining whether or not a person meets the time crite
 -   **ExitDate** is NULL or **ExitDate** > **CHStart**
 
 
-## 5.7 Get Dates to Exclude from Counts of ES/SH/Street Days (ch_Exclude)
+# 5.7 Get Dates to Exclude from Counts of ES/SH/Street Days (ch_Exclude)
 
-### Source
+## Source
 
 | **tlsa_Person**     |
 |---------------------|
@@ -545,13 +547,13 @@ Enrollments relevant to determining whether or not a person meets the time crite
 | ExitDate            |
 | CH                  |
 
-### Target
+## Target
 
 | **ch_Exclude** | **Column Description** |
 |----|----|
 | **PersonalID** | **PersonalD** |
 | **ExcludeDate** | Distinct dates between **CHStart** and **LastActive** when client was either in TH or housed in RRH/PSH. |
-### Logic
+## Logic
 
 Any date on which a client was either in TH or housed in RRH/PSH – i.e., known to be in a place other than one not meant for human habitation, a safe haven, or in an emergency shelter – is generally excluded from the count of ES/SH/Street days, even if there is conflicting information – e.g., an ES enrollment active on the date. The only exception to this is for stays of less than seven days, and only if the dates fall between two dates less than seven days apart on which the client is otherwise documented as being on the street or in ES/SH.
 
@@ -559,9 +561,9 @@ To resolve potential data conflicts, dates on which a client is enrolled in TH o
 
 -   For any CH enrollment where **MoveInDate** is not NULL, all dates between **MoveInDate** and the earlier of (**ExitDate** – 1 day) or <u>ReportEnd</u> are excluded.
 -   For any CH enrollment where **LSAProjectType** *\=* 2 (TH), all dates between **EntryDate** and the earlier of (**ExitDate** – 1 day) or <u>ReportEnd</u> are excluded.
-## 5.8 Get Dates to Include in Counts of ES/SH/Street Days (ch_Include)
+# 5.8 Get Dates to Include in Counts of ES/SH/Street Days (ch_Include)
 
-### Source
+## Source
 
 | **tlsa_Person**                                          |
 |----------------------------------------------------------|
@@ -586,26 +588,26 @@ To resolve potential data conflicts, dates on which a client is enrolled in TH o
 | EnrollmentID                                             |
 | *BedNightDate* (*DateProvided* where *RecordType* = 200) |
 
-### Target
+## Target
 
 | **ch_Include** | **Column Description** |
 |----|----|
 | **PersonalID** | **PersonalD** |
 | **ESSHStreetDate** | Distinct dates between **CHStart** and **LastActive** when client was in ES/SH or on the street; also referred to as ES/SH/Street dates. |
-### Logic
+## Logic
 
 For each **PersonalID** in tlsa\_Person, any date between **CHStart** and **LastActive** is counted as an **ESSHStreetDate** based on HMIS data if:
 
 -   The date is not excluded because the client was enrolled in a TH project or enrolled and housed in an RRH/PSH project (ch\_Exclude.**ExcludeDate**); and
 -   The date is consistent with any set of criteria listed below based on tlsa\_Enrollments where **CH** = 1.
 
-#### Enrollment in Entry/Exit ES or SH
+### Enrollment in Entry/Exit ES or SH
 
 - **LSAProjectType** in (0,8); and
 - ESSHStreetDate \>= (later of EntryDate and CHStart)*;* and
 - **ESSHStreetDate** \< (earliest non-NULL value for **ExitDate** or
   \[**LastActive** + 1 day\])
-#### Bed Nights in Night-by-Night ES 
+### Bed Nights in Night-by-Night ES 
 
 - **LSAProjectType** = 1; and
 - **ESSHStreetDate** = *BedNightDate*
@@ -614,7 +616,7 @@ For each **PersonalID** in tlsa\_Person, any date between **CHStart** and **Last
 - tlsa_Enrollment.**ExitDate** is NULL or *BedNightDate* \<
   tlsa_Enrollment.**ExitDate**
 
-#### ES/SH/Street Dates from 3.917 Living Situation
+### ES/SH/Street Dates from 3.917 Living Situation
 
 For enrollments where **EntryDate** > **CHStart**, dates on which the client was on the street on in ES/SH based on 3.917 are included as **ESSHStreetDate**s if they have not already been excluded or included based on prior criteria.
 
@@ -634,7 +636,7 @@ For enrollments where **EntryDate** > **CHStart**, dates on which the client was
         -   **MoveInDate** is NULL and **ExitDate** is NULL and **ESSHStreetDate** <= **LastActive**
 
 
-#### Gaps of Less than Seven Days Between Two ES/SH/Street Dates
+### Gaps of Less than Seven Days Between Two ES/SH/Street Dates
 
 Any date that falls between two ES/SH/Street dates that have been identified using the criteria above and are less than 7 days apart is counted as a ES/SH/Street day.
 - \[Date\] \> \[**ESSHStreetDate***1*\]*;* and
@@ -645,18 +647,18 @@ For example, if a client has *BedNightDate*s on June 1 and June 5 of the same ye
 
 Note that gaps of less than 7 days between **ESSHStreetDate**s are counted as ES/SH/Street dates regardless of ch\_Exclude dates.
 
-## 5.9 Get ES/SH/Street Episodes (ch_Episodes)
+# 5.9 Get ES/SH/Street Episodes (ch_Episodes)
 
 (Sections 5.5-5.10 outline the logic associated with counting ES/SH/Street dates. See section [5.5 Time Spent in ES/SH or on the Street](#_Time_Spent_in) for an overview and graphic for the process.)
 
-### Source
+## Source
 
 | **ch_Include** |
 |----------------|
 | PersonalID     |
 | ESSHStreetDate |
 
-### Target
+## Target
 
 | ch_Episodes | Column Description |
 |----|----|
@@ -664,7 +666,7 @@ Note that gaps of less than 7 days between **ESSHStreetDate**s are counted as ES
 | episodeStart | The first ES/SH/Street date in the series. |
 | episodeEnd | The last ES/SH/Street date in the series. |
 | episodeDays | The number of days between **episodeStart** and **episodeEnd.** |
-### Logic
+## Logic
 
 For purposes of the LSA, an ‘episode’ is a continuous – i.e., uninterrupted by any period of seven or more contiguous days — series of ES/SH/Street dates.
 
@@ -674,10 +676,10 @@ Each record in ch\_Episodes represents an uninterrupted series of ES/SH/Street d
 -   **episodeEnd** is the first **ESSHStreetDate** after **episodeStart** where (**ESSHStreetDate** + 1 day) does not exist
 -   **episodeDays** is the \[number of days between **episodeStart** and **episodeEnd**\] + 1 day
 
-## 5.10 CHTime and CHTimeStatus – LSAPerson
+# 5.10 CHTime and CHTimeStatus – LSAPerson
 
 (Sections 5.5-5.10 outline the logic associated with counting ES/SH/Street dates; this is the last step. See section [5.5 Time Spent in ES/SH or on the Street](#_Time_Spent_in) for an overview and graphic for the process.)
-### Source
+## Source
 
 | **tlsa_Person**              |
 |------------------------------|
@@ -702,13 +704,13 @@ Each record in ch\_Episodes represents an uninterrupted series of ES/SH/Street d
 | TimesHomelessPastThreeYears  |
 | MonthsHomelessPastThreeYears |
 
-### Target
+## Target
 
 | tlsa_Person  |
 |--------------|
 | CHTime       |
 | CHTimeStatus |
-### Logic
+## Logic
 
 There are a total of ten valid combinations of **CHTime** and **CHTimeStatus** values. They are summarized in the table below; detailed logic follows.
 
@@ -786,7 +788,7 @@ AND there is at least one enrollment for the **PersonalID** in tlsa\_Enrollment 
 		-   *TimesHomelessPastThreeYears* in (8,9,99) or is NULL
 		-   *MonthsHomelessPastThreeYears* in (8,9,99) or is NULL
 
-## 5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax – LSAPerson
+# 5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax – LSAPerson
 
 This section defines the logic associated with setting values for minimum and maximum age columns for each project group – EST, RRH, and PSH – for LSAPerson. These columns indicate:
 
@@ -794,7 +796,7 @@ This section defines the logic associated with setting values for minimum and ma
 
 \[**EST**/**RRH**/**PSH/RRHSO**\]**AgeMax** – The client’s maximum age at the later of <u>ReportStart</u> and **EntryDate** for any active \[EST/RRH/PSH/ RRHSO\] enrollment.
 
-### Source
+## Source
 
 | **tlsa_Enrollment** |
 |---------------------|
@@ -802,7 +804,7 @@ This section defines the logic associated with setting values for minimum and ma
 | ActiveAge           |
 | Active              |
 
-### Target
+## Target
 
 | **tlsa_Person** |
 |-----------------|
@@ -814,7 +816,7 @@ This section defines the logic associated with setting values for minimum and ma
 | **PSHAgeMax**   |
 | **RRHSOAgeMin** |
 | **RRHSOAgeMax** |
-### Logic
+## Logic
 
 These values are reported for all active clients.
 
@@ -854,9 +856,9 @@ For any client not served in RRH-SO (i.e., there is no active enrollment where *
 | 65    | 65 or older                       |
 | 98    | Data not provided                 |
 | 99    | Missing/invalid                   |
-## 5.12 Set Population Identifiers for Active HMIS Households 
+# 5.12 Set Population Identifiers for Active HMIS Households 
 
-### Source
+## Source
 
 | **tlsa_Enrollment** |
 |---------------------|
@@ -876,7 +878,7 @@ For any client not served in RRH-SO (i.e., there is no active enrollment where *
 | **tlsa_HHID**       |
 | ActiveHHType        |
 
-### Target
+## Target
 
 | **tlsa_HHID**    |
 |------------------|
@@ -887,9 +889,9 @@ For any client not served in RRH-SO (i.e., there is no active enrollment where *
 | **HHAdultAge**   |
 | **HHParent**     |
 | **AC3Plus**      |
-### Logic
+## Logic
 
-#### HHChronic
+### HHChronic
 
 Limited to active household members (those with records in tlsa\_Enrollment with the same **HouseholdID** where **Active** = 1):
 
@@ -905,7 +907,7 @@ Based on records in tlsa\_Enrollment with the same **HouseholdID** where **Activ
 | **6** | **CHTime** = 270 and **CHTimeStatus** <> 99 and **DisabilityStatus** = 1                                                   | Homeless > 6 Months with Disability (no missing data) |
 | **9** | **DisabilityStatus** <> 0 and **CHTimeStatus** \= 99                                                                       | CH Status Unknown (missing data)                      |
 | **0** | (any other)                                                                                                                | Not Chronically Homeless                              |
-#### HHVet
+### HHVet
 
 Limited to active household members (those with records in tlsa\_Enrollment with the same **HouseholdID** where **Active** = 1):
 
@@ -913,12 +915,12 @@ Based on records in tlsa\_Enrollment with the same **HouseholdID** where **Activ
 
 - **HHVet** = 1 if **ActiveHHType** in (1,2,99) and any adult household member is reported for LSAPerson (in tlsa\_Person) with **VetStatus** = 1.
 - Otherwise, **HHVet** = 0.
-#### HHDisability
+### HHDisability
 
 Limited to active household members (those with records in tlsa\_Enrollment with the same **HouseholdID** where **Active** = 1):
 - **HHDisability** = 1 if the head of household or any adult in the household is reported for LSAPerson (in tlsa\_Person) with **DisabilityStatus** = 1.
 - Otherwise, **HHDisability** = 0.
-#### HHFleeingDV
+### HHFleeingDV
 
 Limited to active household members (those with records in tlsa\_Enrollment with the same **HouseholdID** where **Active** = 1). In priority order:
 - **HHFleeingDV** = 1 (Households Fleeing Domestic Violence) if the head of household or any adult in the household is reported for LSAPerson (in tlsa\_Person) with **DVStatus** = 1.
@@ -930,7 +932,7 @@ Limited to active household members (those with records in tlsa\_Enrollment with
 | 2                     | DV survivor, not currently fleeing        | 2                      |
 | 3                     | DV survivor, unknown if currently fleeing | 2                      |
 Otherwise, **HHFleeingDV** = 0.
-#### HHAdultAge
+### HHAdultAge
 
 Set **HHAdultAge** for each active household to the upload value shown below based on the _first_ of the criteria below met by the ActiveAge values in tlsa\_Enrollment for all household members with the same **HouseholdID** where **Active** \= 1:
   
@@ -942,21 +944,21 @@ Set **HHAdultAge** for each active household to the upload value shown below bas
 | 3        | 24           | The maximum of all **ActiveAge** values is 24 (all adults are under 25)            |
 | 4        | 55           | The minimum of all **ActiveAge** values is between 55 and 65 (all members are 55+) |
 | 5        | 25           | (all other households)                                                             |
-#### HHParent
+### HHParent
 
 Set **HHParent** = 1 if one or more active enrollments associated with the **HouseholdID** has **RelationshipToHoH** = 2.
 
 Otherwise, **HHParent** \= 0.
-#### AC3Plus
+### AC3Plus
 
 Set **AC3Plus** = 1 if:
 - **HHType** for the active household = 2 (AC); and
 - The count of distinct **PersonalID**s from active enrollments associated with the **HouseholdID** where enrollment **ActiveAge** between 0 and 17 is >= 3. 
 
 Otherwise, **AC3Plus** = 0.
-## 5.13 Project Group and Population Household Types - LSAPerson
+# 5.13 Project Group and Population Household Types - LSAPerson
 
-### Source
+## Source
 
 | **tlsa_HHID**       |
 |---------------------|
@@ -979,7 +981,7 @@ Otherwise, **AC3Plus** = 0.
 | HHParent            |
 | AC3Plus             |
 
-### Target
+## Target
 
 | **tlsa_Person**                    |
 |------------------------------------|
@@ -997,7 +999,7 @@ Otherwise, **AC3Plus** = 0.
 | AC3PlusEST/RRH/PSH             |
 | HHTypeES/SH/TH                 |
 | HHTypeRRHSONoMI/ HHTypeRRHSOMI |
-### Logic
+## Logic
 
 These columns are reported for all active clients and identify the household types, if any, for enrollments that meet the column criteria for each project group.
 
@@ -1059,9 +1061,9 @@ For all other columns, household types are reported as shown below based on the 
 | 239           | AC, CO, and UN                     | 2,3, and 99  |
 | 1239          | AO, AC, CO, and UN                 | 1,2,3,and 99 |
 
-## 5.14 Adult Age Population Identifiers - LSAPerson 
+# 5.14 Adult Age Population Identifiers - LSAPerson 
 
-### Source
+## Source
 
 | **tlsa_Enrollment** |
 |---------------------|
@@ -1073,7 +1075,7 @@ For all other columns, household types are reported as shown below based on the 
 | LSAProjectType      |
 | HHAdultAge          |
 
-### Target
+## Target
 
 | **tlsa_Person**             |
 |-----------------------------|
@@ -1081,7 +1083,7 @@ For all other columns, household types are reported as shown below based on the 
 | **HHAdultAgeAOEST/RRH/PSH** |
 | **HHAdultAgeACEST/RRH/PSH** |
 
-### Logic
+## Logic
 
 Set the column values based on the first of the criteria below where:
 
@@ -1100,7 +1102,7 @@ Set the column values based on the first of the criteria below where:
 | 4        | **HHAdultAge** = 25                                                           | 25                             |
 | 5        | (any other, including people not served in the relevant HHType/project group) | -1                             |
 
-## 5.15 LSAPerson
+# 5.15 LSAPerson
 
 As noted, tlsa\_Person is a client-level precursor to lsa\_Person / LSAPerson.csv.
 

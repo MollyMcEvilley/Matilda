@@ -1,8 +1,9 @@
 ---
 layout: default
-title: LSA Repository
+title: "LSA Programming Specifications"
 nav_order: 1
 has_children: true
+has_toc: true
 ---
 
 # LSA Sample Code Repository

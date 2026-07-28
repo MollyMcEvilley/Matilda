@@ -1,10 +1,10 @@
 ---
 layout: default
-title: 3 - Core Concepts and Data Universe
+title: "3 - Core Concepts and Data Universe"
 nav_order: 4
-parent: LSA Repository
+parent: "LSA Programming Specifications"
+has_toc: true
 ---
-# 3  HMIS Business Logic - Core Concepts and Data Universe
 
 The universe of HMIS project, client, and enrollment data used to generate the LSA is broad in scope. It uses systemwide enrollment data for HMIS-participating continuum ES, SH, TH, RRH, and PSH projects and includes project descriptor data for OPH projects. It may include enrollments with exit dates and projects with operating end dates as far back as the <u>LookbackDate</u> (<u>ReportStart</u> – 7 years).
 
@@ -47,7 +47,7 @@ As described, it is a process that creates records in two ‘temporary tables’
 Household type is determined by the ages of household members. The calculation of age and household type is context-dependent – some processes require household type based on ages at project entry; others require household type based on age at the later of project entry or the start of a given cohort period. As described:
 
 There are multiple age columns in tlsa\_Enrollment (**EntryAge**, **ActiveAge**, etc.) and multiple household type columns in tlsa\_HHID (**EntryHHType**, **ActiveHHType**, etc.). Descriptions of business logic associated with age and household type processes are not repeated in subsequent sections.
-## 3.1 Report Parameters and Metadata (lsa\_Report)
+# 3.1 Report Parameters and Metadata (lsa\_Report)
 
 
 ``` mermaid
@@ -62,10 +62,10 @@ flowchart LR
 
 User-entered report parameters and hard-coded vendor data are included in LSAReport for upload to HDX 2.0. When they are applied in subsequent steps, their source is represented in graphics using lsa\_Report. References to individual report parameters are always underlined – e.g., <u>ReportStart</u> – in descriptions of business logic.
 
-### Source
+## Source
 
 User-entered parameters and hard-coded data provided by the vendor.
-### Source
+## Source
 
 | lsa_Report     |
 | -------------- |
@@ -79,13 +79,13 @@ User-entered parameters and hard-coded data provided by the vendor.
 | VendorContact  |
 | VendorEmail    |
 
-### Logic
+## Logic
 
-#### ReportID
+### ReportID
 
 **ReportID** is a system-generated integer that distinctly identifies an instance of LSA output and is repeated in each of the CSV files to confirm that they were produced together.
 
-#### <u>ReportStart</u>
+### <u>ReportStart</u>
 
 For the annual year-long LSA submitted to HUD, the report start date must be the first day (October 1) of the fiscal year for which the LSA is being produced.
 
@@ -95,7 +95,7 @@ It must be possible for a user to select any date on or after October 1, 2018.
 
 The data type for the column is date; values should be formatted as ‘yyyy-mm-dd’.
 
-#### <u>ReportEnd</u>
+### <u>ReportEnd</u>
 
 For the annual year-long LSA submitted to HUD, this must be the last day (September 30) of the fiscal year for which the LSA is being produced.
 
@@ -107,13 +107,13 @@ The phrase “report period,” in the context of this document, refers to the p
 
 The data type for the column is date; values should be formatted as ‘yyyy-mm-dd’.
 
-#### <u>ReportCoC</u>
+### <u>ReportCoC</u>
 
 **CoC Code** (<u>ReportCoC</u>) – The HUD-assigned code identifying the continuum for which the LSA is being produced. Users must be able to select one CoC from a drop-down list that includes all *2.03 Continuum of Care Codes* for which they are authorized to generate the LSA.
 
 The column is limited to six characters – e.g., ‘XX-999’ – and must match the HDX 2.0 value for the CoC for which the user is uploading data.
 
-#### <u>LSAScope</u>
+### <u>LSAScope</u>
 
 <u>LSAScope</u> is a user-selected report parameter.
 
@@ -132,19 +132,19 @@ The column is limited to six characters – e.g., ‘XX-999’ – and must matc
 
 **HIC** (3) – The HIC is a single day report.  LSA reporting procedures must identify projects relevant to the LSA based on project types and the business logic defined by this document without requiring the user to select individual projects.  <u>LSAScope</u> must be 3 for HIC submissions to HUD.
 
-#### User-Selected Projects (for Project-Focused LSA)
+### User-Selected Projects (for Project-Focused LSA)
 
 For a project-focused LSA, the HMIS *ProjectID*s for the projects selected by the user are also a parameter. This parameter is applied when selecting PDDE data for export.
 
-#### SoftwareVendor and SoftwareName
+### SoftwareVendor and SoftwareName
 
 **SoftwareVendor** and **SoftwareName** must be hard-coded to ensure that the values are consistent across all HMIS implementations. Both columns are strings; they may not exceed 50 characters and may not include any of the following: < > \[ \] { }.
 
-#### VendorContact and VendorEmail
+### VendorContact and VendorEmail
 
 Vendors may elect to provide contact information or to populate these columns with ‘n/a.’ In either case, **VendorContact** and **VendorEmail** must be hard-coded by the vendor. Both columns are strings; they may not exceed 50 characters and may not include any of the following: < > \[ \] { }.
 
-## 3.2 LSA Reporting Cohorts and Dates (tlsa\_CohortDates)
+# 3.2 LSA Reporting Cohorts and Dates (tlsa\_CohortDates)
 
 ``` mermaid
 flowchart LR 
@@ -170,14 +170,14 @@ Finally, there are four **point-in-time cohorts**, which include people and hous
 
 This section defines the logic associated with deriving the cohort periods based on <u>ReportStart</u> and <u>ReportEnd</u>.
 
-### Source
+## Source
 
 | lsa\_Report        |
 | ------------------ |
 | <u>ReportStart</u> |
 | <u>ReportEnd</u>   |
 
-### Source
+## Source
 
 Cohorts and cohort periods are referenced in subsequent steps using an intermediate data construct/temporary table called tlsa\_CohortDates.
 
@@ -187,7 +187,7 @@ Cohorts and cohort periods are referenced in subsequent steps using an intermedi
 | CohortStart       |
 | CohortEnd         |
 
-### Logic
+## Logic
 
 Point-in-time cohorts are only included if the relevant date falls between <u>ReportStart</u> and <u>ReportEnd</u> and **<u>LSAScope</u>** <> 3 (HIC). Exit cohorts are included only if **<u>LSAScope</u>** <> 3.
 
@@ -202,7 +202,7 @@ Point-in-time cohorts are only included if the relevant date falls between <u>Re
 | 12     | Point in time 4/30  | April 30 of <u>ReportEnd</u> year     | \= **CohortStart**                                                                                                               |
 | 13     | Point in time 7/31  | July 31 of <u>ReportEnd</u> year      | \= **CohortStart**                                                                                                               |
 
-## 3.3 HMIS Household Enrollments (tlsa\_HHID)
+# 3.3 HMIS Household Enrollments (tlsa\_HHID)
 
 ``` mermaid
 flowchart LR 
@@ -222,7 +222,7 @@ Not all the *HouseholdID*s identified in this step will ultimately be used by LS
 2.  Any reference to **EntryDate**, **MoveInDate** or **ExitDate** (in bold) as a property of tlsa\_HHID or tlsa\_Enrollment is a reference to the effective/adjusted entry, exit and move-in dates consistent with the logic in this step.
 3.  References to *EntryDate*, *MoveInDate* and *ExitDate* (italicized) are to raw HMIS data as entered.
 
-### Source
+## Source
 
 | **lsa\_Report**                                        |
 | ------------------------------------------------------ |
@@ -258,7 +258,7 @@ Not all the *HouseholdID*s identified in this step will ultimately be used by LS
 | EnrollmentID                                           |
 | ExitDate                                               |
 
-### Target
+## Target
 
 The logic associated with values for columns with names in **bold** below is described in this step. The business logic associated with other columns is described in subsequent steps.
 
@@ -294,9 +294,9 @@ The logic associated with values for columns with names in **bold** below is des
 | HHParent           | Identifies households where at least one household member has a _RelationshipToHoH_ of ‘Child’ (2) See section 5.12 Set Population Identifiers for Active HMIS Households                                                                                                                                                                                                                                                           |
 | AC3Plus            | Identifies AC households with 3 or more household members under 18 See section 5.12 Set Population Identifiers for Active HMIS Households                                                                                                                                                                                                                                                                                           |
 
-### Logic
+## Logic
 
-#### HMIS Data Requirements and Assumptions
+### HMIS Data Requirements and Assumptions
 
 **The HMIS Lead must identify and merge duplicate records for individual clients prior to generating the LSA.** The production of an unduplicated count of people experiencing homelessness is a fundamental purpose of HMIS. As such, it has been a requirement of every version of the HMIS Data Standards since March 2010 that an HMIS application must have functionality that allows the HMIS Lead to de-duplicate records with different *PersonalID*s for the same client. For the LSA, it is particularly critical that HMIS Leads *utilize* this functionality; it is not otherwise possible to produce accurate longitudinal and/or systemwide reporting.
 
@@ -337,7 +337,7 @@ The logic associated with values for columns with names in **bold** below is des
 
 -   LSA reporting procedures will use an effective exit date of \[last bed night + 1 day\].
 -   *Destination* will be reported as unknown, if applicable.
-#### HMISStart and HMISEnd
+### HMISStart and HMISEnd
 
 **HMISStart** refers to the most recent HMISParticipation.*HMISParticipationStatusStartDate* for the enrollment’s *ProjectID* where *HMISParticipationType* = 1 and:
 
@@ -347,7 +347,7 @@ The logic associated with values for columns with names in **bold** below is des
 
 **HMISEnd** refers to the *HMISParticipationStatusEndDate* associated with **HMISStart;** dates after <u>ReportEnd</u> should be evaluated as NULL**.**
 
-#### BedNightDates, FirstBedNight and LastBedNight
+### BedNightDates, FirstBedNight and LastBedNight
 
 For night-by-night shelter (*ProjectType* = 1) enrollments, a Services record where *RecordType* = 200 is counted as a *BedNightDate* if *DateProvided* is:
 
@@ -364,7 +364,7 @@ For night-by-night shelter (*ProjectType* = 1) enrollments, a Services record wh
 
 **LastBedNight** is the latest *BedNightDate* associated with an enrollment.
 
-#### Record Selection
+### Record Selection
 
 Potentially relevant *HouseholdID*s are those associated with one or more project enrollments that meet the following criteria.
 
@@ -390,7 +390,7 @@ Potentially relevant *HouseholdID*s are those associated with one or more projec
     -   *ExitDate* > *OperatingStartDate*
 -   If*ProjectType* = 1, there is at least one *BedNightDate* record for the enrollment (see criteria above).
 
-#### EntryDate
+### EntryDate
 
 To be included in the LSA, an enrollment must have an *EntryDate* that meets the following criteria:
 -   <= <u>ReportEnd</u>
@@ -405,7 +405,7 @@ Under some circumstances, the LSA will use an adjusted **EntryDate**:
 | 2        | _EntryDate_ >= **HMISStart**; and _EntryDate_ >= _OperatingStartDate_ | _EntryDate_                                     |
 | 3        | (any other)                                                           | The later of _OperatingStartDate/_**HMISStart** |
 
-#### MoveInDate
+### MoveInDate
 
 The *MoveInDate* is set for the head of household from the HMIS enrollment record only if it occurs on or before the end of the report period and is logically consistent with the project type, the head of household’s entry/exit dates, and the project’s operating/HMIS participation dates. Under some circumstances, the LSA will use an adjusted **MoveInDate**:
 
@@ -420,7 +420,7 @@ The *MoveInDate* is set for the head of household from the HMIS enrollment recor
 | 2        | _MoveInDate_ is NULL or _(MoveInDate_ \>= **HMISStart** _and MoveInDate_ \>= _OperatingStartDate)_ | _MoveInDate_                                    |
 | 3        | (any other)                                                                                        | The later of _OperatingStartDate_/**HMISStart** |
 
-#### ExitDate
+### ExitDate
 
 If the recorded *ExitDate* (or lack thereof) associated with an enrollment is inconsistent with other data, reporting must be based on an adjusted **ExitDate** consistent with the logic below. If applicable, *Destination* for these enrollments is reported as ‘Data missing or invalid’ (99).
 
@@ -437,7 +437,7 @@ If the recorded *ExitDate* (or lack thereof) associated with an enrollment is in
 | 5        | _OperatingEndDate_ and/or **HMISEnd** _<=_ ReportEnd; and _ExitDate_ is null or _ExitDate >_ (the earlier of **HMISEnd**/_OperatingEndDate_) | The earlier of _OperatingEndDate_/**HMISEnd** |
 | 6        | (other)                                                                                                                                      | _ExitDate_                                    |
 
-#### ExitDest
+### ExitDest
 
 The LSA includes reporting on exit destinations for the active and exit cohorts. Destination for inactive enrollments may also be relevant to system engagement status for the active and exit cohorts. If the recorded *ExitDate* (or lack thereof) associated with an enrollment is inconsistent with other data, (see **ExitDate** above), destination is always reported as unknown where relevant. The only exception to this is for RRH exits when the recorded exit date is the same as the **MoveInDate** – the recorded destination is valid under those circumstances.
 
@@ -492,7 +492,7 @@ The LSA includes reporting on exit destinations for the active and exit cohorts.
 | 439   | Rental by client - Permanent Supportive Housing                                                                               |
 | 440   | Rental by client - Other permanent housing dedicated for formerly homeless persons                                            |
 
-## 3.4 HMIS Client Enrollments (tlsa\_Enrollment)
+# 3.4 HMIS Client Enrollments (tlsa\_Enrollment)
 
 
 ``` mermaid
@@ -507,7 +507,7 @@ flowchart LR
 	
 	A & B --> C & D & E & F --> G
 ```
-### Source
+## Source
 
 | **lsa\_Report**                                          |
 | -------------------------------------------------------- |
@@ -543,7 +543,7 @@ flowchart LR
 | EnrollmentID                                             |
 | ExitDate                                                 |
 
-### Target
+## Target
 
 The logic associated with values for columns with names in **bold** below is described in this step. The business logic associated with other columns is described in subsequent steps.
 
@@ -573,8 +573,8 @@ The logic associated with values for columns with names in **bold** below is des
 | PITJuly               | Identifies the subset of AIR enrollments with a bed night on October 31 (if within the report period)                                                                                                                                                            |
 | CH                    | Identifies enrollment relevant to reporting on chronic homelessness                                                                                                                                                                                              |
 
-### Logic
-#### Record Selection
+## Logic
+### Record Selection
 
 An enrollment should be included in tlsa\_Enrollment if:
 
@@ -591,7 +591,7 @@ An enrollment should be included in tlsa\_Enrollment if:
     -   On or after tlsa\_HHID.**EntryDate**; and
     -   On or before tlsa\_HHID.**ExitDate** (if it is not NULL)
 
-#### EntryDate
+### EntryDate
 
 For night by night enrollments (tlsa\_HHID.**LSAProjectType** = 1), **EntryDate** is set to the earliest *BedNightDate* for the enrollment that is consistent with the record selection criteria.
 
@@ -600,7 +600,7 @@ For all other enrollments, tlsa\_Enrollment.**EntryDate** should be set to the l
 -   hmis\_Enrollment.*EntryDate*; or
 -   tlsa\_HHID.**EntryDate**.
 
-#### MoveInDate
+### MoveInDate
 
 All requirements for *MoveInDate* that apply to the active household also apply to all household members’ individual enrollments. If the household’s effective *MoveInDate* is logically inconsistent with a household member’s entry/exit dates, additional logic applies to setting the household member’s effective *MoveInDate.*
 
@@ -616,11 +616,11 @@ All requirements for *MoveInDate* that apply to the active household also apply 
 | HHID.**MoveInDate** = Exit._ExitDate_ and HHID.**ExitDate** > Exit._ExitDate_ | NULL                   |
 | (any other)                                                                   | HHID.**MoveInDate**    |
 
-#### Last Bed Night for Night-by-Night Shelter Enrollments
+### Last Bed Night for Night-by-Night Shelter Enrollments
 
 Where tlsa\_HHID.**LSAProjectType** = 1, **LastBedNight** refers to the most recent record (hmis\_Services.*RecordType* = 200) of a bed night that meets the criteria for record selection.
 
-#### ExitDate
+### ExitDate
 
 All requirements for *ExitDate* that apply to the active household apply to household members. In addition, no household member’s enrollment may continue past the head of household’s actual or effective exit date (tlsa\_HHID.**ExitDate**).
 
@@ -641,7 +641,7 @@ For night by night ES enrollments (tlsa\_HHID.**LSAProjectType** = 1), **ExitDat
 
 Otherwise, **ExitDate** = \[**LastBedNight** \+ 1 day\].
 
-#### DisabilityStatus
+### DisabilityStatus
 
 Because it is relevant and used repeatedly in subsequent steps both for demographic reporting and for identification of people and households who are part of specific populations of interest (e.g, Households with a Disabled Adult or Head of Household) , a preliminary enrollment-level value is included in tlsa\_Enrollment.
 
@@ -651,7 +651,7 @@ Because it is relevant and used repeatedly in subsequent steps both for demograp
 | 1                                   | 1                |
 | (any other)                         | NULL             |
 
-#### DVStatus
+### DVStatus
 
 Because it is relevant and used repeatedly in subsequent steps both for demographic reporting and for identification of people and households who are part of specific populations of interest (e.g, Households Fleeing Domestic Violence), a preliminary enrollment-level value is included in tlsa\_Enrollment.
 
@@ -670,7 +670,7 @@ It is the minimum DVStatus value in the table below based on *DomesticViolenceSu
 | In (8,9)                 | (n/a)            | 98       |
 | (any other)              | (n/a)            | NULL     |
 
-## 3.5 Enrollment Ages (tlsa\_Enrollment)
+# 3.5 Enrollment Ages (tlsa\_Enrollment)
 
 lsa\_Report
 
@@ -684,7 +684,7 @@ Age is used to determine household type, for demographic reporting, and to ident
 
 It uses data in tlsa\_CohortDates and hmis\_Client to set age group values for tlsa\_Enrollment.
 
-### Source
+## Source
 
 | **lsa\_Report**       |
 | --------------------- |
@@ -702,7 +702,7 @@ It uses data in tlsa\_CohortDates and hmis\_Client to set age group values for t
 | DOB                   |
 | DOBDataQuality        |
 
-### Target
+## Target
 
 | **tlsa\_Enrollment** |
 | -------------------- |
@@ -711,9 +711,9 @@ It uses data in tlsa\_CohortDates and hmis\_Client to set age group values for t
 | **Exit1Age**         |
 | **Exit2Age**         |
 
-### Logic
+## Logic
 
-#### EntryAge
+### EntryAge
 
 A client’s age at project entry is based on hmis\_Client *DOB* and *DOBDataQuality* and the entry date for the enrollment.
 
@@ -749,7 +749,7 @@ The first of the criteria listed below met by the combination of values for *DOB
 
 Once **EntryAge** is set, an additional adjustment may be required so that the date of birth (or lack thereof) used to calculate age is consistent across all enrollments. For any given **PersonalID**, if there is any enrollment in tlsa\_Enrollment where **EntryAge** = 99, **EntryAge** for all enrollments should be set to 99.
 
-#### ActiveAge
+### ActiveAge
 
 **ActiveAge** is calculated for all enrollments. For enrollments active in the report period, it will only differ from **EntryAge** if the **EntryDate** < <u>ReportStart</u> (and may not differ then).
 
@@ -772,7 +772,7 @@ For inactive enrollments, it is equal to **EntryAge.** (Age for inactive enrollm
 | 13       | \[_DOB_ + 1 years\] _<=_ ReportStart     | 2            |
 | 14       | (other)                                  | 0            |
 
-#### Exit1Age/Exit2Age
+### Exit1Age/Exit2Age
 
 **Exit1Age/Exit2Age** are set for all enrollments as they apply to reporting on exit cohorts -1 and -2.
 
@@ -795,7 +795,7 @@ Like **ActiveAge**, they will differ from **EntryAge** only when the enrollment 
 | 13       | \[_DOB_ + 1 years\] _<=_ **CohortStart**                                                      | 2            |
 | 14       | (other)                                                                                       | 0            |
 
-## 3.6 Household Types (tlsa\_HHID)
+# 3.6 Household Types (tlsa\_HHID)
 
 tlsa\_HHID
 
@@ -807,7 +807,7 @@ This section defines the logic associated with determining household type for ea
 
 It uses the tlsa\_Enrollment **EntryAge**, **ActiveAge**, **Exit1Age**, and **Exit2Age** values set in the previous step to set tlsa\_HHID **EntryHHType, ActiveHHType, Exit1HHType** and **Exit2HHType**.
 
-### Source
+## Source
 
 | **tlsa\_Enrollment**  |
 | --------------------- |
@@ -823,7 +823,7 @@ It uses the tlsa\_Enrollment **EntryAge**, **ActiveAge**, **Exit1Age**, and **Ex
 | CohortStart           |
 | CohortEnd             |
 
-### Target
+## Target
 
 | **tlsa\_HHID**   |
 | ---------------- |
@@ -832,7 +832,7 @@ It uses the tlsa\_Enrollment **EntryAge**, **ActiveAge**, **Exit1Age**, and **Ex
 | **Exit1HHType**  |
 | **Exit2HHType**  |
 
-### Logic
+## Logic
 
 Household type for each **HouseholdID** is based on counts of distinct **PersonalID**s in tlsa\_Enrollment by age status – adult, child, or unknown – for enrollments associated with the *HouseholdID*.
 
@@ -854,13 +854,13 @@ The criteria below are mutually exclusive; it is not necessary to apply them in 
 | (any)     | 0           | \>= 1          | UN (Unknown)     | 99        |
 | 0         | (any)       | \>= 1          | UN (Unknown)     | 99        |
 
-#### EntryHHType
+### EntryHHType
 
 Calculate for tlsa\_HHID based on **EntryAge** for all records in tlsa\_Enrollment with the same **HouseholdID**.
 
 **EntryHHType** is based on all household members’ age at the time of their own project entry. It is not a point-in-time determination – for households whose members entered at different times, it may differ from the household type as of the head of household’s entry and/or household members’ entry dates.
 
-#### ActiveHHType
+### ActiveHHType
 
 If tlsa\_HHID.**EntryDate** is >= <u>ReportStart</u> or tlsa\_HHID.**ExitDate** < <u>ReportStart</u>, **ActiveHHType** = **EntryHHType**.
 
@@ -868,7 +868,7 @@ For all other households, **ActiveHHType** is based on **ActiveAge** values for 
 
 **ActiveHHType** is set for all household enrollments, but it is not an indicator that the household meets all of the criteria for inclusion in the active cohort, which are described in section [5.1 Get Active and AIR HouseholdIDs](#_Get_Active_HouseholdIDs_1).
 
-#### Exit1HHType/Exit2HHType
+### Exit1HHType/Exit2HHType
 
 If tlsa\_HHID.**EntryDate** is >= **CohortStart** or tlsa\_HHID.**ExitDate** < **CohortStart**, **Exit(1 or 2)HHType** = **EntryHHType**.
 

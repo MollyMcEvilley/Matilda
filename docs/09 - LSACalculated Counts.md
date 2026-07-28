@@ -1,12 +1,12 @@
 ---
 layout: default
-title: 9 - LSA Calculated Counts
+title: "9 - LSA Calculated Counts"
 nav_order: 10
-parent: LSA Repository
+parent: "LSA Programming Specifications"
+has_toc: true
 ---
-# 9 - HMIS Business Logic - LSACalculated Counts
 
-## 9.1 Report Rows for LSACalculated Counts
+# 9.1 Report Rows for LSACalculated Counts
 
 | Row | Reporting Category                                      | Section     |
 |----:|---------------------------------------------------------|-------------|
@@ -21,13 +21,13 @@ parent: LSA Repository
 |  57 | Project-level – Bed nights by personal characteristics  | Section 9.5 |
 |  57 | Project-type – Bed nights by personal characteristics   | Section 9.5 |
 
-## 9.2 Identify Active and Point in Time Cohorts for LSACalculated Counts
+# 9.2 Identify Active and Point in Time Cohorts for LSACalculated Counts
 
 The ‘active’ cohort for these counts is limited to people and households with enrollments where **AIR** = 1.
 
 This step identifies records in tlsa_Enrollment in point-in-time cohorts (10-13) to simplify the process of generating counts.
 
-### Source
+## Source
 
 | **tlsa_CohortDates**                                   |
 |--------------------------------------------------------|
@@ -44,7 +44,7 @@ This step identifies records in tlsa_Enrollment in point-in-time cohorts (10-13)
 | EnrollmentID                                           |
 | BedNightDate (*DateProvided* where *RecordType* = 200) |
 
-### Target
+## Target
 
 | tlsa_Enrollment | Cohort | Category          |
 |-----------------|--------|-------------------|
@@ -53,7 +53,7 @@ This step identifies records in tlsa_Enrollment in point-in-time cohorts (10-13)
 | **PITApril**    | 12     | Active April 30   |
 | **PITJuly**     | 13     | Active July 31    |
 
-### Logic
+## Logic
 
 Set **PITOctober**, **PITJanuary**, **PITApril**, and **PITJuly** to 1
 where **AIR** = 1 and:
@@ -69,9 +69,9 @@ where **AIR** = 1 and:
 
 - **ExitDate** is NULL, or **ExitDate** \> <u>CohortStart.</u>
 
-## 9.3 Counts of People and Households by Project and Household Characteristics
+# 9.3 Counts of People and Households by Project and Household Characteristics
 
-### Source
+## Source
 
 | **tlsa_Enrollment** |
 |---------------------|
@@ -91,7 +91,7 @@ where **AIR** = 1 and:
 | HHFleeingDV         |
 | HHDisability        |
 
-### Target
+## Target
 
 | lsa_Calculated Column | Requirements                        |
 | --------------------- | ----------------------------------- |
@@ -105,9 +105,9 @@ where **AIR** = 1 and:
 | **ReportRow**         | See below                           |
 | ReportID              | Must match LSAReport.**ReportID**   |
 
-### Logic
+## Logic
 
-#### Report Row and Value
+### Report Row and Value
 
 Report rows 53 and 54 count people and households in the active and point-in-time cohorts (see section 9.2).
 
@@ -116,7 +116,7 @@ Report rows 53 and 54 count people and households in the active and point-in-tim
 | 53 | Count of distinct **PersonalID**s in tlsa_Enrollment |
 | 54 | Count of distinct combinations of **HoHID**/**ActiveHHType** in tlsa_HHID |
 
-#### Cohort
+### Cohort
 
 | Cohort | tlsa_Enrollment Criteria |
 |--------|--------------------------|
@@ -126,7 +126,7 @@ Report rows 53 and 54 count people and households in the active and point-in-tim
 | 12     | **PITApril** = 1         |
 | 13     | **PITJuly** = 1          |
 
-#### Universe and ProjectID
+### Universe and ProjectID
 
 Report rows 53 and 54 are required for each of the following **Universe** values grouped by cohort, household type, and population. For project-level counts (**Universe** = 10), the **ProjectID** from tlsa_HHID is required and should match a record in lsa_Project.
 
@@ -140,7 +140,7 @@ Report rows 53 and 54 are required for each of the following **Universe** values
 | 15=Housed in PSH | NULL | tlsa_HHID.**LSAProjectType** = 3 |
 | 16=ES/SH/TH unduplicated | NULL | tlsa_HHID.**LSAProjectType** in (0,1,8,2) |
 
-#### Household Type and Populations
+### Household Type and Populations
 
 Report rows 53 and 54 are required for the following combinations of
 household type and population:
@@ -160,9 +160,9 @@ household type and population:
 |  46 | Parenting Children                                              | 3          | **HHParent = 1**                               |
 |  48 | Domestic Violence Survivors Not Identified as Currently Fleeing | 0,1,2,3,99 | **HHFleeingDV** = 2                            |
 
-## 9.4 Get Counts of People by Project and Personal Characteristics
+# 9.4 Get Counts of People by Project and Personal Characteristics
 
-###  Source
+##  Source
 
 | **tlsa_Enrollment** |
 |---------------------|
@@ -181,7 +181,7 @@ household type and population:
 | HHParent            |
 | HHFleeingDV         |
 
-### Target
+## Target
 
 | lsa_Calculated Column | Requirements                                         |
 | --------------------- | ---------------------------------------------------- |
@@ -195,9 +195,9 @@ household type and population:
 | **ReportRow**         | 55                                                   |
 | ReportID              | Must match LSAReport.**ReportID**                    |
 
-### Logic
+## Logic
 
-#### Cohort
+### Cohort
 
 | Cohort | tlsa_Enrollment Criteria |
 |--------|--------------------------|
@@ -207,7 +207,7 @@ household type and population:
 | 12     | **PITApril** = 1         |
 | 13     | **PITJuly** = 1          |
 
-#### Universe and ProjectID
+### Universe and ProjectID
 
 Report row 55 is required for each of the following **Universe** values grouped by cohort, household type, and population. For project-level counts (**Universe** = 10), the **ProjectID** from tlsa_HHID is required and should match a record in lsa_Project.
 
@@ -221,7 +221,7 @@ Report row 55 is required for each of the following **Universe** values grouped 
 | 15=Housed in PSH | NULL | tlsa_HHID.**LSAProjectType** = 3 |
 | 16=ES/SH/TH unduplicated | NULL | tlsa_HHID.**LSAProjectType** in (0,1,8,2) |
 
-#### Household Type and Populations
+### Household Type and Populations
 
 For counts by **ProjectID** (**Universe** 10) report row 55 is required for
 the following combinations of household type and population:
@@ -325,8 +325,8 @@ subpopulation. For example, the subpopulation of Veterans Fleeing Domestic Viole
 | 77  | White (any combination)                                             |
 | 97  | Domestic Violence Survivor Not Identified as Currently Fleeing      |
 
-## 9.5 Get Counts of Bednights 
-### Source
+# 9.5 Get Counts of Bednights 
+## Source
 
 | **tlsa_Enrollment** |
 |---------------------|
@@ -344,7 +344,7 @@ subpopulation. For example, the subpopulation of Veterans Fleeing Domestic Viole
 | CHTime              |
 | CHTimeStatus        |
 
-#### Target
+### Target
 
 | lsa_Calculated Column | Requirements                      |
 | --------------------- | --------------------------------- |
@@ -358,7 +358,7 @@ subpopulation. For example, the subpopulation of Veterans Fleeing Domestic Viole
 | **ReportRow**         | 56 and 57 (see below)             |
 | ReportID              | Must match LSAReport.**ReportID** |
 
-### Logic
+## Logic
 
 These counts may be included under any circumstances but are required in LSACalculated only if:
 
@@ -368,7 +368,7 @@ These counts may be included under any circumstances but are required in LSACalc
 
 - LSAReport.**LSAScope** = 1
 
-#### Universe and ProjectID
+### Universe and ProjectID
 
 Report rows 56 and 57 are required for each of the following **Universe** values grouped by household type and population. For project-level counts (**Universe** = 10), the **ProjectID** from tlsa\_HHID is required and should match a record in lsa\_Project.
 
@@ -382,7 +382,7 @@ Report rows 56 and 57 are required for each of the following **Universe** values
 | 15=Housed in PSH | NULL | tlsa_HHID.**LSAProjectType** = 3 |
 | 16=ES/SH/TH unduplicated | NULL | tlsa_HHID.**LSAProjectType** in (0,1,8,2) |
 
-#### ReportRow, Population, and HHType
+### ReportRow, Population, and HHType
 
 The only difference in logic between rows 56 and 57 are the populations. Both count bed nights in the LSA report period for the populations and household types in the table below.
 
@@ -394,7 +394,7 @@ The only difference in logic between rows 56 and 57 are the populations. Both co
 | 57        | 50         | Veteran                        | 0,1,2,99   | **VetStatus** = 1                                                                                                          |
 | 57        | 53         | Chronically Homeless Adult/HoH | 0,1,2,3,99 | **DisabilityStatus** = 1 and: **CHTime** = 365 and **CHTimeStatus** in (1,2); or **CHTime** = 400 and **CHTimeStatus** = 2 |
 
-#### Value
+### Value
 
 **Value** = a count of the combination of \[Date\] and distinct **PersonalID**s in tlsa\_Enrollment where **AIR** = 1 and meet the criteria for inclusion based on household type and population identfiers where \[Date\] is between ReportStart and ReportEnd and:
 
@@ -404,9 +404,9 @@ The only difference in logic between rows 56 and 57 are the populations. Both co
 | **LSAProjectType** in (0,2,8) | **\>=EntryDate**                                                                                                                 | <= (**ExitDate** – 1 day) or, If **ExitDate** is NULL, ReportEnd |
 | **LSAProjectType** = 1        | _BedNightDate_ between <u>ReportStart</u> and <u>ReportEnd</u> and >= **EntryDate** and < **ExitDate** (if ExitDate is not NULL) |                                                                  |
 
-## 9.6 Get OPH Point-in-Time Counts for HIC
+# 9.6 Get OPH Point-in-Time Counts for HIC
 
-### Source
+## Source
 
 | **lsa_Report**                   |
 |----------------------------------|
@@ -428,7 +428,7 @@ The only difference in logic between rows 56 and 57 are the populations. Both co
 | **hmis_Exit**                    |
 | ExitDate                         |
 
-### Target
+## Target
 
 | lsa_Calculated Column | Requirements                                                     |
 | --------------------- | ---------------------------------------------------------------- |
@@ -441,7 +441,7 @@ The only difference in logic between rows 56 and 57 are the populations. Both co
 | **ReportRow**         | 53                                                               |
 | **ReportID**          | Must match LSAReport.**ReportID**                                |
 
-### Logic
+## Logic
 
 This adds a project-level point-in-time count of people housed in OPH for the HIC.
 

@@ -1,10 +1,10 @@
 ---
 layout: default
-title: 1 - LSA Introduction
+title: "1 - Introduction"
 nav_order: 2
-parent: LSA Repository
+parent: "LSA Programming Specifications"
+has_toc: true
 ---
-
 
 # 1.1 Background 
 

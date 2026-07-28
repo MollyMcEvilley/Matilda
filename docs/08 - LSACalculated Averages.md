@@ -1,10 +1,10 @@
 ---
 layout: default
-title: 8 - LSA Calculated Averages
+title: "8 - LSA Calculated Averages"
 nav_order: 9
-parent: LSA Repository
+parent: "LSA Programming Specifications"
+has_toc: true
 ---
-# 8 - HMIS Business Logic - LSACalculated Averages
 
 This section is required only if **<u>LSAScope</u>** <> 3 (HIC).
 
@@ -13,7 +13,7 @@ As in LSAHousehold, LSAPerson, and LSAExit, records are only included in LSACalc
 -   Averages are only included if there is at least one record where the value in the source column is greater than zero for at least one household represented by the combination of household type, population, etc.
 -   Counts are only included if they are greater than zero.
 
-## 8.1 LSACalculated Columns
+# 8.1 LSACalculated Columns
 
 | **Column** | **Description**                                                                                                                                                                                                                                                                                                                                                  |
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -26,7 +26,7 @@ As in LSAHousehold, LSAPerson, and LSAExit, records are only included in LSACalc
 | ProjectID  | -   For project-level counts (**Universe** = 10) in rows 53-57 and 901-920, a ProjectID from lsa\_Project. -   Must be NULL for all other report rows.                                                                                                                                                                                                           |
 | ReportRow  | See Section 8.2                                                                                                                                                                                                                                                                                                                                                  |
 | ReportID   | Must match LSAReport.**ReportID**                                                                                                                                                                                                                                                                                                                                |
-## 8.2 Report Rows for LSACalculated Averages
+# 8.2 Report Rows for LSACalculated Averages
 
 All calculated values associated with LSAHousehold (rows 1-16) and LSAExit (rows 18-36, 63-66, and 101-136) are averages of counts of days.
 
@@ -108,9 +108,9 @@ All calculated values associated with LSAHousehold (rows 1-16) and LSAExit (rows
 | 135 | Average days to return after exit to destination not provided by client                                                                                            | Section 8.11     |
 | 136 | Average days to return after exit with missing/invalid destination                                                                                                 | Section 8.11     |
 
-## 8.3 Populations for Average Days from LSAHousehold and LSAExit
+# 8.3 Populations for Average Days from LSAHousehold and LSAExit
 
-### Populations 
+## Populations 
 
 All LSAHousehold and LSAExit report rows must be generated for the nine populations shown in the table below.
 
@@ -141,7 +141,7 @@ When a report row is required in LSACalculated for any given population, values 
 | 15 | Chronically Homeless | 0,1,2,3,99 | **HHChronic** = 1 |
 | 16 | Long-Term Homeless | 0,1,2,3,99 | **HHChronic** in (1,2) |
 | 17 | Annual Inflow Homeless | 0,1,2,3,99 | **HHChronic** in (0,3) |
-### Subpopulations
+## Subpopulations
 
 Reporting by subpopulation is limited to the following LSAExit and LSAHousehold rows:
 
@@ -187,9 +187,9 @@ When the parent population is ‘All’ (0), the ID listed below is used. In com
 | 47 | Households with 3+ Children (LSAHousehold) | 2 | **HHChild = 3** | 0,13,15 |
 | 47 | Households with 3+ Children (LSAExit) | 2 | **AC3Plus = 1** | 0,13,15 |
 | 48 | Domestic Violence Survivors Not Identified as Currently Fleeing | 0,1,2,3,99 | **HHFleeingDV** = 2 | 0, 10-15 |
-## 8.4 Get Average Days for Length of Time Homeless
+# 8.4 Get Average Days for Length of Time Homeless
 
-### Source
+## Source
 
 | **tlsa_Household**     |
 |------------------------|
@@ -214,7 +214,7 @@ When the parent population is ‘All’ (0), the ID listed below is used. In com
 | Stat                   |
 | HHChild                |
 
-### Target
+## Target
 
 | lsa_Calculated Column | Requirements                                                                                         |
 | --------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -227,12 +227,12 @@ When the parent population is ‘All’ (0), the ID listed below is used. In com
 | ProjectID             | NULL                                                                                                 |
 | **ReportRow**         | Rows 1-9 (see below)                                                                                 |
 | ReportID              | Must match LSAReport.**ReportID**                                                                    |
-### Logic
+## Logic
 
 See the table above for **Cohort**, **Universe**, **SystemPath**, **ProjectID**, and **ReportID**.
 
 See section 8.3 for required **Population** and **HHType** combinations.
-#### ReportRow and Value
+### ReportRow and Value
 
 For each **ReportRow** listed below, **Value** \= the average of \[Source Column\] from tlsa\_Household where \[Source Column\] > 0, rounded to the nearest whole number, or the result of a built-in AVERAGE or AVG function in a database that returns an integer when the datatype of the parameter is *integer*.
 
@@ -247,9 +247,9 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | Days homeless total                                                                                          | **TotalHomelessDays**      | 7         |
 | Days housed in RRH                                                                                           | **RRHHousedDays**          | 8         |
 | Days documented homeless or housed in RRH total (excluding self-reported time)                               | **SystemDaysNotPSHHoused** | 9         |
-## 8.5 Get Average Days for Length of Time Homeless by System Path
+# 8.5 Get Average Days for Length of Time Homeless by System Path
 
-### Source
+## Source
 
 | **tlsa_Household**     |
 |------------------------|
@@ -269,7 +269,7 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | HHAdultAge             |
 | HHParent               |
 
-### Target 
+## Target 
 
 | lsa_Calculated Column | Requirements                                                                                         |
 | --------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -283,13 +283,13 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | **ReportRow**         | Rows 1-9 (see below)                                                                                 |
 | ReportID              | Must match LSAReport.**ReportID**                                                                    |
 
-### Logic
+## Logic
 
 See the table above for **Cohort**, **Universe**, **ProjectID**, and **ReportID**.
 
 See section 8.3 for required **Population** and **HHType** combinations.
 
-#### ReportRow, SystemPath, and Value
+### ReportRow, SystemPath, and Value
 
 For each **ReportRow** listed below, **Value** \= the average of \[Source Column\] from tlsa\_Household where \[Source Column\] > 0, rounded to the nearest whole number, or the result of a built-in AVERAGE or AVG function in a database that returns an integer when the datatype of the parameter is *integer*.
 
@@ -307,9 +307,9 @@ The averages for LSACalculated are grouped by the **SystemPath** values from LSA
 | Days housed in RRH                                                                                           | **RRHHousedDays** where **SystemPath** in (4,5,6,7,10,11,12)           | 8         |
 | Days documented homeless or housed in RRH total (excluding self-reported time)                               | **SystemDaysNotPSHHoused** where **SystemPath** <> -1                  | 9         |
 
-## 8.6 Get Average Days for Cumulative Length of Time Housed in PSH
+# 8.6 Get Average Days for Cumulative Length of Time Housed in PSH
 
-### Source
+## Source
 
 | **tlsa_Household** |
 |--------------------|
@@ -322,7 +322,7 @@ The averages for LSACalculated are grouped by the **SystemPath** values from LSA
 | HHAdultAge         |
 | HHParent           |
 
-### Target 
+## Target 
 
 | lsa_Calculated Column | Requirements                                                                                         |
 | --------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -336,12 +336,12 @@ The averages for LSACalculated are grouped by the **SystemPath** values from LSA
 | **ReportRow**         | Rows 10 and 11 (see below)                                                                           |
 | ReportID              | Must match LSAReport.**ReportID**                                                                    |
 
-### Logic
+## Logic
 
 See the table above for **Cohort**, **Universe**, **ProjectID**, **SystemPath**, and **ReportID**.
 
 See section 8.3 for required **Population** and **HHType** combinations.
-#### ReportRow and Value
+### ReportRow and Value
 
 For each **ReportRow** listed below, **Value** \= the average of \[Source Column\] from tlsa\_Household where \[Source Column\] > 0, rounded to the nearest whole number, or the result of a built-in AVERAGE or AVG function in a database that returns an integer when the datatype of the parameter is *integer*.
 
@@ -350,9 +350,9 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | Days housed in PSH – exited in report period | **PSHHousedDays** (where **PSHMoveIn** in (1,2) and **PSHStatus** in (12,22)) | 10        |
 | Days housed in PSH – housed at report end    | **PSHHousedDays** (where **PSHMoveIn** in (1,2) and **PSHStatus** in (11,21)) | 11        |
 
-## 8.7 Get Average Days for Length of Time in RRH Projects
+# 8.7 Get Average Days for Length of Time in RRH Projects
 
-### Source 
+## Source 
 
 | **tlsa_Household** |
 |--------------------|
@@ -366,7 +366,7 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | HHAdultAge         |
 | HHParent           |
 
-### Target
+## Target
 
 | lsa_Calculated Column | Requirements                                                                                         |
 | --------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -380,13 +380,13 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | **ReportRow**         | Rows 12-16 (see below)                                                                               |
 | ReportID              | Must match LSAReport.**ReportID**                                                                    |
 
-### Logic
+## Logic
 
 See the table above for **Cohort**, **Universe**, **ProjectID**, **SystemPath**, and **ReportID**.
 
 See section 8.3 for required **Population** and **HHType** combinations.
 
-#### ReportRow and Value
+### ReportRow and Value
 
 For each **ReportRow** listed below, **Value** \= the average of \[Source Column\] from tlsa\_Household where \[Source Column\] > 0, rounded to the nearest whole number, or the result of a built-in AVERAGE or AVG function in a database that returns an integer when the datatype of the parameter is *integer*.
 
@@ -398,9 +398,9 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | RRH move-in to exit for households placed before exiting           | **RRHHousedDays** where **RRHStatus** in (12,22) and **RRHMoveIn** in (1,2) | 15        |
 | RRH move-in to report end for active households placed in PH       | **RRHHousedDays** where **RRHStatus** in (11,21) and **RRHMoveIn** in (1,2) | 16        |
 
-## 8.8 Get Average Days to Return/Re-engage by Last Project Type
+# 8.8 Get Average Days to Return/Re-engage by Last Project Type
 
-### Source 
+## Source 
 
 | **tlsa_Exit** |
 |---------------|
@@ -414,7 +414,7 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | HHAdultAge    |
 | HHParent      |
 
-### Target
+## Target
 
 | lsa_Calculated Column | Requirements                                                |
 | --------------------- | ----------------------------------------------------------- |
@@ -428,13 +428,13 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | **ReportRow**         | Rows 18-22, 63-66 (see below)                               |
 | ReportID              | Must match LSAReport.**ReportID**                           |
 
-### Logic
+## Logic
 
 See the table above for **Cohort,**, **SystemPath**, **ReportRow** and **ReportID**.
 
 See section 8.3 for required **Population** and **HHType** combinations.
 
-#### Universe
+### Universe
 
 Averages are grouped by **Universe** based on LSAExit (tlsa_Exit) **ExitTo**.
 
@@ -444,7 +444,7 @@ Averages are grouped by **Universe** based on LSAExit (tlsa_Exit) **ExitTo**.
 | Re-engage 15-730 days after exit to temporary destination | **ExitTo** between 100 and 399 | 3        |
 | Re-engage 15-730 days after exit to unknown destination   | **ExitTo** \< 100              | 4        |
 
-#### ReportRow and Value
+### ReportRow and Value
 
 For each **ReportRow** listed below, **Value** = the average of \[Source Column\] from tlsa_Exit where **ReturnTime** \> 0, rounded to the nearest whole number, or the result of a built-in AVERAGE or AVG function in a database that returns an integer when the datatype of the
 parameter is *integer*.
@@ -461,9 +461,9 @@ parameter is *integer*.
 | Days to return after exit from RRH-SO (placed in PH)     | **ReturnTime** where **ExitFrom** = 9  | 65        |
 | Days to return after exit from RRH-SO (not placed in PH) | **ReturnTime** where **ExitFrom** = 10 | 66        |
 
-## 8.9 Get Average Days to Return/Re-engage by Population
+# 8.9 Get Average Days to Return/Re-engage by Population
 
-### Source
+## Source
 
 | **tlsa_Exit**    |
 |------------------|
@@ -483,7 +483,7 @@ parameter is *integer*.
 | Stat             |
 | AC3Plus          |
 
-### Target
+## Target
 
 | lsa_Calculated Column | Requirements                                                              |
 | --------------------- | ------------------------------------------------------------------------- |
@@ -497,13 +497,13 @@ parameter is *integer*.
 | **ReportRow**         | 23                                                                        |
 | ReportID              | Must match LSAReport.**ReportID**                                         |
 
-### Logic
+## Logic
 
 See the table above for **Cohort,**, **SystemPath**, **ReportRow** and **ReportID**.
 
 See section 8.3 for required **Population** and **HHType** combinations.
 
-#### Universe
+### Universe
 
 Averages are grouped by **Universe** based on LSAExit (tlsa_Exit) **ExitTo**.
 
@@ -513,13 +513,13 @@ Averages are grouped by **Universe** based on LSAExit (tlsa_Exit) **ExitTo**.
 | Re-engage 15-730 days after exit to temporary destination | **ExitTo** between 100 and 399 | 3 |
 | Re-engage 15-730 days after exit to unknown destination | **ExitTo** \< 100 | 4 |
 
-#### Value
+### Value
 
 For each valid combination of values in other relevant columns, **Value** = the average of \[Source Column\] from tlsa_Exit where **ReturnTime** \> 0, rounded to the nearest whole number, or the result of a built-in AVERAGE or AVG function in a database that returns an integer when the datatype of the parameter is *integer*.
 
-## 8.10 Get Average Days to Return/Re-engage by System Path
+# 8.10 Get Average Days to Return/Re-engage by System Path
 
-### Source 
+## Source 
 
 | **tlsa_Exit** |
 |---------------|
@@ -534,7 +534,7 @@ For each valid combination of values in other relevant columns, **Value** = the 
 | HHParent      |
 | SystemPath    |
 
-### Target
+## Target
 
 | lsa_Calculated Column | Requirements                                                |
 | --------------------- | ----------------------------------------------------------- |
@@ -548,12 +548,12 @@ For each valid combination of values in other relevant columns, **Value** = the 
 | **ReportRow**         | See below                                                   |
 | ReportID              | Must match LSAReport.**ReportID**                           |
 
-### Logic
+## Logic
 
 See the table above for **Cohort**, and **ReportID**.
 
 See section 8.3 for required **Population** and **HHType** combinations.
-#### Universe
+### Universe
 
 Averages are grouped by **Universe** based on LSAExit (tlsa_Exit) **ExitTo**.
 
@@ -563,7 +563,7 @@ Averages are grouped by **Universe** based on LSAExit (tlsa_Exit) **ExitTo**.
 | Re-engage 15-730 days after exit to temporary destination | **ExitTo** between 100 and 399 | 3 |
 | Re-engage 15-730 days after exit to unknown destination | **ExitTo** \< 100 | 4 |
  
-#### ReportRow, SystemPath, and Value
+### ReportRow, SystemPath, and Value
 
 For each **ReportRow** listed below, **Value** \= the average of **ReturnTime** where **ReturnTime** > 0 and **SystemPath** meets the listed criteria, rounded to the nearest whole number.
 
@@ -587,9 +587,9 @@ For **ReportRow**s 24-35, averages are grouped by the **SystemPath** value in LS
 | Days to return after other path         | **SystemPath** = 12    | 35        |
 | Days to return after any system path    | **SystemPath** \<\> -1 | 36        |
 
-## 8.11 Get Average Days to Return/Re-engage by Exit Destination
+# 8.11 Get Average Days to Return/Re-engage by Exit Destination
 
-### Source
+## Source
 
 | **tlsa_Exit** |
 |---------------|
@@ -602,7 +602,7 @@ For **ReportRow**s 24-35, averages are grouped by the **SystemPath** value in LS
 | HHAdultAge    |
 | HHParent      |
 
-### Target
+## Target
 
 | lsa_Calculated Column | Requirements                                                |
 | --------------------- | ----------------------------------------------------------- |
@@ -616,13 +616,13 @@ For **ReportRow**s 24-35, averages are grouped by the **SystemPath** value in LS
 | **ReportRow**         | 101-136                                                     |
 | ReportID              | Must match LSAReport.**ReportID**                           |
 
-### Logic
+## Logic
 
 See the table above for **Cohort, SystemPath, ProjectID,** and **ReportID**.
 
 See section 8.3 for required **Population** and **HHType** combinations.
 
-#### ReportRow, Universe, and Value
+### ReportRow, Universe, and Value
 
 For each **ReportRow** listed below, **Value** \= the average of **ReturnTime** where **ReturnTime** > 0 and tlsa\_Exit.**ExitTo** meets the listed criteria, rounded to the nearest whole number, or the result of a built-in AVERAGE or AVG function in a database that returns an integer when the datatype of the parameter is *integer*.
 

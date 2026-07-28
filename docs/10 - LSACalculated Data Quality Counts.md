@@ -1,13 +1,13 @@
 ---
 layout: default
-title: 10 - LSA Calculated Project Level Data Quality Counts
+title: "10 - LSA Calculated Project Level Data Quality Counts"
 nav_order: 11
-parent: LSA Repository
+parent: "LSA Programming Specifications"
+has_toc: true
 ---
-# 10 - HMIS Business Logic - LSACalculated Project-Level Data Quality Counts
 
 Report Rows 901-920 are project-level counts of data quality issues; this is to provide information to CoCs and the AHAR analysis team about specific sources of data quality issues.
-## 10.1 Static Column Values
+# 10.1 Static Column Values
 
 | lsa_Calculated Column | Requirements                      |
 | --------------------- | --------------------------------- |
@@ -21,7 +21,7 @@ Report Rows 901-920 are project-level counts of data quality issues; this is to 
 
 **ReportRow** numbers and **Value** criteria are defined in the following sections.
 
-## 10.2 DQ - Enrollments Active After Project Operating End Date by Project
+# 10.2 DQ - Enrollments Active After Project Operating End Date by Project
 
 **ReportRow** 901 counts enrollments in tlsa\_Enrollment with no *ExitDate* in hmis\_Exit for projects that have an *OperatingEndDate* between <u>ReportStart</u> and <u>ReportEnd</u>.
 
@@ -40,7 +40,7 @@ AND:
 
 Records are only included when the count is greater than zero.
 
-## 10.3 DQ - Night-by-Night Enrollments with Exit Date Discrepancies by Project
+# 10.3 DQ - Night-by-Night Enrollments with Exit Date Discrepancies by Project
 
 **ReportRow** 903 counts enrollments without an *ExitDate* as of <u>ReportEnd</u> (i.e., *ExitDate* is after <u>ReportEnd</u> or is NULL) in continuum night-by-night ES projects that have no record of a bed night in the 90 days ending on <u>ReportEnd</u>.
 
@@ -57,7 +57,7 @@ Records are only included when the count is greater than zero.
 
 In this context, **LastBedNight** is the most recent bed night for the enrollment on or before <u>ReportEnd</u>.
 
-## 10.4 DQ - Counts of Households with no EnrollmentCoC by Project
+# 10.4 DQ - Counts of Households with no EnrollmentCoC by Project
 
 **ReportRow** 905 counts households that are active in a continuum ES/SH/TH/RRH/PSH/RRHSO project during the report period and whose enrollment(s) are not associated with any CoC.
 
@@ -72,7 +72,7 @@ In this context, **LastBedNight** is the most recent bed night for the enrollmen
     -   *EnrollmentCoC* is not NULL; and
     -   *RelationshipToHoH* = 1
 
-## 10.5 DQ – Enrollments in Non-Participating Projects
+# 10.5 DQ – Enrollments in Non-Participating Projects
 
 **ReportRow** 906 counts enrollments in hmis\_Enrollment that are active during the report period and overlap with a period in which the project was not identified as participating in HMIS. This may include enrollments that were excluded from the LSA entirely and/or enrollments used in LSA reporting with adjusted entry/exit dates.
 
@@ -90,7 +90,7 @@ In this context, **LastBedNight** is the most recent bed night for the enrollmen
     -   **HMISParticipationStatusEndDate** >= *ExitDate;* or
     -   *ExitDate* is null and **HMISParticipationStatusEndDate** > <u>ReportEnd</u>
 
-## 10.6 DQ – Enrollments Active in LSA Projects During the Report Period without Exactly One HoH
+# 10.6 DQ – Enrollments Active in LSA Projects During the Report Period without Exactly One HoH
 
 **ReportRow** 907 counts enrollments that are active in a continuum ES/SH/TH/RRH/PSH/RRHSO project during the report period and do not have exactly one HoH.
 
@@ -102,7 +102,7 @@ In this context, **LastBedNight** is the most recent bed night for the enrollmen
 -   *ExitDate* is null or *ExitDate* \> *EntryDate*; and
 -   The count of *PersonalID*s in hmis\_Enrollment with the same *HouseholdID* and a *RelationshipToHoH* \= 1 <> 1
 
-## 10.7 DQ – Enrollments Active in LSA Projects without a Valid Relationship to HoH
+# 10.7 DQ – Enrollments Active in LSA Projects without a Valid Relationship to HoH
 
 **ReportRow** 908 counts enrollments that are active in a continuum ES/SH/TH/RRH/PSH/RRHSO project during the report period and do not have a valid *RelationshipToHoH.*.
 
@@ -114,26 +114,26 @@ In this context, **LastBedNight** is the most recent bed night for the enrollmen
 -   *ExitDate* is null or *ExitDate* \> *EntryDate*; and
 -   *RelationshipToHoH* is NULL or not in (1,2,3,4,5)
 
-## 10.8 DQ – Household Entry
+# 10.8 DQ – Household Entry
 
 The **Value** for **ReportRow** 909 is a count of distinct **HouseholdID**s in tlsa\_HHID where **AIR** \= 1 or (**<u>LSAScope</u>** <> 3 and **Active** \= 1).
 
-## 10.9 DQ – Client Entry
+# 10.9 DQ – Client Entry
 
 The **Value** for **ReportRow** 910 is a count of distinct **EnrollmentID**s in tlsa\_Enrollment where **AIR** \= 1 or (**<u>LSAScope</u>** <> 3 and **Active** \= 1).
 
-## 10.10 DQ – Adult/HoH Entry
+# 10.10 DQ – Adult/HoH Entry
 
 The **Value** for **ReportRow** 911 is a count of distinct **EnrollmentID**s in tlsa\_Enrollment where **AIR** \= 1 or (**<u>LSAScope</u>** <> 3 and **Active** \= 1) and:
 
 -   **ActiveAge** between 18 and 65; or
 -   **RelationshipToHoH** = 1.
 
-## 10.11 DQ – Client Exit
+# 10.11 DQ – Client Exit
 
 The **Value** for **ReportRow** 912 is a count of distinct **PersonalID**s in tlsa\_Enrollment where **AIR** \= 1 or (**<u>LSAScope</u>** <> 3 and **Active** \= 1) and **ExitDate** is not NULL.
 
-## 10.12 DQ – Disabling Condition
+# 10.12 DQ – Disabling Condition
 
 This is a subset of **ClientEntry** (the **Value** for **ReportRow** 910).
 
@@ -141,7 +141,7 @@ The **Value** for **ReportRow** 913 is a count of distinct **EnrollmentIDs** in 
 
 -   DisabilityStatus = 99.
 
-## 10.13 DQ – Living Situation
+# 10.13 DQ – Living Situation
 
 This is a subset of **AdultHoHEntry**(the **Value** for **ReportRow** 911).
 
@@ -150,7 +150,7 @@ The **Value** for **ReportRow** 914 is a count of distinct **EnrollmentIDs** in 
 -   **LivingSituation** in (8,9,99) or is NULL; and
 -   **ActiveAge** between 18 and 65 or **RelationshipToHoH** = 1
 
-## 10.14 DQ – Length of Stay
+# 10.14 DQ – Length of Stay
 
 This is a subset of **AdultHoHEntry** (the **Value** for **ReportRow** 911).
 
@@ -159,7 +159,7 @@ The **Value** for **ReportRow** 915 is a count of distinct **EnrollmentIDs** in 
 -   *LengthOfStay* in (8,9,99) or is NULL; and
 -   **ActiveAge** between 18 and 65 or **RelationshipToHoH** = 1
 
-## 10.15 DQ – Date ES/SH/Street Homelessness Started
+# 10.15 DQ – Date ES/SH/Street Homelessness Started
 
 This is a subset of **AdultHoHEntry**(the **Value** for **ReportRow** 911).
 
@@ -172,7 +172,7 @@ The **Value** for **ReportRow** 916 is a count of distinct **EnrollmentIDs** in 
     -   *LivingSituation* in (101,116,118); or
     -   *PreviousStreetESSH* = 1.
 
-## 10.16 DQ – Times ES/SH/Street Homeless Last 3 Years
+# 10.16 DQ – Times ES/SH/Street Homeless Last 3 Years
 
 This is a subset of **AdultHoHEntry** (the **Value** for **ReportRow** 911).
 
@@ -184,7 +184,7 @@ The **Value** for **ReportRow** 917 is a count of distinct **EnrollmentIDs** in 
     -   *LivingSituation* in (101,116,118); or
     -   *PreviousStreetESSH* = 1.
 
-## 10.17 DQ – Months ES/SH/Street Homeless Last 3 Years
+# 10.17 DQ – Months ES/SH/Street Homeless Last 3 Years
 
 This is a subset of **AdultHoHEntry**(the **Value** for **ReportRow** 911).
 
@@ -196,7 +196,7 @@ The **Value** for **ReportRow** 918 is a count of distinct **EnrollmentIDs** in 
     -   *LivingSituation* in (101,116,118); or
     -   *PreviousStreetESSH* = 1.
 
-## 10.18 DQ – Destination
+# 10.18 DQ – Destination
 
 This is a subset of **ClientExit** (the **Value** for **ReportRow** 912).
 
@@ -206,11 +206,11 @@ The **Value** for **ReportRow** 919 is a count of distinct **EnrollmentIDs** in 
     -   *Destination* is NULL or in (8,9,17,30,99) or
     -   *Destination* = 435 and hmis\_Exit.*DestinationSubsidyType* is NULL
 
-## 10.19 DQ – Date of Birth
+# 10.19 DQ – Date of Birth
 
 The **Value** for **ReportRow** 920 is a count of distinct **PersonalIDs** in tlsa\_Enrollment for **ProjectID**s in lsa\_Project where where **AIR** \= 1 or (**<u>LSAScope</u>** <> 3 and **Active** \= 1) and **ActiveAge** in (98,99).
 
-## 10.20 LSACalculated
+# 10.20 LSACalculated
 
 LSACalculated has nine columns. Except for **ProjectID,** the datatype for all columns is integer and none may be NULL.
 

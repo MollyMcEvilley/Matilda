@@ -1,21 +1,21 @@
 ---
 layout: default
-title: 7 - LSAExit
+title: "7 - LSAExit"
 nav_order: 8
-parent: LSA Repository
+parent: "LSA Programming Specifications"
+has_toc: true
 ---
-# 7 - HMIS Business Logic - LSAExit
 
 This section is required only if **<u>LSAScope</u>** <> 3 (HIC).
 
 Each distinct combination of **Cohort**, the *PersonalID* for the head of household (**HoHID**), and household type (**HHType**) associated with one or more qualifying exits in the cohort period represents a single household/cohort member for LSAExit.
 
 As with the active cohort, a household is identified based on each unique combination of HoHID/HHType. Aside from the dates, there are no differences in logic among the three exit cohorts.
-## 7.1 Identify Qualifying Exits in Exit Cohort Periods
+# 7.1 Identify Qualifying Exits in Exit Cohort Periods
 
 The objective of this step is to identify records in tlsa_HHID that represent system exits in each exit cohort period.
 
-### Source
+## Source
 
 | **tlsa_CohortDates** |
 |----------------------|
@@ -34,7 +34,7 @@ The objective of this step is to identify records in tlsa_HHID that represent sy
 | **lsa_Project**      |
 | ProjectID            |
 
-### Target
+## Target
 
 A household may have multiple qualifying exits in a given cohort period. When this is the case, reporting is based on the earliest qualifying exit to a permanent destination or, if there is no exit to a permanent destination, the earliest exit to any destination.
 
@@ -43,9 +43,9 @@ All qualifying exits are identified in tlsa\_HHID in this step by setting the **
 | **tlsa_HHID** |
 | ------------- |
 | ExitCohort    |
-### Logic
+## Logic
 
-#### Qualifying Exits
+### Qualifying Exits
 
 A qualifying exit is an exit from a continuum ES, SH, TH, RRH, or PSH project – limited in one of the three exit cohort periods followed by at least 14 days when the household was not active in any continuum ES, SH, TH, RRH, or PSH project.
 
@@ -62,12 +62,12 @@ Set tlsa\_HHID.**ExitCohort** = tlsa\_CohortDates.**Cohort** to identify a quali
     -   \[Other\].**EntryDate** < \[qx.**ExitDate** \+ 14 days\]
 
 If lsa\_Report.**<u>LSAScope</u>** = 2 (Project-Focused), exit cohorts are limited to households served in the projects in lsa\_Project – qx.**ProjectID** in lsa\_Project.**ProjectID.** This limitation does not apply to a systemwide LSA (**<u>LSAScope</u>** = 1).
-## 7.2 Select Reportable Exits
+# 7.2 Select Reportable Exits
 
 LSAExit includes reporting on households with qualifying exits from a continuum ES/SH/TH/RRH/PSH projects in each of the exit cohort periods.
 
 For households – unique combinations of **HoHID** and relevant household type – with more than one qualifying exit in a single cohort period, only one qualifying exit is reportable. The logic associated with identifying reportable exits is below.
-### Source 
+## Source 
 
 | **tlsa_HHID**  |
 |----------------|
@@ -85,7 +85,7 @@ For households – unique combinations of **HoHID** and relevant household type 
 | ExitDate       |
 | ExitTo         |
 
-### Target
+## Target
 
 | **tlsa_Exit**          | **Column Description**                                                                                                                                                                                                                                |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -108,9 +108,9 @@ For households – unique combinations of **HoHID** and relevant household type 
 | AC3Plus                | Identifies AC households that include 3 or more children on any active enrollment in the cohort period.                                                                                                                                               |
 | SystemPath             | The combinations of system use during the cohort period and in the continuous periods of service prior to the cohort period – i.e., the ‘path’ through the system. It is not dependent on the sequence of service. Categories are mutually exclusive. |
 | **ReportID**           | From lsa_Report                                                                                                                                                                                                                                       |
-### Logic
+## Logic
 
-#### Exit Households
+### Exit Households
 
 LSAExit reporting is based on a single record in tlsa\_Exit for each unique combination of:
 
@@ -121,7 +121,7 @@ LSAExit reporting is based on a single record in tlsa\_Exit for each unique comb
     -   If ExitCohort = -1, Exit1HHType
     -   If ExitCohort = -2, Exit2HHType
 
-#### QualifyingExitHHID
+### QualifyingExitHHID
 
 The **QualifyingExitHHID** for an exit household is the tlsa\_HHID.**HouseholdID** associated with:
 
@@ -135,7 +135,7 @@ If there are two or more enrollments with the same exit date within a given dest
 -   If multiple enrollments have the same exit date and **ExitDest** value, select the one with the earliest entry date; or
 -   If multiple enrollments have the same exit date, **ExitDest** value, and entry date, select the one with the highest **EnrollmentID**.
 
-#### ExitFrom
+### ExitFrom
 
 Crosswalk tlsa\_HHID. **LSAProjectType** and tlsa\_HHID **MoveInDate** for the reportable exit to the appropriate **ExitFrom** value below.
 
@@ -150,9 +150,9 @@ Crosswalk tlsa\_HHID. **LSAProjectType** and tlsa\_HHID **MoveInDate** for the r
 | 3              | NULL       | 8              | PSH without placement in PH    |
 | 15             | Not NULL   | 9              | RRH-SO after move-in to PH     |
 | 15             | NULL       | 10             | RRH-SO without placement in PH |
-## 7.3 Set ReturnTime for Exit Cohort Households
+# 7.3 Set ReturnTime for Exit Cohort Households
 
-### Source
+## Source
 
 | **tlsa_HHID**      |
 |--------------------|
@@ -168,15 +168,15 @@ Crosswalk tlsa\_HHID. **LSAProjectType** and tlsa\_HHID **MoveInDate** for the r
 | HHType             |
 | QualifyingExitHHID |
 
-### Target
+## Target
 
 |                |
 |----------------|
 | **tlsa_Exit**  |
 | **ReturnTime** |
-### Logic
+## Logic
 
-#### Household Returns
+### Household Returns
 
 A household is reported as a return if there is a later enrollment for the household in tlsa\_HHID after the qualifying exit (qx) where:
 
@@ -187,7 +187,7 @@ A household is reported as a return if there is a later enrollment for the house
     -   If Cohort = -1, Exit1HHType
     -   If Cohort = -2, Exit2HHType
 
-#### ReturnTime
+### ReturnTime
 
 If there is no later enrollment that meets the criteria for a household return, set **ReturnTime** \= -1.
 
@@ -207,9 +207,9 @@ The logic associated with **ReturnTime** is different, however:
 -   In tlsa\_Household, **ReturnTime** is associated with **Stat** and specifies the length of time between enrollment activity *prior to active enrollments* and the earliest active enrollment.
 -   In tlsa\_Exit, **ReturnTime** is not associated with **Stat** – it specifies the length of time *after the qualifying exit***.**
 
-## 7.4 Identify HoH and Adult Members of Exit Cohorts
+# 7.4 Identify HoH and Adult Members of Exit Cohorts
 
-### Source
+## Source
 
 | **tlsa_CohortDates**         |
 | ---------------------------- |
@@ -236,7 +236,7 @@ The logic associated with **ReturnTime** is different, however:
 | TimesHomelessPastThreeYears  |
 | MonthsHomelessPastThreeYears |
 
-### Target
+## Target
 
 | **tlsa_ExitHoHAdult**  |
 |------------------------|
@@ -248,10 +248,10 @@ The logic associated with **ReturnTime** is different, however:
 | LastActive         |
 | CHTime             |
 | CHTimeStatus       |
-### Logic
+## Logic
 
 The three-year timeframe for each head of household/adult – the CH date range – is identified in tlsa\_ExitHoHAdult with dates in the **CHStart** and **LastActive** columns. People included in more than one cohort will have different CH dates for each cohort.
-#### Record Selection
+### Record Selection
 
 An exit cohort household is only considered chronically homeless if they meet the definition in the year ending on the head of household’s exit date. As such, any household exiting from TH after a stay of at least a year or housed in RRH or PSH for a year prior to exit is excluded from this process.
 
@@ -266,7 +266,7 @@ For each **QualifyingExitHHID** in tlsa\_Exit, select **PersonalID**s from tlsa\
     -   **Cohort** = -1 and **Exit1Age** between 21 and 65; or
     -   **Cohort** = -2 and **Exit2Age** between 21 and 65.
 
-#### DisabilityStatus
+### DisabilityStatus
 
 Set to 1 if the value is 1 for any **EnrollmentID** associated with the **QualifyingExitHHID** that meets the selection criteria.
 
@@ -274,17 +274,17 @@ Set to 0 if the value is 0 for any **EnrollmentID** associated with the **Qualif
 
 Otherwise, set to 99.
 
-#### LastActive
+### LastActive
 
 **LastActive** is the **ExitDate** from tlsa\_Enrollment where **HouseholdID** = tlsa\_Exit.**QualifyingExitHHID**.
 
 In systems where a household member may have more than one *EnrollmentID* for a given *HouseholdID*, **LastActive** should be set to the most recent tlsa\_Enrollment.**ExitDate** associated with the **QualifyingExitHHID** that meets the selection criteria.
 
-#### CHStart
+### CHStart
 
 **CHStart** is (**LastActive** – 3 years) + 1 day.
 
-#### CHTime and CHTimeStatus
+### CHTime and CHTimeStatus
 
 The process of setting **CHTime** and **CHTimeStatus** is described in sections 7.5 through 7.8. It is similar to the process used to set the column values in tlsa\_Person (sections 5.5-5.10). At the person level, there are three combinations of values (shown below) in these columns that – in combination with **DisabilityStatus** = 1 – indicate that the person meets the criteria for chronic homelessness, and any households of which they are a member are included in the Chronically Homeless Households population.
 
@@ -305,9 +305,9 @@ In systems where a household member may have more than one *EnrollmentID* for a 
 
 It is not necessary to include these tlsa\_ExitHoHAdult records in the subsequent steps 7.5-7.8.
 
-## 7.5 Get Dates to Exclude from Counts of ES/SH/Street Days (ch_Exclude_exit)
+# 7.5 Get Dates to Exclude from Counts of ES/SH/Street Days (ch_Exclude_exit)
 
-### Source
+## Source
 
 | **tlsa_ExitHoHAdult** |
 |-----------------------|
@@ -322,14 +322,14 @@ It is not necessary to include these tlsa\_ExitHoHAdult records in the subsequen
 | MoveInDate            |
 | ExitDate              |
 
-### Target
+## Target
 
 | **ch_Exclude_exit** | **Column Description**                                                                                                              |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | PersonalID      | **PersonalD**                                                                                                                       |
 | ExcludeDate     | Distinct dates between a person’s earliest **CHStart** and latest **LastActive** when client was either in TH or housed in RRH/PSH. |
 
-### Logic
+## Logic
 
 For each **PersonalID** in tlsa\_ExitAdultHoH where **CHTime** and **CHTimeStatus** were not set in step 7.4 (i.e., where **CHTime** is NULL), dates enrolled in TH or housed in RRH/PSH are inserted to ch\_Exclude\_exit based on tlsa\_Enrollment where:
 
@@ -343,9 +343,9 @@ OR
 
 -   -   **LSAProjectType** in (3,13); and
     -   \[Date\] >= tlsa\_Enrollment.**MoveInDate**
-## 7.6 Get Dates to Include in Counts of ES/SH/Street Days (ch_Include_exit)
+# 7.6 Get Dates to Include in Counts of ES/SH/Street Days (ch_Include_exit)
 
-### Source
+## Source
 
 | **tlsa_ExitHoHAdult**                                    |
 |----------------------------------------------------------|
@@ -370,20 +370,20 @@ OR
 | EnrollmentID                                             |
 | *BedNightDate* (*DateProvided* where *RecordType* = 200) |
 
-### Target
+## Target
 
 | **ch_Include_exit** | **Column Description**                                                                                                                                   |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | PersonalID      | **PersonalD**                                                                                                                                            |
 | ESSHStreetDate  | Distinct dates between earliest **CHStart** and latest **LastActive** when client was in ES/SH or on the street; also referred to as ES/SH/Street dates. |
 
-### Logic
+## Logic
 For each **PersonalID** in tlsa\_ExitHoHAdult where **CHTime** and **CHTimeStatus** were not set in step 7.4 (i.e., where **CHTime** is NULL), any date between the earliest **CHStart** and latest **LastActive** may be counted as an **ESSHStreetDate** based on HMIS data if:
 
 -   The date is not excluded because the client was enrolled in a TH project or enrolled and housed in an RRH/PSH project (ch\_Exclude\_exit.**ExcludeDate**); and
 -   The date is consistent with any set of criteria listed below based on tlsa\_Enrollments where **ExitDate** \> than the earliest **CHStart** and **EntryDate** <= the latest **LastActive**.
 
-#### Enrollment in Entry/Exit ES or SH
+### Enrollment in Entry/Exit ES or SH
 
 **LSAProjectType** in (0,8); and
 
@@ -391,7 +391,7 @@ For each **PersonalID** in tlsa\_ExitHoHAdult where **CHTime** and **CHTimeStatu
 
 ESSHStreetDate < ExitDate
 
-#### Bed Nights in Night-by-Night ES
+### Bed Nights in Night-by-Night ES
 
 LSAProjectType = 1; and
 
@@ -403,7 +403,7 @@ LSAProjectType = 1; and
 
 *BedNightDate* < tlsa\_Enrollment.**ExitDate**
 
-#### ES/SH/Street Dates from 3.917 Living Situation
+### ES/SH/Street Dates from 3.917 Living Situation
 
 For enrollments where **EntryDate** > earliest **CHStart**, dates on which the client was on the street on in ES/SH based on 3.917 are included as **ESSHStreetDate**s if they have not already been excluded or included based on prior criteria and fall between the earliest **CHStart** and latest **LastActive**.
 
@@ -420,7 +420,7 @@ For enrollments where **EntryDate** > earliest **CHStart**, dates on which the c
         -   ESSHStreetDate < MoveInDate; or
         -   MoveInDate is NULL and ESSHStreetDate < ExitDate
 
-#### Gaps of Less than Seven Days Between Two ES/SH/Street Dates
+### Gaps of Less than Seven Days Between Two ES/SH/Street Dates
 
 Any date that falls between two ES/SH/Street dates that have been identified using the criteria above and are less than 7 days apart is counted as a ES/SH/Street day.
 
@@ -434,23 +434,23 @@ For example, if a client has *BedNightDate*s on June 1 and June 5 of the same ye
 
 Note that gaps of less than 7 days between **ESSHStreetDate**s are counted as ES/SH/Street dates regardless of ch\_Exclude\_exit dates.
 
-## 7.7 Get ES/SH/Street Episodes (ch_Episodes_exit)
+# 7.7 Get ES/SH/Street Episodes (ch_Episodes_exit)
 
-### Source
+## Source
 
 | **ch_Include_exit** |
 |---------------------|
 | PersonalID          |
 | ESSHStreetDate      |
 
-### Target
+## Target
 
 | ch_Episodes_exit | Column Description                         |
 |------------------|--------------------------------------------|
 | PersonalID       | tlsa_Person                                |
 | episodeStart     | The first ES/SH/Street date in the series. |
 | episodeEnd       | The last ES/SH/Street date in the series.  |
-### Logic
+## Logic
 
 For purposes of the LSA, an ‘episode’ is a continuous – i.e., uninterrupted by any period of seven or more contiguous days — series of ES/SH/Street dates.
 
@@ -458,9 +458,9 @@ Each record in ch\_Episodes\_exit represents an uninterrupted series of ES/SH/St
 
 -   **episodeStart** is any **ESSHStreetDate** where there is no (**ESSHStreetDate** – 1 day) for the same *PersonalID* – i.e., any ES/SH/Street date where there is no information to indicate that the client was in ES/SH or on the street on the day before.
 -   **episodeEnd** is the first **ESSHStreetDate** after **episodeStart** where (**ESSHStreetDate** + 1 day) does not exist
-## 7.8 CHTime and CHTimeStatus for Exit Cohorts
+# 7.8 CHTime and CHTimeStatus for Exit Cohorts
 
-### Source
+## Source
 
 | **ch_Episodes_exit**         |
 |------------------------------|
@@ -483,13 +483,13 @@ Each record in ch\_Episodes\_exit represents an uninterrupted series of ES/SH/St
 | TimesHomelessPastThreeYears  |
 | MonthsHomelessPastThreeYears |
 
-### Target
+## Target
 
 | tlsa_ExitHoHAdult |
 |-------------------|
 | CHTime            |
 | CHTimeStatus      |
-### Logic
+## Logic
 There are a total of nine valid combinations of **CHTime** and **CHTimeStatus** values in tlsa\_ExitHoHAdult. They are summarized in the table below.
 
 | Priority | CHTime | CHTimeStatus | Category                                                                                                                                                                             |
@@ -538,12 +538,12 @@ After these values are set, there is one additional update to **CHTimeStatus** t
 | _LivingSituation_ in (101,116,118)                                                                                  | **AND** | _DateToStreetESSH_ is NULL; or _TimesHomelessPastThreeYears_ in (8,9,99); or _TimesHomelessPastThreeYears_ is NULL; or _MonthsHomelessPastThreeYears_ in (8,9,99); or _MonthsHomelessPastThreeYears_ is NULL                                                                                                     |
 | **LSAProjectType** is not in (0,1,8) and _LengthOfStay_ in (2,3) and _LivingSituation_ in (204,205,206,207,215,225) | **AND** | _PreviousStreetESSH_ is NULL; or _PreviousStreetESSH_ not in (0,1); or _PreviousStreetESSH_ = 1 and _DateToStreetESSH_ is NULL; or _TimesHomelessPastThreeYears_ in (8,9,99); or _TimesHomelessPastThreeYears_ is NULL; or _MonthsHomelessPastThreeYears_ in (8,9,99); or _MonthsHomelessPastThreeYears_ is NULL |
 | **LSAProjectType** is not in (0,1,8) and _LengthOfStay_ in (10,11)                                                  | **AND** | _PreviousStreetESSH_ is NULL; or _PreviousStreetESSH_ not in (0,1); or _PreviousStreetESSH_ = 1 and _DateToStreetESSH_ is NULL; or _TimesHomelessPastThreeYears_ in (8,9,99); or _TimesHomelessPastThreeYears_ is NULL; or _MonthsHomelessPastThreeYears_ in (8,9,99); or _MonthsHomelessPastThreeYears_ is NULL |
-## 7.9 Set Population Identifiers for Exit Cohort Households
+# 7.9 Set Population Identifiers for Exit Cohort Households
 
 As with the active cohort, population identifiers for exit cohort households are based on the characteristics of the head of household and any adult household members.
 
 The underlying logic is generally the same as that for the active cohort, but only data from the enrollment associated with the *HouseholdID* of the qualifying exit is used (as opposed to all enrollments active in the report period).
-### Source
+## Source
 
 | **tlsa_Exit**         |
 |-----------------------|
@@ -582,7 +582,7 @@ The underlying logic is generally the same as that for the active cohort, but on
 | RaceNone              |
 | VeteranStatus         |
 
-### Target
+## Target
 
 | **tlsa_Exit**    |
 | ---------------- |
@@ -595,13 +595,13 @@ The underlying logic is generally the same as that for the active cohort, but on
 | AC3Plus          |
 | HoHRaceEthnicity |
 
-### Logic
+## Logic
 
-#### HHVet
+### HHVet
 
 Set **HHVet** = 1 if any adult household member with **ExitDate** >= **CohortStart** has a *VeteranStatus* of 1. Otherwise, **HHVet** = 0.
 
-#### HHChronic
+### HHChronic
 
 Based on records in tlsa\_ExitHoHAdult with the same **QualifyingExitHHID**, set **HHChronic** to the first value in the table below for which any adult or HoH meets the criteria:
 
@@ -615,11 +615,11 @@ Based on records in tlsa\_ExitHoHAdult with the same **QualifyingExitHHID**, set
 | **6** | **CHTime** = 270 and **CHTimeStatus** <> 99 and **DisabilityStatus** = 1                                                   | Homeless > 6 Months with Disability (no missing data) |
 | **9** | **DisabilityStatus** <> 0 and **CHTimeStatus** \= 99                                                                       | CH Status Unknown (missing data)                      |
 | **0** | (any other)                                                                                                                | Not Chronically Homeless                              |
-#### HHDisability
+### HHDisability
 
 Set **HHDisability**\= 1 if the HoH or any adult household member with **ExitDate** >= **CohortStart** has a **DisabilityStatus** \= 1 for the enrollment associated with the qualifying exit. Otherwise, **HHDisability**\= 0.
 
-#### HHFleeingDV
+### HHFleeingDV
 
 Set **HHFleeingDV** based on tlsa\_Enrollment for the HoH or any adult household member with **ExitDate** >= **CohortStart** where **HouseholdID** = **QualifyingExitHHID**:
 
@@ -637,10 +637,10 @@ In priority order:
 | 2 | DV survivor, not currently fleeing | 2 |
 | 3 | DV survivor, unknown if currently fleeing | 3 |
 Otherwise, **HHFleeingDV** = 0.
-#### HoHRaceEthnicity
+### HoHRaceEthnicity
 Set **HoHRaceEthnicity** using the same methodology defined in section 5.4.
 
-#### HHAdultAge
+### HHAdultAge
 
 Set **HHAdultAge** based on the household type and ages of all household members with **ExitDate** >= **CohortStart.**
 
@@ -658,13 +658,13 @@ Use the first / topmost of the criteria below appropriate to the household:
 | 24           | The maximum of all ages is 24 (all adults are under 25)            |
 | 55           | The minimum of all ages is between 55 and 65 (all members are 55+) |
 | 25           | (all other households)                                             |
-#### HHParent
+### HHParent
 
 Set **HHParent** = 1 if at least one household member with **ExitDate** >= **CohortStart** has a *RelationshipToHoH* = 2 (Child of HoH).
-#### AC3Plus
+### AC3Plus
 
 Set **AC3Plus** = 1 if **HHType** = 2 (AC) and there are three or more household members with **ExitDate** >= **CohortStart** under the age of 18. Otherwise, **AC3Plus** = 0.
-## 7.10 Set System Engagement Status for Exit Cohort Households
+# 7.10 Set System Engagement Status for Exit Cohort Households
 
 System engagement status specifies whether or not active households were actively engaged with continuum ES, SH, TH, RRH, and/or PSH projects in the two years prior to their earliest active date in the report period in the following categories:
 
@@ -675,7 +675,7 @@ System engagement status specifies whether or not active households were activel
 | 3 | Re-engage with continuum 15-730 days after exit to temporary destination |
 | 4 | Re-engage with continuum 15-730 days after exit to unknown destination |
 | 5 | Continuous engagement with continuum |
-### Source
+## Source
 
 | **tlsa_Exit**      |
 |--------------------|
@@ -693,14 +693,14 @@ System engagement status specifies whether or not active households were activel
 | ExitDate           |
 | ExitDest           |
 
-### Target
+## Target
 
 | **tlsa_Exit** |
 | ------------- |
 | Stat          |
-### Logic
+## Logic
 
-#### Previous Activity
+### Previous Activity
 
 System engagement status is based on the EntryDate for the qualifying exit (qx) and, if it exists, the tlsa\_HHID record with the most recent (effective) **ExitDate** prior to the **ExitDate** for the qualifying exit (qx)where:
 
@@ -717,7 +717,7 @@ If there are two or more enrollments with the same (most recent) exit date:
 -   Select the one with the lowest **ExitDest** value; or
 -   If multiple enrollments have the same exit date and **ExitDest** value, select the one with the most recent entry date; or
 -   If multiple enrollments have the same exit date, **ExitDest** value, and entry date, select the one with the highest **EnrollmentID**.
-#### Stat
+### Stat
 
 If the household had no previous activity consistent with the criteria above, or if the household had previous activity in the 14 days prior to the **EntryDate** for the reportable exit, **Stat** is set regardless of the exit destination for the previous activity.
 
@@ -730,9 +730,9 @@ Otherwise – if the household has an exit 15-730 days prior to the enrollment f
 | 2        | 2    | Return 15-730 days after exit to permanent destination    | \[Previous\].**ExitDest** between 400 and 499                                 |
 | 2        | 3    | Re-engage 15-730 days after exit to temporary destination | \[Previous\].**ExitDest** between 100 and 399                                 |
 | 2        | 4    | Re-engage 15-730 days after exit to unknown destination   | (any other)                                                                   |
-## 7.11 Last Inactive Date for Exit Cohorts
+# 7.11 Last Inactive Date for Exit Cohorts
 
-### Source
+## Source
 
 | **tlsa_Exit**                                            |
 |----------------------------------------------------------|
@@ -752,7 +752,7 @@ Otherwise – if the household has an exit 15-730 days prior to the enrollment f
 | EnrollmentID                                             |
 | *BedNightDate* (*DateProvided* where *RecordType* = 200) |
 
-### Target
+## Target
 
 | **sys\_TimePadded\_exit** | **Column Description**                                                                                                                                                                                                             |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -763,7 +763,7 @@ Otherwise – if the household has an exit 15-730 days prior to the enrollment f
 | EndDate                   | -   For tlsa\_HHID **EnrollmentID**s in night-by-night ES, the earlier of \[**StartDate** + 6 days\] or **CohortEnd** -   For all other tlsa\_HHID enrollments, the earlier non-NULL of \[**ExitDate** + 6 days\] or **CohortEnd** |
 | **tlsa\_Exit**            |                                                                                                                                                                                                                                    |
 | LastInactive              |                                                                                                                                                                                                                                    |
-### Logic
+## Logic
 
 This step identifies, based on the qualifying exit and potentially relevant inactive enrollments from the previous step, the date immediately prior to the first day of continuous system engagement for exit cohort households – or the household’s last inactive date prior to the qualifying exit.
 
@@ -778,9 +778,9 @@ Specifically, this is the latest date in the most recent period of at least seve
 -   \[Date\] < tlsa\_Exit.**EntryDate**
 -   \[Date\] is not between a *BedNightDate* and (*BedNightDate* + 6 days); and
 -   \[Date\] is not between a tlsa\_HHID.**EntryDate** and the associated (**ExitDate** + 6 days) for project types other than ES nbn.
-## 7.12 Set SystemPath for LSAExit
+# 7.12 Set SystemPath for LSAExit
 
-### Source
+## Source
 
 | **tlsa_Exit**      |
 |--------------------|
@@ -800,13 +800,13 @@ Specifically, this is the latest date in the most recent period of at least seve
 | HouseholdID        |
 | MoveInDate         |
 
-### Target
+## Target
 
 | **tlsa_Exit** |
 | ------------- |
 | SystemPath    |
 
-### Logic
+## Logic
 
 **SystemPath** is not relevant for households who were housed in PSH as of **CohortStart** or for households who had been housed in RRH or PSH for at least 365 days as of the date of the qualifying exit.
 
@@ -839,7 +839,7 @@ For all other records in tlsa\_Exit, set **SystemPath** based on the combination
 | 11         | RRH + PSH                | \= 3 and = 13 and Not in (0,1,2,8)    |
 | 12         | All other combinations   |                                       |
 
-## 7.13 LSAExit
+# 7.13 LSAExit
 
 LSAExit includes 18 columns. **RowTotal** is a count of distinct combinations of **Cohort, HoHID** and **HHType** from tlsa\_Exit, grouped by the values in all other columns.
 
