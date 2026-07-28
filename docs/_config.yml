@@ -17,7 +17,7 @@ plugins:
 
 # Enable built-in support for mermaid diagrams
 mermaid:
-  version: "10.9.1" # Specify a stable version from jsDelivr CDN
+  version: "11.16.0" # Specify a stable version from jsDelivr CDN
 
 relative_links:
   enabled: true
