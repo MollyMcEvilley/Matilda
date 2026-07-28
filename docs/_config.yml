@@ -12,16 +12,21 @@ search_tokenizer_separator: /[\s\-]+/
 # Navigation Settings
 nav_sort: page_order
 
+toc:
+  enabled: true
+  levels: 2
+
 plugins:
   - jekyll-relative-links
 
 # Enable built-in support for mermaid diagrams
 mermaid:
-  version: "11.16.0" # Specify a stable version from jsDelivr CDN
+  version: "11.16.0" 
 
 relative_links:
   enabled: true
   collections: true
+
 author:
 
   name: Molly McEvilley
