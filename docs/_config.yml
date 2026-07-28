@@ -12,9 +12,8 @@ search_tokenizer_separator: /[\s\-]+/
 # Navigation Settings
 nav_sort: page_order
 
-toc:
-  enabled: true
-  levels: 2
+# Instruct the theme to pull Level 1 (#) and Level 2 (##) headings into the sidebar
+toc_levels: 1..2
 
 plugins:
   - jekyll-relative-links
