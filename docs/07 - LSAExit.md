@@ -6,7 +6,7 @@ parent: "LSA Programming Specifications"
 has_toc: true
 ---
 
-1. Contents
+- Contents
 {:toc}
 
 This section is required only if **<u>LSAScope</u>** <> 3 (HIC).

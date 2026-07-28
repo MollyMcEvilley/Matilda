@@ -6,7 +6,7 @@ parent: "LSA Programming Specifications"
 has_toc: true
 ---
 
-1. Contents
+- Contents
 {:toc}
 
 # 4.1 Get Project.csv Records / lsa_Project

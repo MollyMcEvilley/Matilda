@@ -7,7 +7,7 @@ has_toc: true
 toc_levels: 1..1
 ---
 
-1. Contents
+- Contents
 {:toc}
 
 # 1.1 Background 

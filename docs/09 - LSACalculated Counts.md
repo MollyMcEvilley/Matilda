@@ -6,7 +6,7 @@ parent: "LSA Programming Specifications"
 has_toc: true
 ---
 
-1. Contents
+- Contents
 {:toc}
 
 # 9.1 Report Rows for LSACalculated Counts
