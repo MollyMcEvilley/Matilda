@@ -15,6 +15,10 @@ nav_sort: page_order
 plugins:
   - jekyll-relative-links
 
+# Enable built-in support for mermaid diagrams
+mermaid:
+  version: "10.9.1" # Specify a stable version from jsDelivr CDN
+
 relative_links:
   enabled: true
   collections: true
