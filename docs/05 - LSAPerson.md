@@ -12,7 +12,22 @@ has_toc: true
 # 5 - HMIS Business Logic - LSAPerson
 
 # 5.1 Identify Active and Active in Residence (AIR) HouseholdIDs
+``` mermaid
+flowchart LR
 
+	L1[[lsa_Project]] & L2[[lsa_Report]] -->T1([tlsa_HHID])-->T2([tlsa_HHID])
+
+	L1:::LSA
+	L2:::LSA
+	
+	T1:::Temp
+	T2:::Temp
+	
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	
+```
 This section defines the logic associated with identifying enrollments for heads of household that meet the criteria for inclusion in the active cohort.
 
 It uses data in lsa_Report and lsa_Project as parameters applied to tlsa_HHID. As described, the **Active** column in tlsa_HHID is set to 1 for each active *HouseholdID*.
@@ -68,7 +83,21 @@ Set **AIR** = 1 for tlsa_HHID.**HouseholdID**s where:
 are excluded from consideration.)
 
 # 5.2 Identify Active and Active in Residence (AIR) Enrollments 
+``` mermaid
+flowchart LR
 
+	L1[[lsa_Project]] & T1([tlsa_HHID])-->T2([tlsa_Enrollment])
+
+	L1:::LSA
+	
+	T1:::Temp
+	T2:::Temp
+	
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	
+```
 This section defines the logic associated with identifying all active enrollments associated with the active *HouseholdID*s identified in the previous step.
 
 It uses data in lsa_Report and tlsa_HHID as parameters applied to tlsa_Enrollment and sets the **Active** column in tlsa_Enrollment to 1 for active enrollments.
@@ -81,7 +110,9 @@ References in subsequent sections to active enrollments and of the columns in tl
 |---------------------|
 | HouseholdID         |
 | Active              |
+
 | **tlsa_Enrollment** |
+|---------------------|
 | EnrollmentID        |
 | HouseholdID         |
 | EntryDate           |
@@ -92,8 +123,8 @@ References in subsequent sections to active enrollments and of the columns in tl
 
 | **tlsa_Enrollment** |
 |---------------------|
-| **Active**          |
-| **AIR**             |
+| Active          |
+| AIR           |
 
 ## Logic
 
@@ -115,7 +146,20 @@ References in subsequent sections to active enrollments and of the columns in tl
 	- **LSAProjectType** in (3,13), **MoveInDate** \<= <u>ReportEnd</u>
 
 # 5.3 Get Active Clients for LSAPerson
+``` mermaid
+flowchart LR
 
+	T1([tlsa_Enrollment])-->T2([tlsa_Person])
+
+	
+	T1:::Temp
+	T2:::Temp
+	
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	
+```
 The tlsa\_Person data construct holds one record for each distinct *PersonalID* in tlsa\_Enrollment where **Active** = 1. It is a client-level version of the aggregate LSAPerson data and is used to set values for each LSA reporting category – **RaceEthnicity**, **VetStatus**, etc. – for each client. It includes all columns from LSAPerson.csv other than **RowTotal** and **ReportID**, as well as several columns which are used as a reference to simplify business logic but do not correlate to a column in LSAPerson.
 
 ## Source
@@ -208,6 +252,29 @@ LSAPerson is the source for demographic reporting produced by the HDX 2.0. Every
 In the intermediate client-level tlsa\_Person, each active client is represented by a single row with *PersonalID* as the primary key.
 
 # 5.4 LSAPerson Demographics
+``` mermaid
+flowchart LR 
+	h1[("`hmis_Client
+	hmis_Disabilities`")]
+
+    tn1([tlsa_Enrollment])
+    r[[lsa_Report]] 
+	tp([tlsa_Person])
+	
+    r & tn1-->h1-->tp
+
+
+    r:::LSA
+    h1:::HMIS
+    tp:::Temp
+    tn1:::Temp
+
+
+    classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	classDef Box stroke:#999, fill:none, color:#FFFFFF 
+```
 
 This step defines the logic associated with LSA reporting on personal characteristics – broadly referred to as demographics – for each active adult/head of household in tlsa\_Person.
 
@@ -402,7 +469,53 @@ Although a person must have a disabling condition in order to be considered chro
 
 The relevant columns in LSAPerson – and in tlsa\_Person – are **CHTime** and **CHTimeStatus**. Because of the complexity, the business logic is broken out into five separate steps defined beginning with this section (5.5) and concluding with [section 5.10](#510-chtime-and-chtimestatus--lsaperson). Section numbers associated with each step are shown below in the graphic for the relevant data construct.
 
-[add graphic]
+``` mermaid
+flowchart LR 
+	h1[("`hmis_Project
+	hmis_ProjectCoC
+	hmis_Enrollment
+	hmis_Services
+    hmis_Exit`")]
+
+    tn1([tlsa_Enrollment])
+	hn[(tlsa_hmis_Enrollment)]
+    r[[lsa_Report]] 
+	tp([tlsa_Person - 5.5])
+	tn2([tlsa_Enrollment.CH - 5.6])
+	tx([ch_Exclude - 5.7])
+	ti([ch_Include - 5.8])
+	tep([ch_Episodes = 5.9])
+	tp2([tlsa_Person - 5.10])
+
+	subgraph steps
+		direction TD
+			tp-->tn2-->tx-->ti-->tep-->tp2-->hn-->tp2
+	 	end
+
+    r & tn1-->h1-->steps-->hn
+
+    note@{ shape: braces, label: "This is three years of enrollment history for every active adult/HoH – it is not limited to active enrollments." }
+
+	note-->h1
+
+    r:::LSA
+    h1:::HMIS
+    hn:::HMIS
+    tp:::Temp
+    tp2:::Temp
+	tx:::Temp
+	ti:::Temp
+	tep:::Temp
+    tn1:::Temp
+	tn2:::Temp
+	steps:::Box
+
+
+    classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	classDef Box stroke:#999, fill:none, color:#FFFFFF 
+```
 
 This section defines how to identify the start (**CHStart**) and end (**LastActive**) dates for the three-year period for each adult/HoH in tlsa\_Person based on report parameters in lsa\_Report.
 
@@ -415,6 +528,7 @@ Section 5.8 specifies how to build, for each adult/HoH in tlsa\_Person, a list o
 Section 5.9 describes the business logic associated with identifying ‘occasions’ or an ‘episodes’ – and the length in days for each – given a list of ES/SH/Street dates for a person. As described, this is accomplished by creating records of episodes in ch\_Episode with start and end dates based on ch\_Exclude.
 
 Finally, Section 5.10 describes how to set LSA reporting category values in tlsa\_Person for **CHTime** and **CHTimeStatus** based on a list of episodes with start and end dates (ch\_Episodes) and, for any adult/HoH who does not meet the time-based criteria for chronic homelessness and is missing relevant *3.917 Living Situation* data, update the initial values to reflect missing data.
+
 ## Source
 
 | **lsa_Report**      |
@@ -451,6 +565,7 @@ The last active date for any given enrollment is:
 **LastActive** for each record in tlsa\_Person where **HoHAdult** > 0 is the latest active date based on all enrollments.
 
 **CHStart** is (**LastActive** – 3 years) + 1 day.
+
 # 5.6 Enrollments Relevant to Counting ES/SH/Street Dates
 
 ## Source
@@ -616,8 +731,6 @@ Note that gaps of less than 7 days between **ESSHStreetDate**s are counted as ES
 
 # 5.9 Get ES/SH/Street Episodes (ch_Episodes)
 
-(Sections 5.5-5.10 outline the logic associated with counting ES/SH/Street dates. See section [5.5 Time Spent in ES/SH or on the Street](#_Time_Spent_in) for an overview and graphic for the process.)
-
 ## Source
 
 | **ch_Include** |
@@ -646,24 +759,29 @@ Each record in ch\_Episodes represents an uninterrupted series of ES/SH/Street d
 
 # 5.10 CHTime and CHTimeStatus – LSAPerson
 
-(Sections 5.5-5.10 outline the logic associated with counting ES/SH/Street dates; this is the last step. See section [5.5 Time Spent in ES/SH or on the Street](#_Time_Spent_in) for an overview and graphic for the process.)
 ## Source
 
 | **tlsa_Person**              |
 |------------------------------|
 | PersonalID                   |
 | HoHAdult                     |
+
 | **ch_Episodes**              |
+|------------------------------|
 | PersonalID                   |
 | episodeStart                 |
 | episodeEnd                   |
 | episodeDays                  |
+
 | **tlsa_Enrollment**          |
+|------------------------------|
 | EnrollmentID                 |
 | CH                           |
 | PersonalID                   |
 | LSAProjectType               |
+
 | **hmis_Enrollment**          |
+|------------------------------|
 | PersonalID                   |
 | EntryDate                    |
 | LivingSituation              |
@@ -678,6 +796,7 @@ Each record in ch\_Episodes represents an uninterrupted series of ES/SH/Street d
 |--------------|
 | CHTime       |
 | CHTimeStatus |
+
 ## Logic
 
 There are a total of ten valid combinations of **CHTime** and **CHTimeStatus** values. They are summarized in the table below; detailed logic follows.
@@ -757,7 +876,19 @@ AND there is at least one enrollment for the **PersonalID** in tlsa\_Enrollment 
 		-   *MonthsHomelessPastThreeYears* in (8,9,99) or is NULL
 
 # 5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax – LSAPerson
+``` mermaid
+flowchart LR 
 
+    tn([tlsa_Enrollment])-->tp([tlsa_Person])
+
+    tp:::Temp
+    tn:::Temp
+
+    classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	classDef Box stroke:#999, fill:none, color:#FFFFFF 
+```
 This section defines the logic associated with setting values for minimum and maximum age columns for each project group – EST, RRH, and PSH – for LSAPerson. These columns indicate:
 
 \[**EST**/**RRH**/**PSH/RRHSO**\]**AgeMin** – The client’s minimum age at the later of <u>ReportStart</u> and **EntryDate** for any active \[EST/RRH/PSH/RRHSO\] enrollment.
@@ -827,7 +958,23 @@ For any client not served in RRH-SO (i.e., there is no active enrollment where *
 | 99    | Missing/invalid                   |
 
 # 5.12 Set Population Identifiers for Active HMIS Households 
+``` mermaid
+flowchart LR 
+    tn([tlsa_Enrollment]) 
+	tp([tlsa_Person])
+	th([tlsa_HHID])
 
+	tn & tp --> th
+
+    tp:::Temp
+    tn:::Temp
+	th:::Temp
+
+    classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	classDef Box stroke:#999, fill:none, color:#FFFFFF 
+```
 ## Source
 
 | **tlsa_Enrollment** |
@@ -837,7 +984,9 @@ For any client not served in RRH-SO (i.e., there is no active enrollment where *
 | RelationshipToHoH   |
 | ActiveAge           |
 | Active              |
+
 | **tlsa_Person**     |
+|---------------------|
 | PersonalID          |
 | RaceEthnicity       |
 | VetStatus           |
@@ -845,7 +994,9 @@ For any client not served in RRH-SO (i.e., there is no active enrollment where *
 | CHTime              |
 | CHTimeStatus        |
 | DVStatus            |
+
 | **tlsa_HHID**       |
+|---------------------|
 | ActiveHHType        |
 
 ## Target
@@ -934,6 +1085,25 @@ Set **AC3Plus** = 1 if:
 Otherwise, **AC3Plus** = 0.
 
 # 5.13 Project Group and Population Household Types - LSAPerson
+```mermaid
+flowchart LR
+
+	t1([tlsa_Enrollment])
+	t2([tlsa_HHID])
+	t3([tlsa_Person])
+
+	t1:::Temp
+	t2:::Temp
+	t3:::Temp
+	
+	t1 & t2 --> t3
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 
 ## Source
 
@@ -1044,7 +1214,25 @@ For all other columns, household types are reported as shown below based on the 
 | 1239          | AO, AC, CO, and UN                 | 1,2,3,and 99 |
 
 # 5.14 Adult Age Population Identifiers - LSAPerson 
+```mermaid
+flowchart LR
 
+	t1([tlsa_Enrollment])
+	t2([tlsa_HHID])
+	t3([tlsa_Person])
+
+	t1:::Temp
+	t2:::Temp
+	t3:::Temp
+	
+	t1 & t2 --> t3
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 ## Source
 
 | **tlsa_Enrollment** |
@@ -1087,8 +1275,25 @@ Set the column values based on the first of the criteria below where:
 | 5        | (any other, including people not served in the relevant HHType/project group) | -1                             |
 
 # 5.15 LSAPerson
+```mermaid
+flowchart LR
 
+	t1([tlsa_Person])
+	l1([lsa_Person])
+
+	t1:::Temp
+	l1:::LSA
+
+	
+	t1 --> l1
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 As noted, tlsa\_Person is a client-level precursor to lsa\_Person / LSAPerson.csv.
 
-**RowTotal** is a count of _PersonalID_s in tlsa\_Person, grouped by all of the other columns in LSAPerson.
+**RowTotal** is a count of **PersonalID**s in tlsa\_Person, grouped by all of the other columns in LSAPerson.
 

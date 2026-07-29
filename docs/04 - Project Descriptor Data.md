@@ -10,10 +10,26 @@ has_toc: true
 {:toc}
 
 # 4.1 Get Project.csv Records / lsa_Project
+``` mermaid
+
+flowchart LR
+
+	R[[lsa_Report]] & C[(hmis_ProjectCoC)]-->HF[(hmis_Project)]-->LP[[lsa_Project]]
+
+	R:::LSA
+	LP:::LSA
+	C:::HMIS
+	HF:::HMIS
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	
+```
 
 Records exported to Project.csv are included in the LSA output and uploaded to HDX 2.0.
 
-LSA business logic in subsequent steps is dependent on the identification of projects that meet the criteria for inclusion. References to lsa_Project.**ProjectID** are to these projects; references to hmis_Project records are to all projects in HMIS.
+LSA business logic in subsequent steps is dependent on the identification of projects that meet the criteria for inclusion. References to lsa_Project.**ProjectID** are to these projects; references to hmis_Project records or _ProjectID_ are to projects in HMIS.
 
 ## Source
 
@@ -22,9 +38,13 @@ LSA business logic in subsequent steps is dependent on the identification of pro
 | ReportStart               |
 | ReportEnd                 |
 | ReportCoC                 |
+
 | **hmis_Project**          |
+|---------------------------|
 | (all columns – see below) |
+
 | **hmis_ProjectCoC**       |
+|---------------------------|
 | CoCCode                   |
 
 ## Target
@@ -86,6 +106,21 @@ There is no requirement for an HMIS to collect point-in-time counts for non-part
 However, in systems that do allow manual entry of point-in-time counts, if the **PITCount** column includes a value, the HDX will incorporate it into the HIC if **HMISParticipationType** \<\> 1 on the date of the HIC.
 
 # 4.2 Get Organization.csv Records / lsa_Organization
+``` mermaid
+
+flowchart LR
+
+	P[[lsa_Project]]-->HF[(hmis_Organization)]-->LF[[lsa_Organization]]
+
+	P:::LSA
+	HF:::HMIS
+	LF:::LSA
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	
+```
 
 Records exported to Organization.csv are included in the LSA output and uploaded to HDX 2.0.
 
@@ -96,7 +131,9 @@ LSA business logic does not utilize Organization data beyond the export of recor
 | **lsa_Project**           |
 |---------------------------|
 | OrganizationID            |
+
 | **hmis_Organization**     |
+|---------------------------|
 | (all columns – see below) |
 
 ## Target
@@ -128,7 +165,22 @@ Populate **ExportID** with LSAReport.**ReportID***;* the data type for **ExportI
 **OrganizationCommonName** and **UserID** may be exported as NULL; regardless of their values, they will not be imported into the HDX 2.0.
 
 # 4.3 Get Funder.csv Records / lsa_Funder
+``` mermaid
 
+flowchart LR
+
+	R[[lsa_Report]] & P[[lsa_Project]]-->HF[(hmis_Funder)]-->LF[[lsa_Funder]]
+
+	R:::LSA
+	P:::LSA
+	HF:::HMIS
+	LF:::LSA
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	
+```
 Records exported to Funder.csv are included in the LSA output and uploaded to HDX 2.0.
 
 LSA business logic does not utilize Funder data beyond the export of records.
@@ -180,8 +232,24 @@ Project.**OperatingEndDate** \> <u>ReportStart</u> or Project.**OperatingEndDate
 Populate **ExportID** with LSAReport.**ReportID***;* the data type for **ExportID** is a string, so **ReportID** must be converted appropriately.
 
 **GrantID** and **UserID** may be exported as NULL; regardless of their values, they will not be imported into the HDX 2.0.
-## 4.4 Get ProjectCoC.csv Records / lsa_ProjectCoC
 
+## 4.4 Get ProjectCoC.csv Records / lsa_ProjectCoC
+``` mermaid
+
+flowchart LR
+
+	R[[lsa_Report]] & P[[lsa_Project]]-->HF[(hmis_ProjectCoC)]-->LF[[lsa_ProjectCoC]]
+
+	R:::LSA
+	P:::LSA
+	HF:::HMIS
+	LF:::LSA
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	
+```
 Records exported to ProjectCoC.csv are included in the LSA output and uploaded to HDX 2.0.
 
 LSA business logic uses ProjectCoC data to:
@@ -193,9 +261,13 @@ LSA business logic uses ProjectCoC data to:
 | **lsa_Project**           |
 |---------------------------|
 | ProjectID                 |
+
 | **lsa_Report**            |
+|---------------------------|
 | ReportCoC                 |
+
 | **hmis_ProjectCoC**       |
+|---------------------------|
 | (all columns – see below) |
 
 ## Target
@@ -231,6 +303,22 @@ Populate **ExportID** with LSAReport.**ReportID***;* the data type for **ExportI
 **UserID** may be exported as NULL; regardless of value, it will not be imported into the HDX 2.0.
 
 # 4.5 Get Inventory.csv Records / lsa_Inventory
+``` mermaid
+
+flowchart LR
+
+	R[[lsa_Report]] & P[[lsa_Project]]-->HF[(hmis_Inventory)]-->LF[[lsa_Inventory]]
+
+	R:::LSA
+	P:::LSA
+	HF:::HMIS
+	LF:::LSA
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	
+```
 
 Records exported to Inventory.csv are included in the LSA output and uploaded to HDX 2.0.
 
@@ -243,10 +331,14 @@ LSA business logic does not utilize Inventory data beyond the export of records.
 | ReportStart               |
 | ReportEnd                 |
 | ReportCoC                 |
+
 | **lsa_Project**           |
+|---------------------------|
 | ProjectID                 |
 | ProjectType               |
+
 | **hmis_Inventory**        |
+|---------------------------|
 | (all columns – see below) |
 
 ## Target
@@ -303,6 +395,22 @@ Populate *ExportID* with LSAReport.**ReportID***;* the data type for *ExportID* 
 *UserID* may be exported as NULL; regardless of its value, it will not be imported into the HDX 2.0.
 
 # 4.6 Get HMISParticipation.csv Records / lsa_HMISParticipation
+``` mermaid
+
+flowchart LR
+
+	R[[lsa_Report]] & P[[lsa_Project]]-->HF[(hmis_HMISParticipation)]-->LF[[lsa_HMISParticipation]]
+
+	R:::LSA
+	P:::LSA
+	HF:::HMIS
+	LF:::LSA
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	
+```
 
 Records exported to HMISParticipation.csv are included in the LSA output and uploaded to HDX 2.0.
 
@@ -313,10 +421,14 @@ Records exported to HMISParticipation.csv are included in the LSA output and upl
 | ReportStart                |
 | ReportEnd                  |
 | ReportCoC                  |
+
 | **lsa_Project**            |
+| -------------------------- |
 | ProjectID                  |
 | OperatingEndDate           |
+
 | **hmis_HMISParticipation** |
+| -------------------------- |
 | (all columns – see below)  |
 
 ## Target
@@ -349,7 +461,21 @@ Populate **ExportID** with LSAReport.**ReportID***;* the data type for **ExportI
 **UserID** may be NULL; regardless of its value, it will not be imported into the HDX 2.0.
 
 # 4.7 Get Affiliation.csv Records / lsa_Affiliation
+``` mermaid
 
+flowchart LR
+
+	P[[lsa_Project]]-->HF[(hmis_Affiliation)]-->LF[[lsa_HMISParticipation]]
+
+	P:::LSA
+	HF:::HMIS
+	LF:::LSA
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	
+```
 Records exported to Inventory.csv are included in the LSA output and uploaded to HDX 2.0.
 
 LSA business logic does not utilize Affiliation data beyond the export of records.
@@ -360,13 +486,17 @@ LSA business logic does not utilize Affiliation data beyond the export of record
 | ReportStart               |
 | ReportEnd                 |
 | ReportCoC                 |
+
 | **lsa_Project**           |
+|---------------------------|
 | ProjectID                 |
 | ProjectType               |
 | RRHSubType                |
 | ResidentialAffiliation    |
 | OperatingEndDate          |
+
 | **hmis_Affiliation**      |
+|---------------------------|
 | (all columns – see below) |
 
 ## Target
