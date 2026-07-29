@@ -86,17 +86,18 @@ For business logic, see:
 | 18 | ClientEntry | int |  | 0 | A count of distinct  **EnrollmentID**s for the active cohort with enrollment dates that fall within the report period. | 10 |
 | 19 | AdultHoHEntry | int |  | 0 | A count of distinct **EnrollmentID**s for adults and heads of household in the active cohort with enrollment dates that fall within the report period. | 10 |
 | 20 | ClientExit | int |  | 0 | A count of distinct  **EnrollmentID**s for the active cohort with an exit date within the report period. | 10 |
-| 21 | SSNNotProvided | int |  | 0 | The total number of **PersonalID**s reported in LSAPerson where the value for *SSNDataQuality* is Client doesn’t know (8) or Client refused (9). |10|
-| 22 | SSNMissingOrInvalid | int | | 0 | The total number of **PersonalID**s reported in LSAPerson where the value for *SSNDataQuality* is NOT Client doesn’t know (8) or Client refused (9), and the value for *SSN* is either the system default or the value is not valid per SSA guidelines. |10|
-| 23 | ClientSSNNotUnique | int | | 0 | The total number of **PersonalID**s reported in LSAPerson where there is at least one record in HMIS for a different *PersonalID* with the same value for *SSN*, excluding the system default value (if any) for missing *SSN*. |10|
-| 24 | DistinctSSNValueNotUnique | int | | 0 | The total number of distinct *SSN* values (excluding the system default, if any) that are associated with **PersonalID**s reported in LSAPerson and the distinct *SSN* value is shared by one or more *PersonalID*s in HMIS. |10|
-| 25 | DisablingCond | int | | 0 | A count of distinct **EnrollmentID**s active in the report period with missing or invalid values for *DisablingCondition* |10|
-| 26 | LivingSituation | int | | 0 | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *LivingSituation* |10|
-| 27 | LengthOfStay | int | | 0 | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *LengthOfStay* |10|
-| 28 | HomelessDate | int | | 0 | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *DateToStreetESSH* |10|
-| 29 | TimesHomeless             | int          |      | 0        | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *TimesHomelessPastThreeYears* |10|
-| 30 | MonthsHomeless | int | | 0 | A count of distinct HMIS **EnrollmentID**s active in the report period with missing or invalid values for *MonthsHomelessPastThreeYears* |10|
-| 31 | Destination | int | | 0 | A count of distinct **EnrollmentID**s with exits in the report period with missing or invalid values for *Destination* |10|
+| 21 | SSNNotProvided | int |  | 0 | The total number of **PersonalID**s reported in LSAPerson where the value for *SSNDataQuality* is Client doesn’t know (8) or Client refused (9). | 10 |
+| 22 | SSNMissingOrInvalid | int | | 0 | The total number of **PersonalID**s reported in LSAPerson where the value for *SSNDataQuality* is NOT Client doesn’t know (8) or Client refused (9), and the value for *SSN* is either the system default or the value is not valid per SSA guidelines. | 10 |
+| 23 | ClientSSNNotUnique | int | | 0 | The total number of **PersonalID**s reported in LSAPerson where there is at least one record in HMIS for a different *PersonalID* with the same value for *SSN*, excluding the system default value (if any) for missing *SSN*. | 10 |
+| 24 | DistinctSSNValueNotUnique | int | | 0 | The total number of distinct *SSN* values (excluding the system default, if any) that are associated with **PersonalID**s reported in LSAPerson and the distinct *SSN* value is shared by one or more *PersonalID*s in HMIS. | 10 |
+| 25 | DisablingCond | int | | 0 | A count of distinct **EnrollmentID**s active in the report period with missing or invalid values for *DisablingCondition* | 10 |
+| 26 | LivingSituation | int | | 0 | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *LivingSituation* | 10 |
+| 27 | LengthOfStay | int | | 0 | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *LengthOfStay* | 10 |
+| 28 | HomelessDate | int | | 0 | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *DateToStreetESSH* | 10 |
+| 29 | TimesHomeless             | int          |      | 0        | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *TimesHomelessPastThreeYears* | 10 |
+| 30 | MonthsHomeless | int | | 0 | A count of distinct HMIS **EnrollmentID**s active in the report period with missing or invalid values for *MonthsHomelessPastThreeYears* | 10 |
+| 31 | Destination | int | | 0 | A count of distinct **EnrollmentID**s with exits in the report period with missing or invalid values for *Destination* | 10 |
+
 # 2.9 LSAPerson.csv
 
 LSAPerson contains 66 columns and includes reporting on people active during the report period. Columns include the following types of data:
@@ -179,7 +180,7 @@ The data type for every column in LSAPerson is integer; no value may be NULL.
 | 63  | **HIV**              | See [5.4 LSAPerson Demographics](05 - LSAPerson#54-lsaperson-demographics)                                                                                |
 | 64  | **SMI**              | See [5.4 LSAPerson Demographics](05 - LSAPerson#54-lsaperson-demographics)                                                                           |
 | 65  | **SUD**              |  See [5.4 LSAPerson Demographics](05 - LSAPerson#54-lsaperson-demographics)                                                                         |
-| 66  | **ReportID**         | Must match **ReportID** in LSAReport; see [4.1 Report Metadata for LSAReport](#_Report_Metadata_for)                                |
+| 66  | **ReportID**         | Must match **ReportID** in LSAReport; see [3.1 Report Metadata for LSAReport](03 - Core Concepts and Data Universe#31-report-parameters-and-metadata-lsa_report)
 
 # 2.10 LSAHousehold.csv
 
