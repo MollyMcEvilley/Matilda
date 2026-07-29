@@ -59,44 +59,41 @@ See section [4.7 Get Affiliation.csv Records / lsa\_Affiliation](04 - Project De
 
 LSAReport contains 67 columns, including report metadata, report parameters, and HMIS data quality reporting. The HDX 2.0 uses these data to process the upload file and to assess the reliability of the data.
 
-For business logic, see:
+The data types for columns in LSAReport are shown below; no value may be NULL.
 
--   Section [3.1 Report Parameters and Metadata](03 - Core Concepts and Data Universe#31-report-parameters-and-metadata-lsa_report)
--   Section [11 HMIS Business Logic: LSAReport Data Quality and ReportDate](11 - LSA Report)
-
-| # | Column Name | DataType | List | Nullable | Description | Max Length |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | ReportID | int |  | 0 | Unique identifier | 10 |
-| 2 | ReportDate | datetime |  | 0 | The date and time that reporting procedures completed the process of generating the LSA. | 19 |
-| 3 | ReportStart | date |  | 0 | User-entered report parameter | 19 |
-| 4 | ReportEnd | date |  | 0 | User-entered report parameter | 19 |
-| 5 | ReportCoC | nvarchar(6) |  | 0 | User-entered report parameter | 6 |
-| 6 | SoftwareVendor | nvarchar(50) |  | 0 | The name of the HMIS vendor | 50 |
-| 7 | SoftwareName | nvarchar(50) |  | 0 | The name of the HMIS application | 50 |
-| 8 | VendorContact | nvarchar(50) |  | 0 | Optional name of a vendor contact point for HDX 2.0 staff (department or person) | 50 |
-| 9 | VendorEmail | nvarchar(50) |  | 0 | Optional email for vendor contact | 50 |
-| 10 | LSAScope | int | 1 | 0 | Identifies whether LSA is systemwide (clients of all relevant continuum projects are included based on project types); project-focused (only clients of projects selected by the user generating the LSA are included); or HIC (systemwide single day) | 1 |
-| 11 | LookbackDate | date |  | 0 | <u>ReportStart</u> - 7 years | 19 |
-| 12 | NoCoC | int |  | 0 | Systemwide count of *HouseholdID*s served in continuum ES/SH/TH/RRH/PSH projects during the report period and excluded from the LSA because there is no record of the CoC in which the households were served. | 10 |
-| 13 | NotOneHoH | int |  | 0 | Systemwide count of *HouseholdID*s active in continuum ES/SH/TH/RRH/PSH projects during the report period but excluded from the LSA due to improper designation of a head of household. | 10 |
-| 14 | RelationshipToHoH | int |  | 0 | Count of enrollments associated with households active during the LSA report period but excluded from the LSA due to missing/invalid *RelationshipToHoH* values. | 10 |
-| 15 | MoveInDate | int |  | 0 | Count of RRH/PSH enrollments with move-in dates recorded in HMIS that fall either prior to project entry or after project exit. | 10 |
-| 16 | UnduplicatedClient | int |  | 0 | A count of distinct  PersonalIDs in LSAPerson | 10 |
-| 17 | HouseholdEntry | int |  | 0 | A count of distinct **HouseholdID**s for the active cohort with enrollment dates that fall within the report period. | 10 |
-| 18 | ClientEntry | int |  | 0 | A count of distinct  **EnrollmentID**s for the active cohort with enrollment dates that fall within the report period. | 10 |
-| 19 | AdultHoHEntry | int |  | 0 | A count of distinct **EnrollmentID**s for adults and heads of household in the active cohort with enrollment dates that fall within the report period. | 10 |
-| 20 | ClientExit | int |  | 0 | A count of distinct  **EnrollmentID**s for the active cohort with an exit date within the report period. | 10 |
-| 21 | SSNNotProvided | int |  | 0 | The total number of **PersonalID**s reported in LSAPerson where the value for *SSNDataQuality* is Client doesn’t know (8) or Client refused (9). | 10 |
-| 22 | SSNMissingOrInvalid | int | | 0 | The total number of **PersonalID**s reported in LSAPerson where the value for *SSNDataQuality* is NOT Client doesn’t know (8) or Client refused (9), and the value for *SSN* is either the system default or the value is not valid per SSA guidelines. | 10 |
-| 23 | ClientSSNNotUnique | int | | 0 | The total number of **PersonalID**s reported in LSAPerson where there is at least one record in HMIS for a different *PersonalID* with the same value for *SSN*, excluding the system default value (if any) for missing *SSN*. | 10 |
-| 24 | DistinctSSNValueNotUnique | int | | 0 | The total number of distinct *SSN* values (excluding the system default, if any) that are associated with **PersonalID**s reported in LSAPerson and the distinct *SSN* value is shared by one or more *PersonalID*s in HMIS. | 10 |
-| 25 | DisablingCond | int | | 0 | A count of distinct **EnrollmentID**s active in the report period with missing or invalid values for *DisablingCondition* | 10 |
-| 26 | LivingSituation | int | | 0 | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *LivingSituation* | 10 |
-| 27 | LengthOfStay | int | | 0 | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *LengthOfStay* | 10 |
-| 28 | HomelessDate | int | | 0 | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *DateToStreetESSH* | 10 |
-| 29 | TimesHomeless             | int          |      | 0        | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *TimesHomelessPastThreeYears* | 10 |
-| 30 | MonthsHomeless | int | | 0 | A count of distinct HMIS **EnrollmentID**s active in the report period with missing or invalid values for *MonthsHomelessPastThreeYears* | 10 |
-| 31 | Destination | int | | 0 | A count of distinct **EnrollmentID**s with exits in the report period with missing or invalid values for *Destination* | 10 |
+| #    | Column Name               | DataType     | List | Description                                                  | Max Length |
+| ---- | ------------------------- | ------------ | ---- | ------------------------------------------------------------ | ---------- |
+| 1    | ReportID                  | int          |      | Unique identifier                                            | 10         |
+| 2    | ReportDate                | datetime     |      | The date and time that reporting procedures completed the process of generating the LSA. | 19         |
+| 3    | ReportStart               | date         |      | User-entered report parameter                                | 19         |
+| 4    | ReportEnd                 | date         |      | User-entered report parameter                                | 19         |
+| 5    | ReportCoC                 | nvarchar(6)  |      | User-entered report parameter                                | 6          |
+| 6    | SoftwareVendor            | nvarchar(50) |      | The name of the HMIS vendor                                  | 50         |
+| 7    | SoftwareName              | nvarchar(50) |      | The name of the HMIS application                             | 50         |
+| 8    | VendorContact             | nvarchar(50) |      | Optional name of a vendor contact point for HDX 2.0 staff (department or person) | 50         |
+| 9    | VendorEmail               | nvarchar(50) |      | Optional email for vendor contact                            | 50         |
+| 10   | LSAScope                  | int          | 1    | Identifies whether LSA is systemwide (clients of all relevant continuum projects are included based on project types); project-focused (only clients of projects selected by the user generating the LSA are included); or HIC (systemwide single day) | 1          |
+| 11   | LookbackDate              | date         |      | <u>ReportStart</u> - 7 years                                 | 19         |
+| 12   | NoCoC                     | int          |      | Systemwide count of *HouseholdID*s served in continuum ES/SH/TH/RRH/PSH projects during the report period and excluded from the LSA because there is no record of the CoC in which the households were served. | 10         |
+| 13   | NotOneHoH                 | int          |      | Systemwide count of *HouseholdID*s active in continuum ES/SH/TH/RRH/PSH projects during the report period but excluded from the LSA due to improper designation of a head of household. | 10         |
+| 14   | RelationshipToHoH         | int          |      | Count of enrollments associated with households active during the LSA report period but excluded from the LSA due to missing/invalid *RelationshipToHoH* values. | 10         |
+| 15   | MoveInDate                | int          |      | Count of RRH/PSH enrollments with move-in dates recorded in HMIS that fall either prior to project entry or after project exit. | 10         |
+| 16   | UnduplicatedClient        | int          |      | A count of distinct  PersonalIDs in LSAPerson                | 10         |
+| 17   | HouseholdEntry            | int          |      | A count of distinct **HouseholdID**s for the active cohort with enrollment dates that fall within the report period. | 10         |
+| 18   | ClientEntry               | int          |      | A count of distinct  **EnrollmentID**s for the active cohort with enrollment dates that fall within the report period. | 10         |
+| 19   | AdultHoHEntry             | int          |      | A count of distinct **EnrollmentID**s for adults and heads of household in the active cohort with enrollment dates that fall within the report period. | 10         |
+| 20   | ClientExit                | int          |      | A count of distinct  **EnrollmentID**s for the active cohort with an exit date within the report period. | 10         |
+| 21   | SSNNotProvided            | int          |      | The total number of **PersonalID**s reported in LSAPerson where the value for *SSNDataQuality* is Client doesn’t know (8) or Client refused (9). | 10         |
+| 22   | SSNMissingOrInvalid       | int          |      | The total number of **PersonalID**s reported in LSAPerson where the value for *SSNDataQuality* is NOT Client doesn’t know (8) or Client refused (9), and the value for *SSN* is either the system default or the value is not valid per SSA guidelines. | 10         |
+| 23   | ClientSSNNotUnique        | int          |      | The total number of **PersonalID**s reported in LSAPerson where there is at least one record in HMIS for a different *PersonalID* with the same value for *SSN*, excluding the system default value (if any) for missing *SSN*. | 10         |
+| 24   | DistinctSSNValueNotUnique | int          |      | The total number of distinct *SSN* values (excluding the system default, if any) that are associated with **PersonalID**s reported in LSAPerson and the distinct *SSN* value is shared by one or more *PersonalID*s in HMIS. | 10         |
+| 25   | DisablingCond             | int          |      | A count of distinct **EnrollmentID**s active in the report period with missing or invalid values for *DisablingCondition* | 10         |
+| 26   | LivingSituation           | int          |      | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *LivingSituation* | 10         |
+| 27   | LengthOfStay              | int          |      | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *LengthOfStay* | 10         |
+| 28   | HomelessDate              | int          |      | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *DateToStreetESSH* | 10         |
+| 29   | TimesHomeless             | int          |      | A count of distinct **EnrollmentID**s for HoH/adults active in the report period with missing or invalid values for *TimesHomelessPastThreeYears* | 10         |
+| 30   | MonthsHomeless            | int          |      | A count of distinct HMIS **EnrollmentID**s active in the report period with missing or invalid values for *MonthsHomelessPastThreeYears* | 10         |
+| 31   | Destination               | int          |      | A count of distinct **EnrollmentID**s with exits in the report period with missing or invalid values for *Destination* | 10         |
 
 # 2.9 LSAPerson.csv
 
@@ -109,8 +106,6 @@ Rows represent specific combinations of these data points. Each active client is
 
 It is critical that all values in this column are integers > 0. The largest possible number of rows – when each row includes a count of one or more people represented by the distinct combination of column values – is limited to the number of active clients. However, there are billions of possible combinations of column values, and including rows that that do not represent any clients would result in files of unmanageable size.
 
-See [Section 5 HMIS Business Logic: LSAPerson](05 - LSAPerson).
-
 The data type for every column in LSAPerson is integer; no value may be NULL.
 
 | #   | Column Name          | Notes                                                                                                                           |
@@ -119,11 +114,11 @@ The data type for every column in LSAPerson is integer; no value may be NULL.
 | 2   | **RaceEthnicity**    | See [5.4 LSAPerson Demographics](05 - LSAPerson#54-lsaperson-demographics)                                                                      |
 | 3   | **VetStatus**        | See [5.4 LSAPerson Demographics](05 - LSAPerson#54-lsaperson-demographics)                                                                       |
 | 4   | **DisabilityStatus** | See  See [5.4 LSAPerson Demographics](05 - LSAPerson#54-lsaperson-demographics)                                                                       |
-| 5   | **CHTime**           | See [5.5 Time Spent in ES/SH or on the Street](#_Toc34144028) through [5.10 CHTime and CHTimeStatus](#_CHTime_and_CHTimeStatus) |
-| 6   | **CHTimeStatus**     | See [5.5 Time Spent in ES/SH or on the Street](#_Toc34144028) through [5.10 CHTime and CHTimeStatus](#_CHTime_and_CHTimeStatus) |
+| 5   | **CHTime**           | See [5.5 Time Spent in ES/SH or on the Street](05 - LSAPerson#55-time-spent-in-essh-or-on-the-street--lsaperson) through [5.10 CHTime and CHTimeStatus](#510-chtime-and-chtimestatus--lsaperson) |
+| 6   | **CHTimeStatus**     | See See [5.5 Time Spent in ES/SH or on the Street](05 - LSAPerson#55-time-spent-in-essh-or-on-the-street--lsaperson) through [5.10 CHTime and CHTimeStatus](#510-chtime-and-chtimestatus--lsaperson) |
 | 7   | **DVStatus**         | See [5.4 LSAPerson Demographics](05 - LSAPerson#54-lsaperson-demographics)                                                                               |
-| 8   | **ESTAgeMin**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](#_EST/RRH/PSHAgeMin_and_EST/RRH/PSHAg)                           |
-| 9   | **ESTAgeMax**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](#_EST/RRH/PSHAgeMin_and_EST/RRH/PSHAg)                           |
+| 8   | **ESTAgeMin**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](05 - LSAPerson#511-estrrhpshrrhsoagemin-and-estrrhpshrrhsoagemax--lsaperson)                           |
+| 9   | **ESTAgeMax**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](05 - LSAPerson#511-estrrhpshrrhsoagemin-and-estrrhpshrrhsoagemax--lsaperson)                           |
 | 10  | **HHTypeEST**        | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 11  | **HoHEST**           | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 12  | **AdultEST**         | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
@@ -132,15 +127,15 @@ The data type for every column in LSAPerson is integer; no value may be NULL.
 | 15  | **HHVetEST**         | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 16  | **HHDisabilityEST**  | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 17  | **HHFleeingDVEST**   | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
-| 18  | **HHAdultAgeAOEST**  | See [5.14 Adult Age Population Identifiers](#_Adult_Age_Population)                                                             |
-| 19  | **HHAdultAgeACEST**  | See [5.14 Adult Age Population Identifiers](#_Adult_Age_Population)                                                             |
+| 18  | **HHAdultAgeAOEST**  | See [5.14 Adult Age Population Identifiers](05 - LSAPerson#514-adult-age-population-identifiers---lsaperson)                                                            |
+| 19  | **HHAdultAgeACEST**  | See [5.14 Adult Age Population Identifiers](05 - LSAPerson#514-adult-age-population-identifiers---lsaperson)                                                               |
 | 20  | **HHParentEST**      | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 21  | **AC3PlusEST**       | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 22  | **AIREST**           | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 23  | **AIRHoHEST**        | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
-| 24  | **RRHAgeMin**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](#_EST/RRH/PSHAgeMin_and_EST/RRH/PSHAg)                           |
-| 25  | **RRHAgeMax**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](#_EST/RRH/PSHAgeMin_and_EST/RRH/PSHAg)                           |
-| 26  | **HHTypeRRH**        | See [5.12 HHTypeEST/RRH/PSH/ES/SH/TH](#_HHTypeEST/RRH/PSH_-_LSAPerson)                                                          |
+| 24  | **RRHAgeMin**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](05 - LSAPerson#511-estrrhpshrrhsoagemin-and-estrrhpshrrhsoagemax--lsaperson)                           |
+| 25  | **RRHAgeMax**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](05 - LSAPerson#511-estrrhpshrrhsoagemin-and-estrrhpshrrhsoagemax--lsaperson)                           |
+| 26  | **HHTypeRRH**        | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                                         |
 | 27  | **HoHRRH**           | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 28  | **AdultRRH**         | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 29  | **AIRAdultRRH**      | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
@@ -148,14 +143,14 @@ The data type for every column in LSAPerson is integer; no value may be NULL.
 | 31  | **HHVetRRH**         | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 32  | **HHDisabilityRRH**  | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 33  | **HHFleeingDVRRH**   | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
-| 34  | **HHAdultAgeAORRH**  | See [5.14 Adult Age Population Identifiers](#_Adult_Age_Population)                                                             |
-| 35  | **HHAdultAgeACRRH**  | See [5.14 Adult Age Population Identifiers](#_Adult_Age_Population)                                                             |
+| 34  | **HHAdultAgeAORRH**  | See [5.14 Adult Age Population Identifiers](05 - LSAPerson#514-adult-age-population-identifiers---lsaperson)                                                               |
+| 35  | **HHAdultAgeACRRH**  | See [5.14 Adult Age Population Identifiers](05 - LSAPerson#514-adult-age-population-identifiers---lsaperson)                                                               |
 | 36  | **HHParentRRH**      | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 37  | **AC3PlusRRH**       | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 38  | **AIRRRH**           | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 39  | **AIRHoHRRH**        | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
-| 40  | **PSHAgeMin**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](#_EST/RRH/PSHAgeMin_and_EST/RRH/PSHAg)                           |
-| 41  | **PSHAgeMax**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](#_EST/RRH/PSHAgeMin_and_EST/RRH/PSHAg)                           |
+| 40  | **PSHAgeMin**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](05 - LSAPerson#511-estrrhpshrrhsoagemin-and-estrrhpshrrhsoagemax--lsaperson)                           |
+| 41  | **PSHAgeMax**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](05 - LSAPerson#511-estrrhpshrrhsoagemin-and-estrrhpshrrhsoagemax--lsaperson)                         |
 | 42  | **HHTypePSH**        | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 43  | **HoHPSH**           | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 44  | **AdultPSH**         | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
@@ -164,14 +159,14 @@ The data type for every column in LSAPerson is integer; no value may be NULL.
 | 47  | **HHVetPSH**         | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 48  | **HHDisabilityPSH**  | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 49  | **HHFleeingDVPSH**   | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
-| 50  | **HHAdultAgeAOPSH**  | See [5.14 Adult Age Population Identifiers](#_Adult_Age_Population)                                                             |
-| 51  | **HHAdultAgeACPSH**  | See [5.14 Adult Age Population Identifiers](#_Adult_Age_Population)                                                             |
+| 50  | **HHAdultAgeAOPSH**  | See [5.14 Adult Age Population Identifiers](05 - LSAPerson#514-adult-age-population-identifiers---lsaperson)                                                               |
+| 51  | **HHAdultAgeACPSH**  | See [5.14 Adult Age Population Identifiers](05 - LSAPerson#514-adult-age-population-identifiers---lsaperson)                                                             |
 | 52  | **HHParentPSH**      | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 53  | **AC3PlusPSH**       | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 54  | **AIRPSH**           | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 55  | **AIRHoHPSH**        | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
-| 56  | **RRHSOAgeMin**      | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](#_EST/RRH/PSHAgeMin_and_EST/RRH/PSHAg)                           |
-| 57  | **RRHSOAgeMax**      | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](#_EST/RRH/PSHAgeMin_and_EST/RRH/PSHAg)                           |
+| 56  | **RRHSOAgeMin**      | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](05 - LSAPerson#511-estrrhpshrrhsoagemin-and-estrrhpshrrhsoagemax--lsaperson)                           |
+| 57  | **RRHSOAgeMax**      | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](05 - LSAPerson#511-estrrhpshrrhsoagemin-and-estrrhpshrrhsoagemax--lsaperson)                                  |
 | 58  | **HHTypeRRHSONoMI**  | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 59  | **HHTypeRRHSOMI**    | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
 | 60  | **HHTypeES**         | See [5.13 Project Group and Population Household Types](05 - LSAPerson#513-project-group-and-population-household-types---lsaperson)                                         |
