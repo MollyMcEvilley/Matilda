@@ -109,9 +109,13 @@ AND:
 |---------------------|
 | HouseholdID         |
 | Active              |
+
 | **hmis_Exit**       |
+|---------------------|
 | ExitDate            |
+
 | **hmis_Enrollment** |
+|---------------------|
 | ProjectID           |
 | HouseholdID         |
 | RelationshipToHoH   |
@@ -154,7 +158,9 @@ A count of distinct *EnrollmentID*s in hmis_Enrollment where:
 | MoveInDate          |
 | Active              |
 | LSAProjectType      |
+
 | **hmis_Enrollment** |
+|---------------------|
 | HouseholdID         |
 | MoveInDate          |
 
@@ -183,10 +189,14 @@ A count of tlsa_HHID.**EnrollmentID**s where
 | **tlsa_Person**     |
 |---------------------|
 | PersonalID          |
+
 | **tlsa_HHID**       |
+|---------------------|
 | HouseholdID         |
 | Active              |
+
 | **tlsa_Enrollment** |
+|---------------------|
 | EnrollmentID        |
 | Active              |
 | ActiveAge           |

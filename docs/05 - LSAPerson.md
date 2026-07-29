@@ -26,9 +26,13 @@ References to active **HouseholdID**s and/or any of the columns included in tlsa
 | ReportStart     |
 | ReportEnd       |
 | ReportCoC       |
+
 | **lsa_Project** |
+|-----------------|
 | ProjectID       |
+
 | **tlsa_HHID**   |
+|-----------------|
 | EnrollmentID    |
 | LSAProjectType  |
 | EntryDate       |
@@ -213,13 +217,17 @@ It uses data in lsa\_Report and active tlsa\_Enrollment records as parameters ap
 | **lsa_Report**        |
 |-----------------------|
 | ReportStart           |
+
 | **tlsa_Enrollment**   |
+|-----------------|
 | PersonalID            |
 | RelationshipToHoH     |
 | ActiveAge             |
 | Disability Status     |
 | DVStatus              |
+
 | **hmis_Client**       |
+|-----------------|
 | PersonalID            |
 | AmIndAKNative         |
 | Asian                 |
@@ -230,7 +238,9 @@ It uses data in lsa\_Report and active tlsa\_Enrollment records as parameters ap
 | White                 |
 | RaceNone              |
 | VeteranStatus         |
+
 | **hmis_Disabilities** |
+|-----------------|
 | EnrollmentID          |
 | InformationDate       |
 | DisabilityType        |
@@ -238,8 +248,6 @@ It uses data in lsa\_Report and active tlsa\_Enrollment records as parameters ap
 | IndefiniteAndImpairs  |
 
 ## Target
-
-See section [5.3 Get Active Clients for LSAPerson](#get-active-clients-for-lsaperson) for column descriptions.
 
 | tlsa_Person      |
 |------------------|
@@ -392,7 +400,7 @@ Specific to the LSA:
 
 Although a person must have a disabling condition in order to be considered chronically homeless, the LSA includes reporting on time spent in places not meant for habitation, safe haven, and/or emergency shelter for all heads of household and adults, regardless of the value in **DisabilityStatus**. It is based on constructing a timeline of activity for each person in tlsa\_Person based on HMIS enrollment data in the three years ending on the client’s most recent active date in the report period. This will include active enrollments and, for people with relevant enrollments prior to the report period, inactive enrollments.
 
-The relevant columns in LSAPerson – and in tlsa\_Person – are **CHTime** and **CHTimeStatus**. Because of the complexity, the business logic is broken out into five separate steps defined beginning with this section (5.5) and concluding with [section 5.10](#_CHTime_and_CHTimeStatus). Section numbers associated with each step are shown below in the graphic for the relevant data construct.
+The relevant columns in LSAPerson – and in tlsa\_Person – are **CHTime** and **CHTimeStatus**. Because of the complexity, the business logic is broken out into five separate steps defined beginning with this section (5.5) and concluding with [section 5.10](#510-chtime-and-chtimestatus--lsaperson). Section numbers associated with each step are shown below in the graphic for the relevant data construct.
 
 [add graphic]
 
@@ -412,12 +420,16 @@ Finally, Section 5.10 describes how to set LSA reporting category values in tlsa
 | **lsa_Report**      |
 |---------------------|
 | ReportEnd           |
+
 | **tlsa_Enrollment** |
+|---------------------|
 | EnrollmentID        |
 | PersonalID          |
 | ExitDate            |
 | LastBedNight        |
+
 | **tlsa_Person**     |
+|---------------------|
 | HoHAdult            |
 
 ## Target 
@@ -447,12 +459,16 @@ The last active date for any given enrollment is:
 |---------------------|
 | ReportEnd           |
 | ReportCoC           |
+
 | **tlsa_Person**     |
+|---------------------|
 | PersonalID          |
 | HoHAdult            |
 | CHStart             |
 | LastActive          |
+
 | **tlsa_Enrollment** |
+|---------------------|
 | EntryDate           |
 | ExitDate            |
 
@@ -479,7 +495,9 @@ Enrollments relevant to determining whether or not a person meets the time crite
 |---------------------|
 | CHStart             |
 | LastActive          |
+
 | **tlsa_Enrollment** |
+|---------------------|
 | PersonalID          |
 | LSAProjectType      |
 | EntryDate           |
@@ -511,7 +529,9 @@ To resolve potential data conflicts, dates on which a client is enrolled in TH o
 | PersonalID                                               |
 | CHStart                                                  |
 | LastActive                                               |
+
 | **tlsa_Enrollment**                                      |
+|---------------------|
 | CH                                                       |
 | PersonalID                                               |
 | EnrollmentID                                             |
@@ -519,13 +539,17 @@ To resolve potential data conflicts, dates on which a client is enrolled in TH o
 | EntryDate                                                |
 | MoveInDate                                               |
 | ExitDate                                                 |
+
 | **hmis_Enrollment**                                      |
+|---------------------|
 | EnrollmentID                                             |
 | LivingSituation                                          |
 | LengthOfStay                                             |
 | PreviousStreetESSH                                       |
 | DateToStreetESSH                                         |
+
 | **hmis_Services**                                        |
+|---------------------|
 | EnrollmentID                                             |
 | *BedNightDate* (*DateProvided* where *RecordType* = 200) |
 
@@ -917,7 +941,9 @@ Otherwise, **AC3Plus** = 0.
 |---------------------|
 | ActiveHHType        |
 | HouseholdID         |
+
 | **tlsa_Enrollment** |
+|---------------------|
 | LSAProjectType      |
 | HouseholdID         |
 | PersonalID          |
@@ -925,7 +951,9 @@ Otherwise, **AC3Plus** = 0.
 | ActiveAge           |
 | Active              |
 | AIR                 |
+
 | **tlsa_HHID**       |
+|---------------------|
 | HHChronic           |
 | HHVet               |
 | HHDisability        |
@@ -1024,7 +1052,9 @@ For all other columns, household types are reported as shown below based on the 
 | PersonalID          |
 | HouseholdID         |
 | Active              |
+
 | **tlsa_HHID**       |
+|---------------------|
 | HouseholdID         |
 | LSAProjectType      |
 | HHAdultAge          |
