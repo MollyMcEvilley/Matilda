@@ -115,7 +115,7 @@ The data type for every column in LSAPerson is integer; no value may be NULL.
 | 3   | **VetStatus**        | See [5.4 LSAPerson Demographics](05 - LSAPerson#54-lsaperson-demographics)                                                                       |
 | 4   | **DisabilityStatus** | See  See [5.4 LSAPerson Demographics](05 - LSAPerson#54-lsaperson-demographics)                                                                       |
 | 5   | **CHTime**           | See [5.5 Time Spent in ES/SH or on the Street](05 - LSAPerson#55-time-spent-in-essh-or-on-the-street--lsaperson) through [5.10 CHTime and CHTimeStatus](05 - LSAPerson#510-chtime-and-chtimestatus--lsaperson) |
-| 6   | **CHTimeStatus**     | See See [5.5 Time Spent in ES/SH or on the Street](05 - LSAPerson#55-time-spent-in-essh-or-on-the-street--lsaperson) through [5.10 CHTime and CHTimeStatus](#510-chtime-and-chtimestatus--lsaperson) |
+| 6   | **CHTimeStatus**     | See See [5.5 Time Spent in ES/SH or on the Street](05 - LSAPerson#55-time-spent-in-essh-or-on-the-street--lsaperson) through [5.10 CHTime and CHTimeStatus – LSAPerson](05 - LSAPerson.md#510-chtime-and-chtimestatus--lsaperson)
 | 7   | **DVStatus**         | See [5.4 LSAPerson Demographics](05 - LSAPerson#54-lsaperson-demographics)                                                                               |
 | 8   | **ESTAgeMin**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](05 - LSAPerson#511-estrrhpshrrhsoagemin-and-estrrhpshrrhsoagemax--lsaperson)                           |
 | 9   | **ESTAgeMax**        | See [5.11 EST/RRH/PSH/RRHSOAgeMin and EST/RRH/PSH/RRHSOAgeMax](05 - LSAPerson#511-estrrhpshrrhsoagemin-and-estrrhpshrrhsoagemax--lsaperson)                           |
