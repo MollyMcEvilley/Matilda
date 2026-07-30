@@ -77,7 +77,33 @@ where **AIR** = 1 and:
 - **ExitDate** is NULL, or **ExitDate** \> <u>CohortStart.</u>
 
 # 9.3 Counts of People and Households by Project and Household Characteristics
+``` mermaid
 
+flowchart LR
+
+  subgraph grp
+    direction TD
+        T2([tlsa_HHID         
+        tlsa_Enrollment]) ~~~	H2[(hmis_Services)]
+  end
+
+	T1([tlsa_CohortDates])-->grp-->L1[[lsa_Calculated]]
+
+	L1:::LSA
+	
+	T1:::Temp
+	T2:::Temp
+	
+	H2:::HMIS
+  grp:::Box
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #CCCCCC, fill:none, color: #FFFFFF
+	
+```
 ## Source
 
 | **tlsa_Enrollment** |
@@ -170,7 +196,33 @@ household type and population:
 |  48 | Domestic Violence Survivors Not Identified as Currently Fleeing | 0,1,2,3,99 | **HHFleeingDV** = 2                            |
 
 # 9.4 Get Counts of People by Project and Personal Characteristics
+``` mermaid
 
+flowchart LR
+
+  subgraph grp
+    direction TD
+        T2([tlsa_HHID         
+        tlsa_Enrollment]) ~~~	H2[(hmis_Services)]
+  end
+
+	T1([tlsa_CohortDates])-->grp-->L1[[lsa_Calculated]]
+
+	L1:::LSA
+	
+	T1:::Temp
+	T2:::Temp
+	
+	H2:::HMIS
+  grp:::Box
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #CCCCCC, fill:none, color: #FFFFFF
+	
+```
 ##  Source
 
 | **tlsa_Enrollment** |
@@ -337,6 +389,33 @@ subpopulation. For example, the subpopulation of Veterans Fleeing Domestic Viole
 | 97  | Domestic Violence Survivor Not Identified as Currently Fleeing      |
 
 # 9.5 Get Counts of Bednights 
+``` mermaid
+
+flowchart LR
+
+  subgraph grp
+    direction TD
+        T2([tlsa_Person
+        tlsa_HHID         
+        tlsa_Enrollment]) ~~~	H2[(hmis_Services)]
+  end
+
+	L2[[lsa_Report]]-->grp-->L1[[lsa_Calculated]]
+
+	L1:::LSA
+	L2:::LSA
+	T2:::Temp
+	
+	H2:::HMIS
+  grp:::Box
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #CCCCCC, fill:none, color: #FFFFFF
+	
+```
 ## Source
 
 | **tlsa_Enrollment** |
@@ -420,7 +499,34 @@ The only difference in logic between rows 56 and 57 are the populations. Both co
 | **LSAProjectType** = 1        | _BedNightDate_ between <u>ReportStart</u> and <u>ReportEnd</u> and >= **EntryDate** and < **ExitDate** (if ExitDate is not NULL) |                                                                  |
 
 # 9.6 Get OPH Point-in-Time Counts for HIC
+``` mermaid
 
+flowchart LR
+
+  subgraph grp
+    direction TD
+        L2[[lsa_Project
+        lsa_HMISParticipation         
+        tlsa_Enrollment]] ~~~	H2[(hmis_Enrollment
+        hmis_Exit)]
+  end
+
+	L1[[lsa_Report]]-->grp-->L3[[lsa_Calculated]]
+
+	L1:::LSA
+	L2:::LSA
+  L3:::LSA
+	
+	H2:::HMIS
+  grp:::Box
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #CCCCCC, fill:none, color: #FFFFFF
+	
+```
 ## Source
 
 | **lsa_Report**                   |

@@ -1,0 +1,26 @@
+``` mermaid
+
+flowchart LR
+	L1[[lsa_]]
+	T1([tlsa_])
+	H1[(hmis_)]
+	L2[[lsa_]]
+	T2([tlsa_])
+	H2[(hmis_)]
+
+	L1:::LSA
+	L2:::LSA
+	
+	T1:::Temp
+	T2:::Temp
+	
+	H1:::HMIS
+	H2:::HMIS
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #999, fill:none, color: #FFFFFF
+	
+```

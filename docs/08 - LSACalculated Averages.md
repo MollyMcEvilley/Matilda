@@ -194,7 +194,17 @@ When the parent population is ‘All’ (0), the ID listed below is used. In com
 | 48 | Domestic Violence Survivors Not Identified as Currently Fleeing | 0,1,2,3,99 | **HHFleeingDV** = 2 | 0, 10-15 |
 
 # 8.4 Get Average Days for Length of Time Homeless
+``` mermaid
+flowchart LR
 
+	T1([tlsa_Household])-->	L1[[lsa_Calculated]]
+
+	L1:::LSA
+	T1:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+```
 ## Source
 
 | **tlsa_Household**     |
@@ -256,7 +266,17 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | Days documented homeless or housed in RRH total (excluding self-reported time)                               | **SystemDaysNotPSHHoused** | 9         |
 
 # 8.5 Get Average Days for Length of Time Homeless by System Path
+``` mermaid
+flowchart LR
 
+	T1([tlsa_Household])-->	L1[[lsa_Calculated]]
+
+	L1:::LSA
+	T1:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+```
 ## Source
 
 | **tlsa_Household**     |
@@ -316,7 +336,17 @@ The averages for LSACalculated are grouped by the **SystemPath** values from LSA
 | Days documented homeless or housed in RRH total (excluding self-reported time)                               | **SystemDaysNotPSHHoused** where **SystemPath** <> -1                  | 9         |
 
 # 8.6 Get Average Days for Cumulative Length of Time Housed in PSH
+``` mermaid
+flowchart LR
 
+	T1([tlsa_Household])-->	L1[[lsa_Calculated]]
+
+	L1:::LSA
+	T1:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+```
 ## Source
 
 | **tlsa_Household** |
@@ -360,7 +390,17 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | Days housed in PSH – housed at report end    | **PSHHousedDays** (where **PSHMoveIn** in (1,2) and **PSHStatus** in (11,21)) | 11        |
 
 # 8.7 Get Average Days for Length of Time in RRH Projects
+``` mermaid
+flowchart LR
 
+	T1([tlsa_Household])-->	L1[[lsa_Calculated]]
+
+	L1:::LSA
+	T1:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+```
 ## Source 
 
 | **tlsa_Household** |
@@ -408,7 +448,17 @@ For each **ReportRow** listed below, **Value** \= the average of \[Source Column
 | RRH move-in to report end for active households placed in PH       | **RRHHousedDays** where **RRHStatus** in (11,21) and **RRHMoveIn** in (1,2) | 16        |
 
 # 8.8 Get Average Days to Return/Re-engage by Last Project Type
+``` mermaid
+flowchart LR
 
+	T1([tlsa_Exit])-->	L1[[lsa_Calculated]]
+
+	L1:::LSA
+	T1:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+```
 ## Source 
 
 | **tlsa_Exit** |
@@ -471,7 +521,17 @@ parameter is *integer*.
 | Days to return after exit from RRH-SO (not placed in PH) | **ReturnTime** where **ExitFrom** = 10 | 66        |
 
 # 8.9 Get Average Days to Return/Re-engage by Population
+``` mermaid
+flowchart LR
 
+	T1([tlsa_Exit])-->	L1[[lsa_Calculated]]
+
+	L1:::LSA
+	T1:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+```
 ## Source
 
 | **tlsa_Exit**    |
@@ -527,7 +587,17 @@ Averages are grouped by **Universe** based on LSAExit (tlsa_Exit) **ExitTo**.
 For each valid combination of values in other relevant columns, **Value** = the average of \[Source Column\] from tlsa_Exit where **ReturnTime** \> 0, rounded to the nearest whole number, or the result of a built-in AVERAGE or AVG function in a database that returns an integer when the datatype of the parameter is *integer*.
 
 # 8.10 Get Average Days to Return/Re-engage by System Path
+``` mermaid
+flowchart LR
 
+	T1([tlsa_Exit])-->	L1[[lsa_Calculated]]
+
+	L1:::LSA
+	T1:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+```
 ## Source 
 
 | **tlsa_Exit** |
@@ -597,7 +667,17 @@ For **ReportRow**s 24-35, averages are grouped by the **SystemPath** value in LS
 | Days to return after any system path    | **SystemPath** \<\> -1 | 36        |
 
 # 8.11 Get Average Days to Return/Re-engage by Exit Destination
+``` mermaid
+flowchart LR
 
+	T1([tlsa_Exit])-->	L1[[lsa_Calculated]]
+
+	L1:::LSA
+	T1:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+```
 ## Source
 
 | **tlsa_Exit** |

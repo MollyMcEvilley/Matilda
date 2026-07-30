@@ -6,12 +6,6 @@ has_children: true
 has_toc: true
 ---
 
- [1 - Introduction](01 - Introduction.md)
-
-    - [1.1 Background](01 - Introduction.md#11-background)
-    - [1.2 About This Document](01 - Introduction.md#12-about-this-document)
-    - [1.3 Definitions/Acronyms](01 - Introduction.md#13-definitions-acronyms)
-    - [1.4 Changes Effective 11/1/2025](01 - Introduction.md#14-changes-effective-11-1-2025)
 [1 - Introduction](01 - Introduction.md)
 
 - [1.1 Background](01 - Introduction.md#11-background)

@@ -9,10 +9,9 @@ remote_theme: just-the-docs/just-the-docs
 search_enabled: true
 search_tokenizer_separator: /[\s\-]+/
 
-# Navigation Settings
 nav_sort: page_order
 
-# Ensure Kramdown-generated TOCs include only level-1 headings
+
 kramdown:
   toc_levels: 1..1
 

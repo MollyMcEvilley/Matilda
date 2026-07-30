@@ -9,13 +9,14 @@ toc_levels: 1..1
 
 - Contents
 {:toc}
+
 The universe of HMIS project, client, and enrollment data used to generate the LSA is broad in scope. It uses systemwide enrollment data for HMIS-participating continuum ES, SH, TH, RRH, and PSH projects and includes project descriptor data for OPH projects. It may include enrollments with exit dates and projects with operating end dates as far back as the <u>LookbackDate</u> (<u>ReportStart</u> – 7 years).
 
 The HMIS data required for the LSA are shown below. 
 
 ``` mermaid
 ---
-title: HMIS Data
+title: HMIS Data for LSA
 ---
 
 erDiagram
@@ -31,6 +32,8 @@ erDiagram
     hmis_Enrollment ||--o{ hmis_Services : "may have"
     hmis_Enrollment ||--o{ hmis_Disabilities : "may have"
     hmis_Enrollment ||--o{ hmis_Exit : "may have"
+
+    classDef default stroke:#374D7C, fill:#E2EBFF, color:#374D7C
 
 ```
 

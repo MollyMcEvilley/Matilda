@@ -11,6 +11,22 @@ has_toc: true
 
 # 6.1 Get Distinct Households for LSAHousehold
 
+```mermaid
+flowchart LR
+
+	L1[[lsa_Report]] & T1([tlsa_HHID]) --> T2([tlsa_Household])
+
+	L1:::LSA
+	
+	T1:::Temp
+	T2:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 
 This section is required only if **<u>LSAScope</u>** <> 3 (HIC).
 
@@ -109,6 +125,22 @@ The logic associated with values for columns with names in **bold** below is des
 ## Logic
 
 # 6.2 Set Population Identifiers for LSAHousehold
+```mermaid
+flowchart LR
+
+	T1([tlsa_HHID]) & T2([tlsa_Enrollment]) & T3([tlsa_Person]) --> T4([tlsa_Household])
+
+	T1:::Temp
+	T2:::Temp
+  T3:::Temp
+	T4:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 
 **HHAdult**, **HHChild**, and **HHNoDOB** are used together to report on household composition. The additional household-level population identifiers are used to report on population groups of interest.
 
@@ -141,8 +173,6 @@ The logic associated with values for columns with names in **bold** below is des
 | RaceEthnicity       |
 
 ## Target
-
-See section [6.1 Get Distinct Households for LSAHousehold](#get-distinct-households-for-lsahousehold) for column descriptions.
 
 | **tlsa_Household**   |
 |----------------------|
@@ -276,7 +306,20 @@ In general, each distinct combination of **HoHID**/**HHType** is counted in all 
 With a single upload value for **HHAdultAge** in LSAHousehold, it isn’t possible to identify both. Inclusion in youth and senior populations is prioritized over the Non-Veteran Households 25+ population.
 
 # 6.3 EST/RRH/PSH/RRHSOStatus – LSAHousehold 
+```mermaid
+flowchart LR
 
+	T1([tlsa_HHID]) --> T4([tlsa_Household])
+
+	T1:::Temp
+	T4:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 ## Source 
 
 | **tlsa_HHID**  |
@@ -322,7 +365,20 @@ For every record in tlsa\_Household:
 Note: 2 is also a valid value for **xStatus** but is not assigned until a later step in section [6.16 Update EST/RRH/PSHStatus](#update-estrrhpshrrhsostatus).
 
 # 6.4 RRH/PSH/RRHSOMoveIn – LSAHousehold 
+```mermaid
+flowchart LR
 
+	T1([tlsa_HHID]) --> T4([tlsa_Household])
+
+	T1:::Temp
+	T4:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 ## Source 
 
 | **tlsa_HHID**  |
@@ -356,7 +412,22 @@ For all records in tlsa\_Household:
 | \> 2 | Most recent *MoveInDate* \< <u>ReportStart</u> | 2 |
 
 # 6.5 EST/RRH/PSHGeography – LSAHousehold 
+```mermaid
+flowchart LR
 
+	T1([tlsa_HHID]) & T2([tlsa_Household]) & L1[[lsa_ProjectCoC]] --> T4([tlsa_Household])
+
+	T1:::Temp
+  T2:::Temp
+	T4:::Temp
+  L1:::LSA
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 ## Source
 
 | **lsa_ProjectCoC** |
@@ -405,7 +476,23 @@ If a household has more than one project group enrollment on their most recent a
 | 3          | Rural                  | 3         |
 
 # 6.6 EST/RRH/PSHLivingSit – LSAHousehold 
+```mermaid
+flowchart LR
 
+	T1([tlsa_HHID]) & T2([tlsa_Household]) & T3([tlsa_Enrollment]) & H1[(hmis_Enrollment)] --> T4([tlsa_Household])
+
+	T1:::Temp
+  T2:::Temp
+  T3:::Temp
+	T4:::Temp
+  H1:::HMIS
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 ## Source
 
 | **tlsa_Household**  |
@@ -493,7 +580,20 @@ For other households (**xStatus** > 2), **xLivingSit** is based on *LivingSituat
 |   440 | Rental by client - Other permanent housing dedicated for formerly homeless persons                                            |
 
 # 6.7 EST/RRH/PSHDestination – LSAHousehold 
+```mermaid
+flowchart LR
 
+	T1([tlsa_HHID]) --> T4([tlsa_Household])
+
+	T1:::Temp
+	T4:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 ## Source
 
 | **tlsa_Household** |
@@ -528,7 +628,20 @@ Set **xDestination** = -1 for households not served in project group and househo
 For households that exited the project group during the report period (**xStatus** in (12,22)), **xDestination** is based on the active enrollment with the most recent **ExitDate** for the project group using the tlsa\_HHID.**ExitDest** value.
 
 # 6.8 EST/RRH/PSH Population Identifiers 
+```mermaid
+flowchart LR
 
+	T1([tlsa_HHID]) --> T4([tlsa_Household])
+
+	T1:::Temp
+	T4:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 ## Source
 
 | **tlsa_HHID**  |
@@ -609,7 +722,21 @@ Set **EST/RRH/PSHAdultAge** based on the first of the criteria below met by any 
 | 5        | (any other)         | -1                  |
 
 # 6.9 System Engagement Status and Return Time
+```mermaid
+flowchart LR
 
+	T1([tlsa_HHID]) & T2([tlsa_Household]) --> T4([tlsa_Household])
+
+	T1:::Temp
+  T2:::Temp
+	T4:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 ## Source
 
 | **tlsa_Household** |
@@ -694,7 +821,20 @@ Stat is based on **StatEnrollmentID** (if any) and the associated **ExitDate** a
 | 5 | Continuous engagement with continuum | (n/a) | **StatEnrollmentID** is not NULL and **ReturnTime** = -1 |
 
 # 6.10 RRHPreMoveInDays – LSAHousehold
+```mermaid
+flowchart LR
 
+	T1([tlsa_HHID])  --> T4([tlsa_Household])
+
+	T1:::Temp
+	T4:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 ## Source
 
 | **tlsa_Household** |
@@ -731,7 +871,21 @@ For each active HHID where **HoHID**/**ActiveHHType** = tlsa\_Household. **HoHID
 -   <u>ReportEnd</u>
 
 # 6.11 Dates Housed in PSH or RRH (sys_Time)
+```mermaid
+flowchart LR
 
+	T1([tlsa_HHID]) & T2([tlsa_Household]) --> T4([sys_Time])
+
+	T1:::Temp
+  T2:::Temp
+	T4:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 The primary key for sys\_Time is the unique combination of **HoHID**, **HHType**, and **sysDate** – i.e., no date can be counted with more than one status for any given LSA household.
 ## Source
 
@@ -790,7 +944,7 @@ For each **HoHID**/**HHType** in tlsa\_Household, create a record with a **sysSt
 -   tlsa\_HHID.**LSAProjectType** \= 3; and
 -   tlsa\_HHID.**MoveInDate** <= \[Date\]; and
 -   tlsa\_HHID.**ExitDate** \> \[Date\] or is NULL
--   
+  
 ### Dates Housed in RRH 
 
 Dates housed in RRH are counted only for active enrollments. As noted in section 3.3 ([HMIS Data Requirements and Assumptions](#RRHMoveInOnExitDate)) and reflected in the criteria listed below, the *MoveInDate* for an RRH enrollment is counted as a date housed even if it is equal to the *ExitDate*.
@@ -806,7 +960,23 @@ For each **HoHID**/**HHType** in tlsa\_Household, create a record with a **sysSt
 -   **ExitDate** \> \[Date\] or is NULL
   
 # 6.12 Get Last Inactive Date (sys_TimePadded)
+```mermaid
+flowchart LR
 
+	T1([tlsa_HHID]) & T2([tlsa_Household]) & H1[(hmis_Services)]--> T4([sys_TimePadded])-->T3([tlsa_Household])
+
+	T1:::Temp
+  T2:::Temp
+  T3:::Temp
+	T4:::Temp
+  H1:::HMIS
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 This step identifies, based on active enrollments and potentially relevant inactive enrollments, the date immediately prior to the first day of continuous system engagement for which all system use days are counted – or the household’s last inactive date.
 
 Specifically, this is the latest date in the most recent period of at least seven nights during which a household was not enrolled in a continuum ES, SH, TH, RRH, or PSH project AND was not housed in RRH or PSH. This is the date after which all system use days are reportable.
@@ -854,7 +1024,22 @@ RRH-SO enrollments are not relevant to **LastInactive**.
 -   \[Date\] is not between a tlsa\_HHID.**EntryDate** and the associated (**ExitDate** + 6 days) for any enrollment – active or inactive -- in tlsa\_HHID where **ActiveHHType** = tlsa\_Household.**HHType**
 -   
 # 6.13 Get Dates of Other System Use (sys_Time)
+```mermaid
+flowchart LR
 
+	T1([tlsa_HHID]) & T2([tlsa_Household]) & H1[(hmis_Services)]--> T4([sys_Time])
+
+	T1:::Temp
+  T2:::Temp
+	T4:::Temp
+  H1:::HMIS
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 ## Source
 
 | **tlsa_Household**                                       |
@@ -915,7 +1100,23 @@ If a \[Date\] meets the criteria for more than one **sysStatus** based on the li
 | 6     | **LSAProjectType** = 13 and \[Date\] >= **EntryDate** and **MoveInDate** is NULL and \[Date\] <= the first non-NULL of \[**ExitDate** – 1 day\] and ReportEnd |
 
 # 6.14 Get Other Dates Homeless from 3.917A/B Living Situation
+```mermaid
+flowchart LR
 
+	T1([tlsa_HHID]) & T2([tlsa_Household]) & T4([sys_Time]) & H1[(hmis_Enrollment)] -->T3([tlsa_Household])
+
+	T1:::Temp
+  T2:::Temp
+  T3:::Temp
+	T4:::Temp
+  H1:::HMIS
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 Dates that are documented as Street/ES/SH dates in *3.917 Living
 Situation*, do not have a status based on system use, and are contiguous
 to the period of continuous engagement should be counted as Street/ES/SH
@@ -983,10 +1184,24 @@ The value of **Other3917Days** is equal to the count of all dates:
 -   Between any *DateToStreetESSH* and the day prior to **LastInactive** where the associated **EntryDate** is > **LastInactive**.
 
 # 6.15 Set System Use Days for LSAHousehold
+```mermaid
+flowchart LR
 
+	T4([sys_Time]) -->T3([tlsa_Household])
+
+  T3:::Temp
+	T4:::Temp
+
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 Counts of actual days are set in tlsa\_Household; counts of active households are grouped by ranges – e.g., ‘1-7 days’, ‘8-30 days’, etc. – in the corresponding **LSAHousehold** column.
 
-The values in tlsa\_Household are the source for averages in LSACalculated; see section [8.1 Get Average Days for Length of Time Homeless](#_Get_Average_Days_3) through section 8.8.
+The values in tlsa\_Household are the source for averages in LSACalculated; see section [8.1 LSACalculated Columns](08 - LSACalculated Averages.md#81-lsacalculated-columns)(#_Get_Average_Days_3) through section [8.7 Get Average Days for Length of Time in RRH Projects](08 - LSACalculated Averages.md#87-get-average-days-for-length-of-time-in-rrh-projects).
 
 ## Source
 
@@ -1071,10 +1286,24 @@ This is the total number of days not already accounted for when the household re
 Set **Other3917Days** \= the sum of:
 
 -   The count of distinct **sysDate**s in sys\_Time where **sysStatus** = 7 and **HoHID/HHType** \= tlsa\_Household **HoHID/HHType;** and
--   The count of distinct dates between the earliest relevant *DateToStreetESSH* and **LastInactive** – or the difference in days between the earliest *DateToStreetESSH* and **LastInactive**, as described in [section 6.14](#_Get_Other_Dates).
+-   The count of distinct dates between the earliest relevant *DateToStreetESSH* and **LastInactive** – or the difference in days between the earliest *DateToStreetESSH* and **LastInactive**, as described in [6.14 Get Other Dates Homeless from 3.917A/B Living Situation](06 - LSAHousehold.md#614-get-other-dates-homeless-from-3917ab-living-situation).
 
 # 6.16 Update EST/RRH/PSH/RRHSOStatus
+```mermaid
+flowchart LR
 
+	T4([sys_Time]) -->T3([tlsa_Household])
+
+  T3:::Temp
+	T4:::Temp
+
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 For any **HoHID**/**HHType** in tlsa\_Household where **Stat** = 5 (continuous engagement), the household may have system use days from prior to the report period for project types other than those from the report period. This step updates the values for EST/RRH/PSHStatus to reflect that.
 ## Source
 
@@ -1117,7 +1346,22 @@ Set **PSHStatus** = 2 (Served in contiguous period prior to report start only) w
 -   **PSHStatus** = 0 and
 -   Any record in sys\_Time for the **HoHID**/**HHType** has a **sysStatus** = 5
 # 6.17 Set EST/RRH/PSHAIR
+```mermaid
+flowchart LR
 
+	T4([tlsa_Household]) & T2([tlsa_HHID])  -->T3([tlsa_Household])
+
+  T2:::Temp
+  T3:::Temp
+	T4:::Temp
+
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 The EST/RRH/PSHAIR columns identify households active in residence during the report period. RRH-SO enrollments are not relevant to AIR status.
 ## Source
 
@@ -1149,14 +1393,24 @@ Set **EST/RRH/PSHAIR** = 1 for tlsa\_Household records with one or more records 
 -   tlsa\_HHID.**ActiveHHType** = tlsa\_Household.**HHType**; and
 -   tlsa\_HHID.**HoHID** = tlsa\_Household.**HoHID**; and
 -   Project type is consistent with project group:
--   EST - **LSAProjectType** in (0,1,2,8)
--   RRH - LSAProjectType = 13
--   PSH - LSAProjectType = 3
+    -   EST - **LSAProjectType** in (0,1,2,8)
+    -   RRH - LSAProjectType = 13
+    -   PSH - LSAProjectType = 3
 
 For households with no bed nights in the report period in a given project group, set the value to 0.
 
 # 6.18 Set SystemPath for LSAHousehold
+```mermaid
+  flowchart LR
+    T3([tlsa_Household]) -->
+  T4([tlsa_Household])
 
+  T3:::Temp
+  T4:::Temp
+
+  classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+
+```   
 The **SystemPath** column is technically redundant – it is based entirely on values in other LSAHousehold columns – but having the value in a single column simplifies the processes of populating LSACalculated and, in the HDX 2.0, generating report tables.
 
 RRH-SO enrollments are not relevant to System Path.
@@ -1202,7 +1456,22 @@ As noted previously, heads of household housed in PSH at <u>ReportStart</u> who 
 | All other         | 12         | (any combination of these columns not specified above) |        |        |                |           |           |
 
 # 6.19 LSAHousehold
+``` mermaid
 
+flowchart LR
+
+	T1([tlsa_Household])-->L1[[lsa_Household]]
+
+	L1:::LSA
+		
+	T1:::Temp
+	
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	
+```
 LSAHousehold includes 45 columns. **RowTotal** is a count of distinct combinations of **HoHID** and **HHType** from tlsa\_Household, grouped by the values in all other columns.
 
 In tlsa\_Household, the following columns are populated with actual counts of days because they are needed to generate averages for LSACalculated:
