@@ -1103,12 +1103,12 @@ If a \[Date\] meets the criteria for more than one **sysStatus** based on the li
 ```mermaid
 flowchart LR
 
-	T1([tlsa_HHID]) & T2([tlsa_Household]) & T4([sys_Time]) & H1[(hmis_Enrollment)] -->T3([tlsa_Household])
+	T1([tlsa_HHID
+  tlsa_Household
+  sys_Time]) --> H1[(hmis_Enrollment)] -->T3([tlsa_Household])
 
 	T1:::Temp
-  T2:::Temp
   T3:::Temp
-	T4:::Temp
   H1:::HMIS
 
 	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
@@ -1349,9 +1349,9 @@ Set **PSHStatus** = 2 (Served in contiguous period prior to report start only) w
 ```mermaid
 flowchart LR
 
-	T4([tlsa_Household]) & T2([tlsa_HHID])  -->T3([tlsa_Household])
+	T4([tlsa_Household
+  tlsa_HHID])  -->T3([tlsa_Household])
 
-  T2:::Temp
   T3:::Temp
 	T4:::Temp
 
@@ -1359,7 +1359,6 @@ flowchart LR
 	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
 	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
 	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
-    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
 	
 ```
 The EST/RRH/PSHAIR columns identify households active in residence during the report period. RRH-SO enrollments are not relevant to AIR status.

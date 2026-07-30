@@ -1111,8 +1111,21 @@ For all other records in tlsa\_Exit, set **SystemPath** based on the combination
 | 12         | All other combinations   |                                       |
 
 # 7.13 LSAExit
+``` mermaid
+flowchart LR 
+    T1([lsa_Exit]) -->
+	L2[[lsa_Exit]]
 
-LSAExit includes 18 columns. **RowTotal** is a count of distinct combinations of **Cohort, HoHID** and **HHType** from tlsa\_Exit, grouped by the values in all other columns.
+
+    T1:::Temp
+    L2:::LSA
+
+    classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+	classDef Box stroke:#999, fill:none, color:#FFFFFF 
+```
+LSAExit includes 17 columns. **RowTotal** is a count of distinct combinations of **Cohort, HoHID** and **HHType** from tlsa\_Exit, grouped by the values in all other columns.
 
 In tlsa\_Exit, **ReturnTime** is populated with actual counts of days because they are needed to generate averages for LSACalculated. For export, the actual counts are grouped into categories as shown below.
 

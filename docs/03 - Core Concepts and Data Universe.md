@@ -58,12 +58,26 @@ There are multiple age columns in tlsa\_Enrollment (**EntryAge**, **ActiveAge**,
 
 ``` mermaid
 flowchart LR 
-	A@{ shape: lean-l, label: "lsa_Report"}
-	B@{ label: "Hard-coded data"}
-	C@{ label: "User-entered parameters"}
-	
-	B & C --> A
 
+
+	M1[/User-entered parameters/]
+	M2[/Hard-coded vendor data/]
+	L2[[lsa_Report]]
+
+
+	L2:::LSA
+	
+	M1:::Man
+	M2:::Man
+	
+	M1 & M2 --> L2
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #999, fill:none, color: #FFFFFF
+	
 ```
 
 User-entered report parameters and hard-coded vendor data are included in LSAReport for upload to HDX 2.0. When they are applied in subsequent steps, their source is represented in graphics using lsa\_Report. References to individual report parameters are always underlined – e.g., <u>ReportStart</u> – in descriptions of business logic.
@@ -155,10 +169,14 @@ Vendors may elect to provide contact information or to populate these columns wi
 
 ``` mermaid
 flowchart LR 
-	A@{ shape: lean-r, label: "lsa_Report" }
-	B@{ shape: lean-l, label: "tlsa_CohortDates" }
 	
-	A --> B
+	A[[lsa_Report]] --> B([tlsa_CohortDates])
+
+    A:::LSA
+    B:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
 
 ```
 
@@ -212,16 +230,26 @@ Point-in-time cohorts are only included if the relevant date falls between <u>Re
 # 3.3 HMIS Household Enrollments (tlsa\_HHID)
 
 ``` mermaid
-flowchart LR 
-	A@{ shape: cyl, label: "hmis_HMISParticipation" }
-	B@{ shape: lean-l, label: "lsa_Report" }
-	C@{ shape: cyl, label: "hmis_Exit" }
-	D@{ shape: cyl, label: "hmis_Enrollment" }
-	E@{ shape: cyl, label: "hmis_Services" }
-	F@{ shape: cyl, label: "hmis_Project" }
-	G@{ shape: lean-r, label: "tlsa_HHID" }
+
+flowchart LR
+	L1[[lsa_Report]] -->	H1[(hmis_Project
+    hmis_Participation
+    hmis_Enrollment
+    hmis_Services
+    hmis_Exit)] -->
+	T2([tlsa_HHID])
+
+
+	L1:::LSA
+	T2:::Temp
+	H1:::HMIS
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #999, fill:none, color: #FFFFFF
 	
-	B --> A & C & D & E & F --> G
 ```
 Not all the *HouseholdID*s identified in this step will ultimately be used by LSA reporting processes. Subsequent steps define the specific criteria associated with each step. However, all subsequent steps are based on the following assumptions:
 
@@ -236,20 +264,28 @@ Not all the *HouseholdID*s identified in this step will ultimately be used by LS
 | ReportCoC                                              |
 | LookbackDate                                           |
 | ReportEnd                                              |
+
 | **hmis\_Organization**                                 |
+| ------------------------------------------------------ |
 | VictimServiceProvider                                  |
+
 | **hmis\_Project**                                      |
+| ------------------------------------------------------ |
 | ContinuumProject                                       |
 | ProjectID                                              |
 | ProjectType                                            |
 | RRHSubType                                             |
 | OperatingStartDate                                     |
 | OperatingEndDate                                       |
+
 | **hmis\_HMISParticipation**                            |
+| ------------------------------------------------------ |
 | HMISParticipationType                                  |
 | HMISParticipationStatusStartDate                       |
 | HMISParticipationStatusEndDate                         |
+
 | **hmis_Enrollment**                                    |
+| ------------------------------------------------------ |
 | EnrollmentID                                           |
 | PersonalID                                             |
 | ProjectID                                              |
@@ -258,10 +294,14 @@ Not all the *HouseholdID*s identified in this step will ultimately be used by LS
 | RelationshipToHoH                                      |
 | EnrollmentCoC                                          |
 | MoveInDate                                             |
+
 | **hmis\_Services**                                     |
+| ------------------------------------------------------ |
 | EnrollmentID                                           |
 | BedNightDate (_DateProvided_ where _RecordType_ = 200) |
+
 | **hmis\_Exit**                                         |
+| ------------------------------------------------------ |
 | EnrollmentID                                           |
 | ExitDate                                               |
 
@@ -500,19 +540,31 @@ The LSA includes reporting on exit destinations for the active and exit cohorts.
 | 440   | Rental by client - Other permanent housing dedicated for formerly homeless persons                                            |
 
 # 3.4 HMIS Client Enrollments (tlsa\_Enrollment)
-
-
 ``` mermaid
-flowchart LR 
-	A@{ shape: lean-l, label: "tlsa_HHID" }
-	B@{ shape: lean-l, label: "lsa_Report" }
-	C@{ shape: cyl, label: "hmis_Exit" }
-	D@{ shape: cyl, label: "hmis_Enrollment" }
-	E@{ shape: cyl, label: "hmis_Services" }
-	F@{ shape: cyl, label: "hmis_HealthAndDV" }
-	G@{ shape: lean-r, label: "tlsa_Enrollment" }
+
+flowchart LR
+	L1[[lsa_Report]] -->
+
+	H1[(hmis_Enrollment
+    hmis_Services
+    hmis_HealthAndDV
+    hmis_Exit)] -->
+	T1([tlsa_Enrollment])
+
+
+	L1:::LSA
+		
+	T1:::Temp
 	
-	A & B --> C & D & E & F --> G
+	H1:::HMIS
+
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #999, fill:none, color: #FFFFFF
+	
 ```
 ## Source
 
@@ -678,7 +730,30 @@ It is the minimum DVStatus value in the table below based on *DomesticViolenceSu
 | (any other)              | (n/a)            | NULL     |
 
 # 3.5 Enrollment Ages (tlsa\_Enrollment)
+``` mermaid
 
+flowchart LR
+	L1[[lsa_Report]] &	T1([tlsa_CohortDates
+    tlsa_Enrollment]) --> 
+	H1[(hmis_Client)] -->
+	T2([tlsa_Enrollment])
+
+
+	L1:::LSA
+
+	
+	T1:::Temp
+	T2:::Temp
+	
+	H1:::HMIS
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #999, fill:none, color: #FFFFFF
+	
+```
 Age is used to determine household type, for demographic reporting, and to identify households and people in reporting populations of interest. This section defines the logic associated with determining client age for all enrollments in all contexts that age may be relevant.
 
 It uses data in tlsa\_CohortDates and hmis\_Client to set age group values for tlsa\_Enrollment.
@@ -689,15 +764,21 @@ It uses data in tlsa\_CohortDates and hmis\_Client to set age group values for t
 | --------------------- |
 | ReportStart           |
 | ReportEnd             |
+
 | **tlsa\_CohortDates** |
+| --------------------- |
 | Cohort                |
 | CohortStart           |
 | CohortEnd             |
+
 | **tlsa\_Enrollment**  |
+| --------------------- |
 | EntryDate             |
 | RelationshipToHoH     |
 | ExitDate              |
+
 | **hmis\_Client**      |
+| --------------------- |
 | DOB                   |
 | DOBDataQuality        |
 
@@ -705,10 +786,10 @@ It uses data in tlsa\_CohortDates and hmis\_Client to set age group values for t
 
 | **tlsa\_Enrollment** |
 | -------------------- |
-| **EntryAge**         |
-| **ActiveAge**        |
-| **Exit1Age**         |
-| **Exit2Age**         |
+| EntryAge         |
+| ActiveAge        |
+| Exit1Age         |
+| Exit2Age         |
 
 ## Logic
 
@@ -795,7 +876,20 @@ Like **ActiveAge**, they will differ from **EntryAge** only when the enrollment 
 | 14       | (other)                                                                                       | 0            |
 
 # 3.6 Household Types (tlsa\_HHID)
+``` mermaid
 
+flowchart LR
+
+	T1([tlsa_Enrollment
+    tlsa_CohortDates]) -->
+	T2([tlsa_HHID])
+
+	T1:::Temp
+	T2:::Temp
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	
+```
 This section defines the logic associated with determining household type for each active household.
 
 It uses the tlsa\_Enrollment **EntryAge**, **ActiveAge**, **Exit1Age**, and **Exit2Age** values set in the previous step to set tlsa\_HHID **EntryHHType, ActiveHHType, Exit1HHType** and **Exit2HHType**.
@@ -811,7 +905,9 @@ It uses the tlsa\_Enrollment **EntryAge**, **ActiveAge**, **Exit1Age**, and **Ex
 | ActiveAge             |
 | Exit1Age              |
 | Exit2Age              |
+
 | **tlsa\_CohortDates** |
+| -------------------- |
 | Cohort                |
 | CohortStart           |
 | CohortEnd             |

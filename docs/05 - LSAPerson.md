@@ -567,6 +567,27 @@ The last active date for any given enrollment is:
 **CHStart** is (**LastActive** – 3 years) + 1 day.
 
 # 5.6 Enrollments Relevant to Counting ES/SH/Street Dates
+``` mermaid
+
+flowchart LR
+	L1[[lsa_Report]] & T1([tlsa_Person
+	tlsa_Enrollment]) -->
+	T2([tlsa_Enrollment])
+
+
+	L1:::LSA
+
+	
+	T1:::Temp
+	T2:::Temp
+	
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #999, fill:none, color: #FFFFFF
+	
+```
 
 ## Source
 
@@ -603,8 +624,32 @@ Enrollments relevant to determining whether or not a person meets the time crite
 -   **ExitDate** is NULL or **ExitDate** > **CHStart**
 
 # 5.7 Get Dates to Exclude from Counts of ES/SH/Street Days (ch_Exclude)
+``` mermaid
 
+flowchart LR
+	L1[[lsa_Report]] -->
+	T1([tlsa_Person
+	tlsa_Enrollment]) -->
+	T2([ch_Exclude])
+
+	L1:::LSA
+	T1:::Temp
+	T2:::Temp
+	
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #999, fill:none, color: #FFFFFF
+	
+```
 ## Source
+
+| **lsa_Report**     |
+|---------------------|
+| ReportStart        |
+| ReportEnd          |
 
 | **tlsa_Person**     |
 |---------------------|
@@ -636,7 +681,27 @@ To resolve potential data conflicts, dates on which a client is enrolled in TH o
 -   For any CH enrollment where **MoveInDate** is not NULL, all dates between **MoveInDate** and the earlier of (**ExitDate** – 1 day) or <u>ReportEnd</u> are excluded.
 -   For any CH enrollment where **LSAProjectType** *\=* 2 (TH), all dates between **EntryDate** and the earlier of (**ExitDate** – 1 day) or <u>ReportEnd</u> are excluded.
 # 5.8 Get Dates to Include in Counts of ES/SH/Street Days (ch_Include)
+``` mermaid
 
+flowchart LR
+	T1([tlsa_Person
+	tlsa_Enrollment]) -->
+	H1[(hmis_Enrollment
+	hmis_Services)] -->
+	T2([ch_Include])
+
+	T1:::Temp
+	T2:::Temp
+	H1:::HMIS
+	
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #999, fill:none, color: #FFFFFF
+	
+```
 ## Source
 
 | **tlsa_Person**                                          |
@@ -730,7 +795,22 @@ For example, if a client has *BedNightDate*s on June 1 and June 5 of the same ye
 Note that gaps of less than 7 days between **ESSHStreetDate**s are counted as ES/SH/Street dates regardless of ch\_Exclude dates.
 
 # 5.9 Get ES/SH/Street Episodes (ch_Episodes)
+``` mermaid
 
+flowchart LR
+	T1([ch_Include]) -->
+	T2([ch_Episodes])
+
+	T1:::Temp
+	T2:::Temp
+	
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #999, fill:none, color: #FFFFFF
+	
+```
 ## Source
 
 | **ch_Include** |
@@ -758,7 +838,28 @@ Each record in ch\_Episodes represents an uninterrupted series of ES/SH/Street d
 -   **episodeDays** is the \[number of days between **episodeStart** and **episodeEnd**\] + 1 day
 
 # 5.10 CHTime and CHTimeStatus – LSAPerson
+``` mermaid
 
+flowchart LR
+
+	T1([tlsa_Person
+	tlsa_Enrollment
+	ch_Episodes]) -->
+	H1[(hmis_Enrollment)] -->
+	T2([ch_Exclude])
+
+	H1:::HMIS
+	T1:::Temp
+	T2:::Temp
+	
+
+	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
+	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
+    	classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
+	classDef Box stroke: #999, fill:none, color: #FFFFFF
+	
+```
 ## Source
 
 | **tlsa_Person**              |
@@ -960,15 +1061,13 @@ For any client not served in RRH-SO (i.e., there is no active enrollment where *
 # 5.12 Set Population Identifiers for Active HMIS Households 
 ``` mermaid
 flowchart LR 
-    tn([tlsa_Enrollment]) 
-	tp([tlsa_Person])
-	th([tlsa_HHID])
+    T1([tlsa_Enrollment
+	tlsa_Person]) -->
+	T2([tlsa_HHID])
 
-	tn & tp --> th
 
-    tp:::Temp
-    tn:::Temp
-	th:::Temp
+    T1:::Temp
+    T2:::Temp
 
     classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
 	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
@@ -1085,24 +1184,20 @@ Set **AC3Plus** = 1 if:
 Otherwise, **AC3Plus** = 0.
 
 # 5.13 Project Group and Population Household Types - LSAPerson
-```mermaid
-flowchart LR
+``` mermaid
+flowchart LR 
+    T1([tlsa_Enrollment
+	tlsa_HHID]) -->
+	T2([tlsa_Person])
 
-	t1([tlsa_Enrollment])
-	t2([tlsa_HHID])
-	t3([tlsa_Person])
 
-	t1:::Temp
-	t2:::Temp
-	t3:::Temp
-	
-	t1 & t2 --> t3
+    T1:::Temp
+    T2:::Temp
 
-	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+    classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
 	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
 	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
-    classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
-	
+	classDef Box stroke:#999, fill:none, color:#FFFFFF 
 ```
 
 ## Source
@@ -1214,24 +1309,20 @@ For all other columns, household types are reported as shown below based on the 
 | 1239          | AO, AC, CO, and UN                 | 1,2,3,and 99 |
 
 # 5.14 Adult Age Population Identifiers - LSAPerson 
-```mermaid
-flowchart LR
+``` mermaid
+flowchart LR 
+    T1([tlsa_Enrollment
+	tlsa_HHID]) -->
+	T2([tlsa_Person])
 
-	t1([tlsa_Enrollment])
-	t2([tlsa_HHID])
-	t3([tlsa_Person])
 
-	t1:::Temp
-	t2:::Temp
-	t3:::Temp
-	
-	t1 & t2 --> t3
+    T1:::Temp
+    T2:::Temp
 
-	classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
+    classDef Temp stroke:#FF5978, fill:#FFDFE5, color:#8E2236
 	classDef LSA stroke:#FBB35A, fill:#FFEFDB, color:#8F632D 
 	classDef HMIS stroke:#374D7C, fill:#E2EBFF, color:#374D7C
-    classDef Man stroke:#999999, fill:#EEEEEE, color:#000000
-	
+	classDef Box stroke:#999, fill:none, color:#FFFFFF 
 ```
 ## Source
 
@@ -1279,7 +1370,7 @@ Set the column values based on the first of the criteria below where:
 flowchart LR
 
 	t1([tlsa_Person])
-	l1([lsa_Person])
+	l1[[lsa_Person]]
 
 	t1:::Temp
 	l1:::LSA
