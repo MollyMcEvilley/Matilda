@@ -114,7 +114,7 @@ erDiagram
         int criteria_id PK,FK
     }
 
-    CONSTRAINT_DEF {
+    ELEMENT_CONSTRAINT {
         int constraint_id PK
         varchar constraint_name
         text constraint_description
@@ -164,16 +164,14 @@ erDiagram
     CRITERIA ||--o{ OPTION_SOURCE_CRITERIA : filters
     OPTION_SOURCE o|--o{ BEHAVIOR : supplies_options
 
-    ELEMENT ||--o{ CONSTRAINT_DEF : governed_by
-    PATH o|--o{ CONSTRAINT_DEF : establishes_scope
-    ELEMENT o|--o{ CONSTRAINT_DEF : scope_element
-    CONSTRAINT_DEF ||--o{ CONSTRAINT_CRITERIA : qualified_by
+    ELEMENT ||--o{ ELEMENT_CONSTRAINT : governed_by
+    PATH o|--o{ ELEMENT_CONSTRAINT : establishes_scope
+    ELEMENT o|--o{ ELEMENT_CONSTRAINT : scope_element
+    ELEMENT_CONSTRAINT ||--o{ CONSTRAINT_CRITERIA : qualified_by
     CRITERIA ||--o{ CONSTRAINT_CRITERIA : defines_logic
 ```
 
-> Mermaid uses `CONSTRAINT_DEF` because `CONSTRAINT` can be visually confusing as both a table name and a general database term. The physical table may still be named `ds.constraint`.
-
-## One-page overview for Grant and Zach
+## Overview
 
 ### Why this exists
 
