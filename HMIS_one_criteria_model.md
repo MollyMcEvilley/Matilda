@@ -312,17 +312,7 @@ A consumer resolves a rule in this order:
 6. If a path was used, apply the criterion's quantifier to the reached-record results.
 7. Return the root criterion's final true-or-false result.
 
-## Current structural notes
-
-- `option_source.criteria_id` exists, but the SQL dump does not show an index or foreign-key constraint from it to `criteria.criteria_id`.
-- `data_constraint.path_id` and `data_constraint.element_id` are present, but the dump does not show their foreign-key constraints.
-- `evaluation.left_field_id` is currently `NOT NULL`, although `left_operand_type` permits `PARAMETER` and `EXPRESSION`. That prevents a purely parameter- or expression-based left operand unless a placeholder field is also supplied.
-- Several current evaluation rows have `right_operand_type = 'NONE'` while still populating `right_value`, `right_parameter_id`, or `eval_set_id`. The structure now supports typed operands, but existing records have not yet been converted to match those types.
-- `option_source.criteria_id` is populated with `0` in the current sample rows, so those rows do not yet reference the intended root criteria.
-- `CURRENT` remains in `criteria.quantifier`, while the recommended convention uses null path plus null quantifier for the current record.
-- The SQL comments mark `eval_item` as planned for removal, but no replacement set-member structure appears in this reference point.
-
-## Recommended API representation
+## API representation
 
 The public API should return a resolved expression tree rather than exposing only table-shaped rows:
 
@@ -357,4 +347,3 @@ The public API should return a resolved expression tree rather than exposing onl
 }
 ```
 
-The database IDs are the current internal identifiers. Codes and parameter names should be returned as descriptive metadata, not treated as immutable identity.
