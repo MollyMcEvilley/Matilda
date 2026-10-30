@@ -312,6 +312,18 @@ A consumer resolves a rule in this order:
 6. If a path was used, apply the criterion's quantifier to the reached-record results.
 7. Return the root criterion's final true-or-false result.
 
+## Design decisions
+
+- Each option source references one root criterion.
+- Each field-behavior or element-behavior assignment references one root criterion.
+- Nested Boolean logic is represented through child criteria.
+- A criterion applies one uniform `AND` or `OR` to its immediate members.
+- Member order does not affect Boolean meaning.
+- Codes and names are mutable metadata, not permanent identity.
+- Operand types identify which evaluation operand column is active.
+- Constraints use established terms such as `TEMPORAL_UNIQUENESS`
+  and `TEMPORAL_CONTAINMENT`.
+
 ## API representation
 
 The public API should return a resolved expression tree rather than exposing only table-shaped rows:
