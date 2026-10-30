@@ -1,4 +1,5 @@
-```mermaid erdiagram
+```mermaid
+erDiagram
 
 DS_ELEMENT {
 int element_id PK
